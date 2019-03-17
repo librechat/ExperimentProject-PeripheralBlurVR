@@ -6,6 +6,8 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class CameraBlurPost : MonoBehaviour {
 
+    // attach this on the camera
+
     public Transform ForwardTarget;
     public Shader CurShader;
     public Material material;

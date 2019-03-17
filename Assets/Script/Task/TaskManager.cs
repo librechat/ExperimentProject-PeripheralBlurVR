@@ -33,67 +33,9 @@ public class TaskManager : MonoBehaviour {
         Fast
     };*/
 
-    public class Record
-    {
-        public int recordIndex;
-        public int targetIndex;
-        public float timeStamp;     // now - expstart
-        public float executeTime;   // end - start
-        public float prevDistance;  // distance to previous target
-        public int discomfort;
-        public Vector3 targetPosition;
-
-        private float startTimeStamp;
-        private float endTimeStamp;
-        private float discomfortTimeStamp   = -1.0f;
-
-        public Record(int index, TaskManager manager)
-        {
-            targetIndex = index;
-            recordIndex = manager.RecordList.Count;
-            startTimeStamp = TicksToSecond(DateTime.Now.Ticks - manager.ExpStartTime.Ticks);
-            targetPosition = manager.targetList[index].gameObject.transform.position;
-            prevDistance = (recordIndex == 0) ? 0.0f : (targetPosition - manager.RecordList[recordIndex - 1].targetPosition).magnitude;
-
-            discomfort = (recordIndex == 0) ? -1 : manager.RecordList[recordIndex - 1].discomfort;
-        }
-
-        public void TaskEnd(TaskManager manager)
-        {
-            endTimeStamp = TicksToSecond(DateTime.Now.Ticks - manager.ExpStartTime.Ticks);
-            timeStamp = endTimeStamp;
-            executeTime = endTimeStamp - startTimeStamp;
-        }
-
-        public void RecordDiscomfort(int discomf, TaskManager manager)
-        {
-            discomfort = discomf;
-            discomfortTimeStamp = TicksToSecond(DateTime.Now.Ticks - manager.ExpStartTime.Ticks);
-        }
-
-        public string ToString()
-        {
-            return recordIndex.ToString() + "," +
-                targetIndex.ToString() + "," +
-                executeTime.ToString() + "," +
-                discomfort.ToString() + "," +
-                //targetPosition.ToString("F3") + "," +
-                prevDistance.ToString() + "," +
-                startTimeStamp.ToString() + "," +
-                endTimeStamp.ToString() + "," +
-                discomfortTimeStamp.ToString();
-        }
-
-        private float TicksToSecond(long ticks){
-            return (float)ticks / (float)TimeSpan.TicksPerSecond;
-            //return (float)ticks / 1000000.0f;
-        }
-        
-    }
-
     public State state = State.Prepare;
-//    [SerializeField]
     Vector3 initialPos;
+    [Header("Object Reference")]
     Quaternion initialRotation;
     [SerializeField]
     Transform playerController;
@@ -161,7 +103,7 @@ public class TaskManager : MonoBehaviour {
 	void Update () {
         if (state == State.Prepare)
         {
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetButtonDown("Oculus_GearVR_A"))
+            if (InputManager.GetStartButton())
             {
                 initialPos = playerController.position;
                 initialRotation = playerController.rotation;
@@ -183,11 +125,11 @@ public class TaskManager : MonoBehaviour {
         }
         else if (state == State.Performing)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (InputManager.GetPauseButton())
             {
                 state = State.Pause;
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            else if (InputManager.GetQuitButton())
             {
                 EndExperiment();
                 ClearTargets();
@@ -196,7 +138,7 @@ public class TaskManager : MonoBehaviour {
             else ;
 
             if(discomfortPanel.activeSelf){
-                if (Input.GetAxis("Oculus_GearVR_LThumbstickX") > 0.5f)
+                if (InputManager.GetLStickToRight())
                 {
                     stickCounter += stickSpeed * Time.deltaTime;
                     if (stickCounter > stickMax)
@@ -206,7 +148,7 @@ public class TaskManager : MonoBehaviour {
                     }
                 
                 }
-                else if (Input.GetAxis("Oculus_GearVR_LThumbstickX") < -0.5f)
+                else if (InputManager.GetLStickToLeft())
                 {
                     stickCounter += stickSpeed * Time.deltaTime;
                     if (stickCounter > stickMax)
@@ -216,7 +158,7 @@ public class TaskManager : MonoBehaviour {
                     }
                 }
                 else stickCounter = 0.0f;
-                if (Input.GetButtonUp("Oculus_GearVR_LThumbStick"))
+                if (InputManager.GetLStickConfirm())
                 {              
                     OnDiscomfortAnswered(discomfortSlider.value);
                 } 
@@ -225,7 +167,7 @@ public class TaskManager : MonoBehaviour {
         }
         else if (state == State.Pause)
         {
-            if (Input.GetKeyDown("space"))
+            if (InputManager.GetResumeButton())
             {
                 state = State.Performing;
             }
@@ -303,7 +245,7 @@ public class TaskManager : MonoBehaviour {
             targetList[i].gameObject.SetActive(false);
         }
         RecordList = new List<Record>();
-        RecordList.Add(new Record(targetList.Count - 1, this));
+        RecordList.Add(new Record(RecordList[RecordList.Count - 1], targetList[targetList.Count - 1], ExpStartTime.Ticks));
 
         state = State.Performing;
     }
@@ -327,7 +269,7 @@ public class TaskManager : MonoBehaviour {
         if (targetIndex >= instance.targetList.Count) return false;
 
         //record task result
-        instance.RecordList[instance.RecordList.Count - 1].TaskEnd(instance);
+        instance.RecordList[instance.RecordList.Count - 1].TaskEnd(instance.ExpStartTime.Ticks);
 
         //pop discomfort panel or generate next task
         if (instance.RecordList.Count % 5 == 0)
@@ -346,7 +288,7 @@ public class TaskManager : MonoBehaviour {
     public void OnDiscomfortAnswered(float value)
     {
 
-        RecordList[RecordList.Count - 1].RecordDiscomfort((int)value, this);
+        RecordList[RecordList.Count - 1].RecordDiscomfort((int)value, instance.ExpStartTime.Ticks);
         discomfortPanel.SetActive(false);
 
         if ((int)value == 10)
@@ -368,7 +310,7 @@ public class TaskManager : MonoBehaviour {
             // show new target
             targetList[targetIndex - 1].gameObject.SetActive(true);
 
-            RecordList.Add(new Record(targetIndex - 1, this));
+            RecordList.Add(new Record(RecordList[RecordList.Count - 1], targetList[targetList.Count - 1], ExpStartTime.Ticks));
         }
         instance.targetList.RemoveAt(targetIndex);
 

@@ -193,12 +193,12 @@ Shader "CustomShader/GaussianBlur"
 		blurRatio = clamp(blurRatio, 0.0, 1.0);		//0~1 between inner radius and outer radius							
 		
 		float indicateRate = 0.25;
-		float indicateRatio = 1.0 - blurRatio;
+		float indicateRatio = blurRatio; // 1.0 - blurRatio;
 
 		half4 color = 0;
 
 		if(blurDistance < _InnerRadius) {
-			color = tex2D(_MainTex, uv) + _IndicatorColor * indicateRate;
+			color = tex2D(_MainTex, uv);
 		}
 		else {
 			
@@ -212,7 +212,7 @@ Shader "CustomShader/GaussianBlur"
 				uv_withOffset += OffsetWidth;
 			}
 
-			color += _IndicatorColor * indicateRate * indicateRatio;
+			color += _IndicatorColor * indicateRate * indicateRatio * _IndicatorColor.a;
 		}	
  
 		return color;
