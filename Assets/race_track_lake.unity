@@ -7261,7 +7261,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100008, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 2}
@@ -9708,11 +9708,11 @@ Prefab:
       objectReference: {fileID: 883618078}
     - target: {fileID: 192944, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 147176, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11489174, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: size
@@ -9724,6 +9724,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417168, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
+      propertyPath: verbose
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -9750,12 +9754,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e20265586a4da44ebe77859791315a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardTarget: {fileID: 1251497523}
+  ForwardTarget: {fileID: 1213281819}
   CurShader: {fileID: 4800000, guid: a887ca6eb3e21274a8efa5ce614f93db, type: 3}
   material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
   DownSampleNum: 0
   BlurSpreadSize: 2.4
   BlurIterations: 3
+--- !u!1 &1502086723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1502086719}
+--- !u!114 &1502086724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1502086723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2673436f15e5de4ab04b3e6cafb4544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationAmount: 0.35
 --- !u!1001 &1504480074
 Prefab:
   m_ObjectHideFlags: 0
@@ -11665,7 +11686,6 @@ MonoBehaviour:
   discomfortSlider: {fileID: 1919861244}
   discomfortPanel: {fileID: 1919861241}
   CurrentTask: 0
-  Blurred: 1
   ReachableDistance: 0.8
   NavigationMaxDistance: 20
   TaskDataList:
@@ -11734,19 +11754,19 @@ MonoBehaviour:
     camera: {fileID: 1055909458}
     material: {fileID: 2100000, guid: 2c9bc20bcb0d1254da245a3a942ac98d, type: 2}
   - name: Vive Center
-    hmdType: 1
+    hmdType: 0
     camera: {fileID: 1502086722}
     material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
   OculusForwardTarget: {fileID: 1213281819}
   ViveForwardTarget: {fileID: 1251497523}
   BlurEnabled: 1
-  indicated: 0
-  InnerRadius: 0.28
-  OuterRadius: 0.45
+  indicated: 1
+  InnerRadius: 0
+  OuterRadius: 1
   DownSampleNum: 0
   BlurSpreadSize: 2.4
   BlurIterations: 3
-  indicatedColor: {r: 0, g: 0.16466069, b: 1, a: 0.32156864}
+  indicatedColor: {r: 1, g: 0.15190282, b: 0, a: 1}
 --- !u!43 &1825445734
 Mesh:
   m_ObjectHideFlags: 0

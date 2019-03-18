@@ -18,7 +18,7 @@ public class Record
     public Record(Record preRecord, TaskTarget target, long expStartTicks)
     {
         targetIndex = target.TargetIndex;
-        recordIndex = preRecord.recordIndex + 1;
+        recordIndex = (preRecord == null)? 0: preRecord.recordIndex + 1;
 
         startTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
         targetPosition = target.gameObject.transform.position;

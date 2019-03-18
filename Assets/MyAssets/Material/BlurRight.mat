@@ -62,11 +62,11 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InnerRadius: 0.28
+    - _InnerRadius: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OuterRadius: 0.45
+    - _OuterRadius: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -77,4 +77,4 @@ Material:
     - _BlurMaskCenter: {r: 0.4228607, g: 0.55626875, b: 10.000006, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _IndicatorColor: {r: 0, g: 0, b: 0, a: 0}
+    - _IndicatorColor: {r: 1, g: 0.15190282, b: 0, a: 1}

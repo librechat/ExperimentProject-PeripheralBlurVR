@@ -7,16 +7,11 @@ public class VisaulEffectManager : MonoBehaviour
 {
     #region Variables
 
-    public enum HmdType{
-        Vive,
-        Oculus
-    };
-
     [System.Serializable]
     struct BlurredCamera
     {
         public string name;
-        public HmdType hmdType;
+        public InputManager.HmdType hmdType;
         public CameraBlurPost camera;
         public Material material;
     };
@@ -93,8 +88,8 @@ public class VisaulEffectManager : MonoBehaviour
 
         for (int i = 0; i < BlurredCameras.Length; i++)
         {
-            if (BlurredCameras[i].hmdType == HmdType.Oculus) BlurredCameras[i].camera.ForwardTarget = OculusForwardTarget;
-            if (BlurredCameras[i].hmdType == HmdType.Vive) BlurredCameras[i].camera.ForwardTarget = ViveForwardTarget;
+            if (BlurredCameras[i].hmdType == InputManager.HmdType.Oculus) BlurredCameras[i].camera.ForwardTarget = OculusForwardTarget;
+            if (BlurredCameras[i].hmdType == InputManager.HmdType.Vive) BlurredCameras[i].camera.ForwardTarget = ViveForwardTarget;
             BlurredCameras[i].camera.CurShader = CurShader;
         }
     }

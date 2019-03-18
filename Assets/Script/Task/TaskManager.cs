@@ -35,8 +35,9 @@ public class TaskManager : MonoBehaviour {
 
     public State state = State.Prepare;
     Vector3 initialPos;
-    [Header("Object Reference")]
     Quaternion initialRotation;
+
+    [Header("Object Reference")]
     [SerializeField]
     Transform playerController;
     [SerializeField]
@@ -53,8 +54,6 @@ public class TaskManager : MonoBehaviour {
     [Header("Task Options")]
     [SerializeField]
     public TaskDataName CurrentTask;
-    [SerializeField]
-    bool Blurred = true;
 
     [Header("Task Details")]
 
@@ -71,7 +70,7 @@ public class TaskManager : MonoBehaviour {
 
     private TaskData currentTaskData;
 
-    // to be removed later
+    // TODO: to be removed later
     [SerializeField]
     List<GameObject> targetAnchorList;
 
@@ -94,12 +93,10 @@ public class TaskManager : MonoBehaviour {
         instance = this;
 
         currentTaskData = TaskDataList[(int)CurrentTask];
-        gaussian.BlurEnabled = Blurred;
 
         //Debug.Log(TimeSpan.TicksPerSecond);
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (state == State.Prepare)
         {
@@ -118,7 +115,7 @@ public class TaskManager : MonoBehaviour {
                 player.EnableLinearMovement = currentTaskData.PlayerPositionCtrl;
                 player.EnableRotation = currentTaskData.PlayerRotationCtrl;
                 
-                //TODO: display start hint
+                // TODO: display start hint
 
                 
             }
@@ -245,7 +242,7 @@ public class TaskManager : MonoBehaviour {
             targetList[i].gameObject.SetActive(false);
         }
         RecordList = new List<Record>();
-        RecordList.Add(new Record(RecordList[RecordList.Count - 1], targetList[targetList.Count - 1], ExpStartTime.Ticks));
+        RecordList.Add(new Record(null, targetList[targetList.Count - 1], ExpStartTime.Ticks));
 
         state = State.Performing;
     }
@@ -310,7 +307,7 @@ public class TaskManager : MonoBehaviour {
             // show new target
             targetList[targetIndex - 1].gameObject.SetActive(true);
 
-            RecordList.Add(new Record(RecordList[RecordList.Count - 1], targetList[targetList.Count - 1], ExpStartTime.Ticks));
+            RecordList.Add(new Record(RecordList[RecordList.Count - 1], targetList[targetIndex - 1], ExpStartTime.Ticks));
         }
         instance.targetList.RemoveAt(targetIndex);
 
