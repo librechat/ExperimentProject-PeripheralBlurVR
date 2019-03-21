@@ -33,7 +33,7 @@ public class TaskManager : MonoBehaviour {
         Fast
     };*/
 
-    public State state = State.Prepare;
+    private State state = State.Prepare;
     Vector3 initialPos;
     Quaternion initialRotation;
 
