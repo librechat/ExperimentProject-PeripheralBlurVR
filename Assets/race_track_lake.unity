@@ -1390,7 +1390,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 237250488}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1414,7 +1414,7 @@ Transform:
   - {fileID: 496444829}
   - {fileID: 2060677614}
   - {fileID: 995040619}
-  m_Father: {fileID: 1822519365}
+  m_Father: {fileID: 675154952}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &240022421
@@ -4798,6 +4798,35 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: c92bea14e5c4591408be760558da7b90,
     type: 3}
   m_PrefabInternal: {fileID: 673836679}
+--- !u!1 &675154951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 675154952}
+  m_Layer: 0
+  m_Name: TaskManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &675154952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 675154951}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 237250489}
+  m_Father: {fileID: 1822519365}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &675952830
 Prefab:
   m_ObjectHideFlags: 0
@@ -6414,6 +6443,74 @@ Transform:
   m_Father: {fileID: 237250489}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &933618415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933618416}
+  - component: {fileID: 933618417}
+  m_Layer: 0
+  m_Name: VisualEffectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933618416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 933618415}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1822519365}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &933618417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 933618415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9323b6dbc211e434c93979cff2719298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurShader: {fileID: 4800000, guid: a887ca6eb3e21274a8efa5ce614f93db, type: 3}
+  BlurredCameras:
+  - name: Oculus Left
+    hmdType: 1
+    camera: {fileID: 1055909459}
+    material: {fileID: 2100000, guid: a02fd89c4c4f7fb49aef5626d5cb6196, type: 2}
+  - name: Oculus Center
+    hmdType: 1
+    camera: {fileID: 703221329}
+    material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
+  - name: Oculus Right
+    hmdType: 1
+    camera: {fileID: 1055909458}
+    material: {fileID: 2100000, guid: 2c9bc20bcb0d1254da245a3a942ac98d, type: 2}
+  - name: Vive Center
+    hmdType: 0
+    camera: {fileID: 1502086722}
+    material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
+  OculusForwardTarget: {fileID: 1213281819}
+  ViveForwardTarget: {fileID: 1251497523}
+  BlurEnabled: 1
+  indicated: 1
+  InnerRadius: 0
+  OuterRadius: 1
+  DownSampleNum: 0
+  BlurSpreadSize: 2.4
+  BlurIterations: 3
+  indicatedColor: {r: 1, g: 0.15190282, b: 0, a: 1}
 --- !u!1001 &943721063
 Prefab:
   m_ObjectHideFlags: 0
@@ -9754,7 +9851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e20265586a4da44ebe77859791315a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardTarget: {fileID: 1213281819}
+  ForwardTarget: {fileID: 1251497523}
   CurShader: {fileID: 4800000, guid: a887ca6eb3e21274a8efa5ce614f93db, type: 3}
   material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
   DownSampleNum: 0
@@ -11658,9 +11755,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1822519365}
   - component: {fileID: 1822519364}
-  - component: {fileID: 1822519366}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: ExperimentManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11677,7 +11773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce05159c011401848bb42a5a21b0cc9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
   playerController: {fileID: 708663368}
   CameraManager: {fileID: 550144124}
   targetPrefab: {fileID: 1821839260165118, guid: ac84bbfaa0131894c93cfebcc6898b1f,
@@ -11724,49 +11819,11 @@ Transform:
   m_LocalPosition: {x: 119.84, y: 3.17, z: -78.81513}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 237250489}
+  - {fileID: 933618416}
+  - {fileID: 675154952}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1822519366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1822519363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9323b6dbc211e434c93979cff2719298, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurShader: {fileID: 4800000, guid: a887ca6eb3e21274a8efa5ce614f93db, type: 3}
-  BlurredCameras:
-  - name: Oculus Left
-    hmdType: 1
-    camera: {fileID: 1055909459}
-    material: {fileID: 2100000, guid: a02fd89c4c4f7fb49aef5626d5cb6196, type: 2}
-  - name: Oculus Center
-    hmdType: 1
-    camera: {fileID: 703221329}
-    material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
-  - name: Oculus Right
-    hmdType: 1
-    camera: {fileID: 1055909458}
-    material: {fileID: 2100000, guid: 2c9bc20bcb0d1254da245a3a942ac98d, type: 2}
-  - name: Vive Center
-    hmdType: 0
-    camera: {fileID: 1502086722}
-    material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
-  OculusForwardTarget: {fileID: 1213281819}
-  ViveForwardTarget: {fileID: 1251497523}
-  BlurEnabled: 1
-  indicated: 1
-  InnerRadius: 0
-  OuterRadius: 1
-  DownSampleNum: 0
-  BlurSpreadSize: 2.4
-  BlurIterations: 3
-  indicatedColor: {r: 1, g: 0.15190282, b: 0, a: 1}
 --- !u!43 &1825445734
 Mesh:
   m_ObjectHideFlags: 0

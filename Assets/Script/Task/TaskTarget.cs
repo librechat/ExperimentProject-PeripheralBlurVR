@@ -24,14 +24,15 @@ public class TaskTarget : MonoBehaviour {
         
         if (collider.gameObject.tag == "Hand" && !catched && gameObject.tag != "Hand")
         {
-            catched = true;
-            CatchedEvent();
+            OnTargetCollected();
         }
     }
 
-    void CatchedEvent()
+    void OnTargetCollected()
     {
-        bool result = TaskManager.Eliminate(TargetIndex);
+        catched = true;
+
+        bool result = TaskManager.EliminateTarget(TargetIndex);
         if (result)
         {
             
