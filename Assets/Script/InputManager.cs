@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using Valve.VR;
 
-public static class InputManager {
+public static class InputManager{
 
     public enum HmdType
     {

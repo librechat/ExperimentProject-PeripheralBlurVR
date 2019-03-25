@@ -4102,12 +4102,6 @@ Transform:
   m_Father: {fileID: 237250489}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &550144124 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 11400002, guid: ce816f2e6abb0504092c23ed9b970dfd,
-    type: 2}
-  m_PrefabInternal: {fileID: 1055909448}
-  m_Script: {fileID: 11500000, guid: 7e933e81d3c20c74ea6fdc708a67e3a5, type: 3}
 --- !u!1001 &588075291
 Prefab:
   m_ObjectHideFlags: 0
@@ -4806,6 +4800,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 675154952}
+  - component: {fileID: 675154953}
   m_Layer: 0
   m_Name: TaskManager
   m_TagString: Untagged
@@ -4827,6 +4822,26 @@ Transform:
   m_Father: {fileID: 1822519365}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &675154953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 675154951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9628237764622024da1c3ebccf81859d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTask: 0
+  ReachableDistance: 0.8
+  NavigationMaxDistance: 20
+  TaskDataList:
+  - {fileID: 11400000, guid: ea10d3c3b48cdf74a9328d9fdd7a9097, type: 2}
+  - {fileID: 11400000, guid: 09d01364f5d3d3843ae606876ad38e95, type: 2}
+  - {fileID: 11400000, guid: e500b105fe775bc43a91033cfa4da251, type: 2}
+  targetPrefab: {fileID: 1821839260165118, guid: ac84bbfaa0131894c93cfebcc6898b1f,
+    type: 2}
 --- !u!1001 &675952830
 Prefab:
   m_ObjectHideFlags: 0
@@ -9821,7 +9836,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11417168, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: verbose
@@ -11773,42 +11788,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce05159c011401848bb42a5a21b0cc9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ConditionName: 0
+  m_ConditionList: []
   playerController: {fileID: 708663368}
-  CameraManager: {fileID: 550144124}
-  targetPrefab: {fileID: 1821839260165118, guid: ac84bbfaa0131894c93cfebcc6898b1f,
-    type: 2}
   hintText: {fileID: 2059486978}
   discomfortSlider: {fileID: 1919861244}
   discomfortPanel: {fileID: 1919861241}
-  CurrentTask: 0
-  ReachableDistance: 0.8
-  NavigationMaxDistance: 20
-  TaskDataList:
-  - {fileID: 11400000, guid: ea10d3c3b48cdf74a9328d9fdd7a9097, type: 2}
-  - {fileID: 11400000, guid: 09d01364f5d3d3843ae606876ad38e95, type: 2}
-  - {fileID: 11400000, guid: e500b105fe775bc43a91033cfa4da251, type: 2}
-  gaussian: {fileID: 0}
-  targetAnchorList:
-  - {fileID: 998069070}
-  - {fileID: 1816917426}
-  - {fileID: 2108945317}
-  - {fileID: 359165875}
-  - {fileID: 798449126}
-  - {fileID: 1857026257}
-  - {fileID: 819666198}
-  - {fileID: 538135237}
-  - {fileID: 1202772259}
-  - {fileID: 1772544405}
-  - {fileID: 33708890}
-  - {fileID: 922367967}
-  - {fileID: 152364447}
-  - {fileID: 1248077178}
-  - {fileID: 1861961468}
-  - {fileID: 264639216}
-  - {fileID: 1285681731}
-  - {fileID: 496444828}
-  - {fileID: 2060677613}
-  - {fileID: 995040618}
 --- !u!4 &1822519365
 Transform:
   m_ObjectHideFlags: 0

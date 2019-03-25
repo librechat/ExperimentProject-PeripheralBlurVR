@@ -92,6 +92,14 @@ public class VisaulEffectManager : MonoBehaviour
             if (BlurredCameras[i].hmdType == InputManager.HmdType.Vive) BlurredCameras[i].camera.ForwardTarget = ViveForwardTarget;
             BlurredCameras[i].camera.CurShader = CurShader;
         }
+
+        // set parameters
+        ConditionData condition = ExperimentManager.Condition;
+        BlurEnabled = condition.BlurInPeripheral;
+        InnerRadius = WindowSizeConstants.InnerRadius.Small; // condition.WindowSize;
+        OuterRadius = WindowSizeConstants.OuterRadius.Small;
+        
+        //condition.WindowPosition (should be connected to pupil labs)
     }
 
     void OnValidate()

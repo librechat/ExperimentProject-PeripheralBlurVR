@@ -31,10 +31,6 @@ public class TaskManager : MonoBehaviour {
     [SerializeField]
     GameObject targetPrefab;
 
-    // TODO: to be removed later
-    [SerializeField]
-    List<GameObject> targetAnchorList;
-
     List<TaskTarget> targetList;
 
     private TaskData currentTaskData;
@@ -49,16 +45,26 @@ public class TaskManager : MonoBehaviour {
 
         currentTaskData = TaskDataList[(int)CurrentTask];
     }
-	
-	void Update () {
-		
-	}
 
-    public static void Init(Vector3 initialPos, Quaternion initialRotation, Vector3 forward)
+    public static void Init(Transform playerController)
     {
         if (s_Instance.targetList == null) s_Instance.targetList = new List<TaskTarget>();
         else Clear();
 
+        Vector3 initialPos = playerController.position;
+        Quaternion initialRotation = playerController.rotation;
+
+        /* ======== Camera limits, depends on task and HMDType ========
+        OVRManager cameraManager;
+        cameraManager.usePositionTracking = s_Instance.currentTaskData.CameraPositionTrack;
+        cameraManager.useRotationTracking = s_Instance.currentTaskData.CameraRotationTrack;
+
+        OVRPlayerController player = playerController.GetComponent<OVRPlayerController>();
+        player.EnableLinearMovement = s_Instance.currentTaskData.PlayerPositionCtrl;
+        player.EnableRotation = s_Instance.currentTaskData.PlayerRotationCtrl;
+        */
+        
+        // init task
         int targetCount = s_Instance.currentTaskData.NumOfTargets;
         if (s_Instance.currentTaskData.Generation == TaskData.GenerationType.Predefined)
         {
@@ -107,7 +113,7 @@ public class TaskManager : MonoBehaviour {
                 for (int i = 0; i < targetCount; i++)
                 {
                     float offsetForward = s_Instance.ReachableDistance + s_Instance.NavigationMaxDistance / i + s_Instance.ReachableDistance * UnityEngine.Random.Range(-0.5f, 0.5f);
-                    Vector3 pos = initialPos + offsetForward * forward;
+                    Vector3 pos = initialPos + offsetForward * playerController.forward;
                     GameObject gm = Instantiate(s_Instance.targetPrefab);
                     gm.transform.position = pos;
                     s_Instance.targetList.Add(gm.GetComponent<TaskTarget>());

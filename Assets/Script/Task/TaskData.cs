@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MyScriptableObject/TargetPosition ")]
+[CreateAssetMenu(menuName = "MyScriptableObject/TaskData ")]
 public class TaskData : ScriptableObject
 {
     public enum TaskType

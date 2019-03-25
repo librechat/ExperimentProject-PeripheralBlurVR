@@ -23,16 +23,26 @@ public class ExperimentManager : MonoBehaviour {
         }
     }
     private ExperimentState state = ExperimentState.Prepare;
-    Vector3 initialPos;
-    Quaternion initialRotation;
+
+    [SerializeField]
+    ConditionData.ConditionEnum m_ConditionName;
+    [SerializeField]
+    List<ConditionData> m_ConditionList;
+    public static ConditionData Condition {
+        get{
+            if (instance.m_Condition == null)
+            {
+                instance.m_Condition = instance.m_ConditionList[(int)instance.m_ConditionName];
+            }
+            return instance.m_Condition;
+        }
+    }
+    private ConditionData m_Condition;
 
     [Header("Object Reference")]
 
     [SerializeField]
     Transform playerController;
-
-    [SerializeField]
-    OVRManager CameraManager;
    
     [SerializeField]
     Text hintText;
@@ -57,6 +67,8 @@ public class ExperimentManager : MonoBehaviour {
 	void Awake () {
         if (instance != null) Destroy(gameObject);
         instance = this;
+
+        m_Condition = m_ConditionList[(int)m_ConditionName];
 	}
 	
 	void Update () {
@@ -64,25 +76,10 @@ public class ExperimentManager : MonoBehaviour {
         {
             if (InputManager.GetStartButton())
             {
-                initialPos = playerController.position;
-                initialRotation = playerController.rotation;
-
                 ExpStartTime = DateTime.Now;
 
-                OVRPlayerController player = playerController.GetComponent<OVRPlayerController>();
-
-                /*
-                CameraManager.usePositionTracking = currentTaskData.CameraPositionTrack;
-                CameraManager.useRotationTracking = currentTaskData.CameraRotationTrack;
-
-                player.EnableLinearMovement = currentTaskData.PlayerPositionCtrl;
-                player.EnableRotation = currentTaskData.PlayerRotationCtrl;
-                */
-
-
                 RecordList = new List<Record>();
-                //RecordList.Add(new Record(null, targetList[targetList.Count - 1], ExpStartTime.Ticks));
-                TaskManager.Init(initialPos, initialRotation, playerController.forward);
+                TaskManager.Init(playerController);
                 TaskManager.NextTarget();
 
                 // TODO: display start hint?
@@ -212,7 +209,6 @@ public class ExperimentManager : MonoBehaviour {
 
         string line =
            DateTime.Now.ToString(dateformat) +
-           "\nInitPos: "      + initialPos.ToString("F3") +
            "\nExpTotalTime: " + time.ToString("F3");
 
         path = Application.streamingAssetsPath + "/" + filename + "_ExperimentInfo" + ".txt";
