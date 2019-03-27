@@ -76,6 +76,7 @@ public class ExperimentManager : MonoBehaviour {
         {
             if (InputManager.GetStartButton())
             {
+                Debug.Log("Get start button");
                 ExpStartTime = DateTime.Now;
 
                 RecordList = new List<Record>();
@@ -170,7 +171,9 @@ public class ExperimentManager : MonoBehaviour {
 
     public static void OpenNewRecord(TaskTarget target)
     {
-        instance.RecordList.Add(new Record(instance.RecordList[instance.RecordList.Count - 1], target, instance.ExpStartTime.Ticks));
+        Record prevRecord = (instance.RecordList.Count == 0) ? null : instance.RecordList[instance.RecordList.Count - 1];
+
+        instance.RecordList.Add(new Record(prevRecord, target, instance.ExpStartTime.Ticks));
     }
     public static void CloseRecord()
     {

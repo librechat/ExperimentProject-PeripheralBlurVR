@@ -11,10 +11,10 @@ public class AvatarController : MonoBehaviour {
 
 
     void FixedUpdate () {
-        Rotation();
+        UpdateRotation();
 	}
 
-    void Rotation()
+    void UpdateRotation()
     {
         Vector3 euler = transform.rotation.eulerAngles;
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;

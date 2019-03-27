@@ -21,7 +21,6 @@ public class TaskTarget : MonoBehaviour {
 
     void OnTriggerEnter(Collider collider) {
 
-        
         if (collider.gameObject.tag == "Hand" && !catched && gameObject.tag != "Hand")
         {
             OnTargetCollected();

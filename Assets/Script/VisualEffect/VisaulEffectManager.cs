@@ -42,6 +42,9 @@ public class VisaulEffectManager : MonoBehaviour
     [SerializeField]
     Transform ViveForwardTarget;
 
+    [SerializeField]
+    WindowSizeConfig m_WindowSizeConfig;
+
     [Header("Parameters")]
 
     [SerializeField]
@@ -96,10 +99,10 @@ public class VisaulEffectManager : MonoBehaviour
         // set parameters
         ConditionData condition = ExperimentManager.Condition;
         BlurEnabled = condition.BlurInPeripheral;
-        InnerRadius = WindowSizeConstants.InnerRadius.Small; // condition.WindowSize;
-        OuterRadius = WindowSizeConstants.OuterRadius.Small;
+        InnerRadius = m_WindowSizeConfig.RadiusList[(int)condition.WindowSize].Inner;
+        OuterRadius = m_WindowSizeConfig.RadiusList[(int)condition.WindowSize].Outer;
         
-        //condition.WindowPosition (should be connected to pupil labs)
+        // TODO: condition.WindowPosition (should be connected to pupil labs)
     }
 
     void OnValidate()

@@ -35,17 +35,17 @@ public class ConditionData : ScriptableObject {
     public ImageSourceEnum ImageSource;
 }
 
-public static class WindowSizeConstants
+[CreateAssetMenu(menuName = "MyScriptableObject/WindowSizeConfig ")]
+public class WindowSizeConfig : ScriptableObject
 {
-    public struct RadiusSet
+    [System.Serializable]
+    public struct Radius
     {
-        public float Small, Medium, Large;
-        public RadiusSet(float s, float m, float l){
-            Small = s;
-            Medium = m;
-            Large = l;
-        }
+        public ConditionData.WindowSizeEnum Name;
+        public float Inner;
+        public float Outer;
     }
-    public static RadiusSet InnerRadius = new RadiusSet(0.2f, 0.3f, 0.4f);
-    public static RadiusSet OuterRadius = new RadiusSet(0.3f, 0.4f, 0.5f);
+
+    public InputManager.HmdType HmdType;
+    public List<Radius> RadiusList;
 }

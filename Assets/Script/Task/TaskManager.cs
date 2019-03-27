@@ -126,6 +126,7 @@ public class TaskManager : MonoBehaviour {
         {
             s_Instance.targetList[i].gameObject.SetActive(false);
         }
+        s_Instance.currentTargetIndex = s_Instance.targetList.Count;
     }
 
     public static void Clear()
@@ -172,9 +173,10 @@ public class TaskManager : MonoBehaviour {
 
     public static bool EliminateTarget(int targetIndex)
     {
+        Debug.Log(ExperimentManager.State);
         if (ExperimentManager.State != ExperimentManager.ExperimentState.Performing) return false;
 
-        if (targetIndex >= s_Instance.targetList.Count) return false;
+        if (targetIndex > s_Instance.targetList.Count) return false;
 
         ExperimentManager.CloseRecord();
 
