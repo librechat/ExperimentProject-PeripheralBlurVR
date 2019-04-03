@@ -97,12 +97,8 @@ public class VisaulEffectManager : MonoBehaviour
         }
 
         // set parameters
-        ConditionData condition = ExperimentManager.Condition;
-        BlurEnabled = condition.BlurInPeripheral;
-        InnerRadius = m_WindowSizeConfig.RadiusList[(int)condition.WindowSize].Inner;
-        OuterRadius = m_WindowSizeConfig.RadiusList[(int)condition.WindowSize].Outer;
+        SetParameters(ExperimentManager.Condition);
         
-        // TODO: condition.WindowPosition (should be connected to pupil labs)
     }
 
     void OnValidate()
@@ -164,6 +160,15 @@ public class VisaulEffectManager : MonoBehaviour
         {
             BlurEnabled = !BlurEnabled;
         }
+    }
+
+    public void SetParameters(ConditionData condition)
+    {
+        BlurEnabled = condition.BlurInPeripheral;
+        InnerRadius = m_WindowSizeConfig.RadiusList[(int)condition.WindowSize].Inner;
+        OuterRadius = m_WindowSizeConfig.RadiusList[(int)condition.WindowSize].Outer;
+
+        // TODO: condition.WindowPosition (should be connected to pupil labs)
     }
 
     #endregion

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 
+[ExecuteInEditMode]
 public class ExperimentManager : MonoBehaviour {
 
     public enum ExperimentState {
@@ -39,6 +40,10 @@ public class ExperimentManager : MonoBehaviour {
     }
     private ConditionData m_Condition;
 
+    [Header("Manager")]
+    [SerializeField]
+    VisaulEffectManager visualEffectManager;
+
     [Header("Object Reference")]
 
     [SerializeField]
@@ -70,8 +75,18 @@ public class ExperimentManager : MonoBehaviour {
 
         m_Condition = m_ConditionList[(int)m_ConditionName];
 	}
+
+    void OnValidate()
+    {
+        visualEffectManager.SetParameters(m_ConditionList[(int)m_ConditionName]);
+    }
 	
 	void Update () {
+#if UNITY_EDITOR
+        if(!Application.isPlaying){
+            return;
+        }
+#endif
         if (state == ExperimentState.Prepare)
         {
             if (InputManager.GetStartButton())
