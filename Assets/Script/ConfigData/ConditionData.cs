@@ -34,18 +34,3 @@ public class ConditionData : ScriptableObject {
     public WindowPositionEnum WindowPosition;
     public ImageSourceEnum ImageSource;
 }
-
-[CreateAssetMenu(menuName = "MyScriptableObject/WindowSizeConfig ")]
-public class WindowSizeConfig : ScriptableObject
-{
-    [System.Serializable]
-    public struct Radius
-    {
-        public ConditionData.WindowSizeEnum Name;
-        public float Inner;
-        public float Outer;
-    }
-
-    public InputManager.HmdType HmdType;
-    public List<Radius> RadiusList;
-}

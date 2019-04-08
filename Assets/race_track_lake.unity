@@ -6531,11 +6531,11 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
   OculusForwardTarget: {fileID: 1213281819}
   ViveForwardTarget: {fileID: 1251497523}
-  m_WindowSizeConfig: {fileID: 11400000, guid: 6c738b413468bc5408831da4792d0a80, type: 2}
+  m_WindowSizeConfig: {fileID: 11400000, guid: fe7077ff63c347f4181799c294d3eeed, type: 2}
   BlurEnabled: 1
   indicated: 0
   InnerRadius: 0.3
-  OuterRadius: 0.6
+  OuterRadius: 0.5
   DownSampleNum: 0
   BlurSpreadSize: 2.4
   BlurIterations: 3
