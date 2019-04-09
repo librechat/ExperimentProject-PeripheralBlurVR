@@ -157,6 +157,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1095325524717052, guid: b1f8909c65658db40b54158858cbc1c8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1f8909c65658db40b54158858cbc1c8, type: 2}
   m_IsPrefabAsset: 0
@@ -235,7 +239,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 1821839260165118, guid: ac84bbfaa0131894c93cfebcc6898b1f,
     type: 2}
-  NumOfTargets: 0
+  NumOfTargets: 25
+  AutoGenerate: 1
+  fileName: maze10
+  mapsize:
+    x: 10
+    y: 10
+  entryIndex:
+    x: 0
+    y: 0
+  wallPrefab: {fileID: 4544632368296182, guid: 750befddc0b38724c897aeb455d9c3df, type: 2}
 --- !u!1 &687726416
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +568,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1976242800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -250, y: 0, z: -250}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

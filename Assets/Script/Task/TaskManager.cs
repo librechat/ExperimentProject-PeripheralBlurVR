@@ -6,7 +6,7 @@ public class TaskManager : MonoBehaviour {
 
     [Header("Task Options")]
     [SerializeField]
-    public Task CurrentTask;
+    public MazeTask CurrentTask;
 
     List<TaskTarget> targetList;
 
@@ -35,7 +35,7 @@ public class TaskManager : MonoBehaviour {
         player.EnableLinearMovement = s_Instance.currentTaskData.PlayerPositionCtrl;
         player.EnableRotation = s_Instance.currentTaskData.PlayerRotationCtrl;
         */
-        
+
         // init task
         s_Instance.targetList = s_Instance.CurrentTask.Init(playerController);
 
