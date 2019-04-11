@@ -32,7 +32,7 @@ MonoBehaviour:
       ref_data:
       - 0
       - 0
-      points: 7
+      points: 16
       markerScale: 0.05
       centerPoint: {x: 0.5, y: 0.48}
       vectorDepthRadius:

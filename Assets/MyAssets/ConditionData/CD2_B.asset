@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: CD2_B
   m_EditorClassIdentifier: 
   BlurInPeripheral: 1
-  WindowSize: 1
+  WindowSize: 2
   WindowPosition: 0
   ImageSource: 0

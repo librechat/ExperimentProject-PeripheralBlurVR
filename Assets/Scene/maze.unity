@@ -155,7 +155,7 @@ Prefab:
     - target: {fileID: 114890773290583894, guid: b1f8909c65658db40b54158858cbc1c8,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1095325524717052, guid: b1f8909c65658db40b54158858cbc1c8, type: 2}
       propertyPath: m_IsActive
@@ -240,8 +240,8 @@ MonoBehaviour:
   targetPrefab: {fileID: 1821839260165118, guid: ac84bbfaa0131894c93cfebcc6898b1f,
     type: 2}
   NumOfTargets: 25
-  AutoGenerate: 1
-  fileName: maze10
+  AutoGenerate: 0
+  fileName: maze10_target25
   mapsize:
     x: 10
     y: 10
@@ -357,17 +357,17 @@ Prefab:
     - target: {fileID: 114701858480532494, guid: 19e820f2ac19fc6459e887600b5900de,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114467531318696714, guid: 19e820f2ac19fc6459e887600b5900de,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114797680253033714, guid: 19e820f2ac19fc6459e887600b5900de,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19e820f2ac19fc6459e887600b5900de, type: 2}
@@ -487,13 +487,28 @@ Prefab:
     - target: {fileID: 114916121273590834, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
         type: 2}
       propertyPath: m_ConditionName
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114450363113825884, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
         type: 2}
       propertyPath: CurrentTask
       value: 
       objectReference: {fileID: 591157254}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: InnerRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: OuterRadius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: BlurEnabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 302b2f067ff0d7e488a4e4f2c23b1412, type: 2}
   m_IsPrefabAsset: 0

@@ -110,18 +110,19 @@ public class VisaulEffectManager : MonoBehaviour
 
     void Update()
     {
-        if (Application.isPlaying)
-        {
-            DownSampleNum = stored_DownSampleNum;
-            BlurSpreadSize = stored_BlurSpreadSize;
-            BlurIterations = stored_BlurIterations;
-        }
+
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
             CurShader = Shader.Find(ShaderName);
         }
 #endif
+        if (Application.isPlaying)
+        {
+            DownSampleNum = stored_DownSampleNum;
+            BlurSpreadSize = stored_BlurSpreadSize;
+            BlurIterations = stored_BlurIterations;
+        }
 
         for (int i = 0; i < BlurredCameras.Length; i++)
         {
@@ -136,9 +137,9 @@ public class VisaulEffectManager : MonoBehaviour
 
             if (!indicated) BlurredCameras[i].material.SetColor("_IndicatorColor", hiddenColor);
             else BlurredCameras[i].material.SetColor("_IndicatorColor", indicatedColor);
-        }
 
-        // KeyInput();
+            // get gaze position and change window position if in dynamic condition
+        }
     }
 
     void OnDisable()
