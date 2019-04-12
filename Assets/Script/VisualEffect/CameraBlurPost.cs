@@ -43,20 +43,20 @@ public class CameraBlurPost : MonoBehaviour {
             }
             else
             {
-                gazePointLeft = new Vector2(0.5f, 0.6f);
-                gazePointRight = new Vector2(0.5f, 0.4f);
+                gazePointLeft = new Vector2(0.6f, 0.5f);
+                gazePointRight = new Vector2(0.4f, 0.5f);
                 gazePointCenter = new Vector2(0.5f, 0.5f);
             }
             switch (camera.stereoTargetEye)
             {
                 case StereoTargetEyeMask.Left:
-                    material.SetVector("_viewportGazePosition", gazePointLeft);
+                    material.SetVector("_BlurMaskCenter", gazePointLeft);
                     break;
                 case StereoTargetEyeMask.Right:
-                    material.SetVector("_viewportGazePosition", gazePointRight);
+                    material.SetVector("_BlurMaskCenter", gazePointRight);
                     break;
                 default:
-                    material.SetVector("_viewportGazePosition", gazePointCenter);
+                    material.SetVector("_BlurMaskCenter", gazePointCenter);
                     break;
             }
             

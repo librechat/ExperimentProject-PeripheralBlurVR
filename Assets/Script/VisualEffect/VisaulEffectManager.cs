@@ -17,7 +17,6 @@ public class VisaulEffectManager : MonoBehaviour
     };
 
     private string ShaderName = "CustomShader/GaussianBlur";
-
     public Shader CurShader;
     Material material
     {
@@ -33,14 +32,24 @@ public class VisaulEffectManager : MonoBehaviour
     }
     private Material CurMaterial;
 
-    [Header("Object Reference")]
+    [SerializeField]
+    private InputManager.HmdType HMDType = InputManager.HmdType.Vive;
+
+    [Header("Vive Object Reference")]
 
     [SerializeField]
-    BlurredCamera[] BlurredCameras;
+    Transform ViveForwardTarget;
+    [SerializeField]
+    BlurredCamera[] ViveBlurredCameras;
+
+    [Header("Oculus Object Reference")]
+
+    [SerializeField]
+    BlurredCamera[] OculusBlurredCameras;
     [SerializeField]
     Transform OculusForwardTarget;
-    [SerializeField]
-    Transform ViveForwardTarget;
+
+    [Header("Config")]    
 
     [SerializeField]
     WindowSizeConfig m_WindowSizeConfig;
@@ -52,13 +61,13 @@ public class VisaulEffectManager : MonoBehaviour
     [SerializeField]
     bool indicated = true;
     
-    [SerializeField, Range(0.0f, 1.0f)]
+    //[SerializeField, Range(0.0f, 1.0f)]
     float InnerRadius = 0.15f;
-    [SerializeField, Range(0.0f, 1.0f)]
+    //[SerializeField, Range(0.0f, 1.0f)]
     float OuterRadius = 0.35f;
 
     [SerializeField, Range(0, 6)]
-    public int DownSampleNum = 2;
+    public int DownSampleNum = 0;
     [SerializeField, Range(0.0f, 20.0f)]
     public float BlurSpreadSize = 3.0f;
     [SerializeField, Range(0, 8)]
@@ -71,9 +80,29 @@ public class VisaulEffectManager : MonoBehaviour
     [SerializeField]
     Color indicatedColor = new Color(1, 0, 0, 0);
     private Color hiddenColor = new Color(0, 0, 0, 0);
+
+    public static Camera SceneCamera
+    {
+        get { return s_Instance.blurredCameras[0].camera.GetComponent<Camera>(); }
+    }
+
+    private BlurredCamera[] blurredCameras;
+    private Transform forwardTarget;
+
+    public static VisaulEffectManager s_Instance;
+
     #endregion
 
     #region Functions
+
+    void Awake()
+    {
+        if (s_Instance != null) Destroy(gameObject);
+        s_Instance = this;
+
+        blurredCameras = (HMDType == InputManager.HmdType.Oculus) ? OculusBlurredCameras : ViveBlurredCameras;
+        forwardTarget = (HMDType == InputManager.HmdType.Oculus) ? OculusForwardTarget : ViveForwardTarget;
+    }
 
     void Start()
     {
@@ -87,13 +116,12 @@ public class VisaulEffectManager : MonoBehaviour
         {
             enabled = false;
             return;
-        }
+        }        
 
-        for (int i = 0; i < BlurredCameras.Length; i++)
+        for (int i = 0; i < blurredCameras.Length; i++)
         {
-            if (BlurredCameras[i].hmdType == InputManager.HmdType.Oculus) BlurredCameras[i].camera.ForwardTarget = OculusForwardTarget;
-            if (BlurredCameras[i].hmdType == InputManager.HmdType.Vive) BlurredCameras[i].camera.ForwardTarget = ViveForwardTarget;
-            BlurredCameras[i].camera.CurShader = CurShader;
+            blurredCameras[i].camera.ForwardTarget = forwardTarget;
+            blurredCameras[i].camera.CurShader = CurShader;
         }
 
         // set parameters
@@ -115,6 +143,8 @@ public class VisaulEffectManager : MonoBehaviour
         if (!Application.isPlaying)
         {
             CurShader = Shader.Find(ShaderName);
+            blurredCameras = (HMDType == InputManager.HmdType.Oculus) ? OculusBlurredCameras : ViveBlurredCameras;
+            forwardTarget = (HMDType == InputManager.HmdType.Oculus) ? OculusForwardTarget : ViveForwardTarget;
         }
 #endif
         if (Application.isPlaying)
@@ -124,19 +154,19 @@ public class VisaulEffectManager : MonoBehaviour
             BlurIterations = stored_BlurIterations;
         }
 
-        for (int i = 0; i < BlurredCameras.Length; i++)
+        for (int i = 0; i < blurredCameras.Length; i++)
         {
-            BlurredCameras[i].camera.enabled = BlurEnabled;
+            blurredCameras[i].camera.enabled = BlurEnabled;
 
-            BlurredCameras[i].material.SetFloat("_InnerRadius", InnerRadius);
-            BlurredCameras[i].material.SetFloat("_OuterRadius", OuterRadius);
+            blurredCameras[i].material.SetFloat("_InnerRadius", InnerRadius);
+            blurredCameras[i].material.SetFloat("_OuterRadius", OuterRadius);
 
-            BlurredCameras[i].camera.DownSampleNum = DownSampleNum;
-            BlurredCameras[i].camera.BlurSpreadSize = BlurSpreadSize;
-            BlurredCameras[i].camera.BlurIterations = BlurIterations;
+            blurredCameras[i].camera.DownSampleNum = DownSampleNum;
+            blurredCameras[i].camera.BlurSpreadSize = BlurSpreadSize;
+            blurredCameras[i].camera.BlurIterations = BlurIterations;
 
-            if (!indicated) BlurredCameras[i].material.SetColor("_IndicatorColor", hiddenColor);
-            else BlurredCameras[i].material.SetColor("_IndicatorColor", indicatedColor);
+            if (!indicated) blurredCameras[i].material.SetColor("_IndicatorColor", hiddenColor);
+            else blurredCameras[i].material.SetColor("_IndicatorColor", indicatedColor);
 
             // get gaze position and change window position if in dynamic condition
         }

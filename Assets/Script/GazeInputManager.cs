@@ -36,7 +36,7 @@ public class GazeInputManager : MonoBehaviour {
     {
         PupilData.calculateMovingAverage = false;
 
-        sceneCamera = gameObject.GetComponent<Camera>();
+        sceneCamera = VisaulEffectManager.SceneCamera;
     }
 
     void OnEnable()

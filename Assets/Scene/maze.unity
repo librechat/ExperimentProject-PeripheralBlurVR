@@ -161,6 +161,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114890773290583894, guid: b1f8909c65658db40b54158858cbc1c8,
+        type: 2}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1f8909c65658db40b54158858cbc1c8, type: 2}
   m_IsPrefabAsset: 0
@@ -197,58 +202,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 318181463}
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!1 &591157252
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 591157253}
-  - component: {fileID: 591157254}
-  m_Layer: 0
-  m_Name: MazeTask
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &591157253
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 591157252}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1908312444}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &591157254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 591157252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f38bde6d4bcd3b4a9f712aa1aa557ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPrefab: {fileID: 1821839260165118, guid: ac84bbfaa0131894c93cfebcc6898b1f,
-    type: 2}
-  NumOfTargets: 25
-  AutoGenerate: 0
-  fileName: maze10_target25
-  mapsize:
-    x: 10
-    y: 10
-  entryIndex:
-    x: 0
-    y: 0
-  wallPrefab: {fileID: 4544632368296182, guid: 750befddc0b38724c897aeb455d9c3df, type: 2}
 --- !u!1 &687726416
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +322,21 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114797680253033714, guid: 19e820f2ac19fc6459e887600b5900de,
+        type: 2}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: a02fd89c4c4f7fb49aef5626d5cb6196, type: 2}
+    - target: {fileID: 114467531318696714, guid: 19e820f2ac19fc6459e887600b5900de,
+        type: 2}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
+    - target: {fileID: 114701858480532494, guid: 19e820f2ac19fc6459e887600b5900de,
+        type: 2}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: 2c9bc20bcb0d1254da245a3a942ac98d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19e820f2ac19fc6459e887600b5900de, type: 2}
   m_IsPrefabAsset: 0
@@ -434,36 +402,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: ViveForwardTarget
-      value: 
-      objectReference: {fileID: 318181464}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: OculusForwardTarget
-      value: 
-      objectReference: {fileID: 1276852691}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: BlurredCameras.Array.data[3].camera
-      value: 
-      objectReference: {fileID: 318181465}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: BlurredCameras.Array.data[1].camera
-      value: 
-      objectReference: {fileID: 1276852693}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: BlurredCameras.Array.data[0].camera
-      value: 
-      objectReference: {fileID: 1276852694}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: BlurredCameras.Array.data[2].camera
-      value: 
-      objectReference: {fileID: 1276852692}
     - target: {fileID: 114916121273590834, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
         type: 2}
       propertyPath: playerController
@@ -484,39 +422,49 @@ Prefab:
       propertyPath: discomfortPanel
       value: 
       objectReference: {fileID: 318181467}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: ViveForwardTarget
+      value: 
+      objectReference: {fileID: 318181464}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: ViveBlurredCameras.Array.data[0].camera
+      value: 
+      objectReference: {fileID: 318181465}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: OculusBlurredCameras.Array.data[0].camera
+      value: 
+      objectReference: {fileID: 1276852693}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: OculusBlurredCameras.Array.data[1].camera
+      value: 
+      objectReference: {fileID: 1276852694}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: OculusBlurredCameras.Array.data[2].camera
+      value: 
+      objectReference: {fileID: 1276852692}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: OculusForwardTarget
+      value: 
+      objectReference: {fileID: 1276852691}
+    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
+        type: 2}
+      propertyPath: indicated
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114916121273590834, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
         type: 2}
       propertyPath: m_ConditionName
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114450363113825884, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: CurrentTask
-      value: 
-      objectReference: {fileID: 591157254}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: InnerRadius
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: OuterRadius
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114888300016480258, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-        type: 2}
-      propertyPath: BlurEnabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 302b2f067ff0d7e488a4e4f2c23b1412, type: 2}
   m_IsPrefabAsset: 0
---- !u!4 &1908312444 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4774269903993452, guid: 302b2f067ff0d7e488a4e4f2c23b1412,
-    type: 2}
-  m_PrefabInternal: {fileID: 1908312443}
 --- !u!1 &1976242800
 GameObject:
   m_ObjectHideFlags: 0
