@@ -58,13 +58,20 @@ public class ExperimentManager : MonoBehaviour {
     
 
     /* Experiment Records */
-    DateTime ExpStartTime;
-    DateTime ExpEndTime;
-    List<Record> RecordList;
+    public static long ExpStartTicks
+    {
+        get { return instance.expStartTime.Ticks; }
+    }
+    private DateTime expStartTime;
+    private DateTime expEndTime;
+    List<CollectRecord> RecordList;
 
     float stickCounter = 0.0f;
     float stickSpeed = 7.0f;
     float stickMax = 1.0f;
+
+    [SerializeField]
+    TaskManager taskManager;
 
 
     public static ExperimentManager instance;
@@ -92,10 +99,12 @@ public class ExperimentManager : MonoBehaviour {
             if (InputManager.GetStartButton())
             {
                 Debug.Log("Get start button");
-                ExpStartTime = DateTime.Now;
+                expStartTime = DateTime.Now;
 
-                RecordList = new List<Record>();
+                RecordList = new List<CollectRecord>();
+
                 TaskManager.Init(playerController);
+
                 TaskManager.NextTarget();
 
                 // TODO: display start hint?
@@ -117,6 +126,7 @@ public class ExperimentManager : MonoBehaviour {
             }
             else ;
 
+            // answering discomfort
             if(discomfortPanel.activeSelf){
                 if (InputManager.GetLStickToRight())
                 {
@@ -142,8 +152,10 @@ public class ExperimentManager : MonoBehaviour {
                 {              
                     OnDiscomfortAnswered(discomfortSlider.value);
                 } 
-            }         
-
+            }
+            
+            taskManager.update(Time.deltaTime);
+            
         }
         else if (state == ExperimentState.Pause)
         {
@@ -157,8 +169,8 @@ public class ExperimentManager : MonoBehaviour {
 
     public void OnDiscomfortAnswered(float value)
     {
-
-        RecordList[RecordList.Count - 1].RecordDiscomfort((int)value, instance.ExpStartTime.Ticks);
+        /*
+        RecordList[RecordList.Count - 1].RecordDiscomfort((int)value, instance.expStartTime.Ticks);
         discomfortPanel.SetActive(false);
 
         if ((int)value == 10)
@@ -166,16 +178,17 @@ public class ExperimentManager : MonoBehaviour {
             EndExperiment();
             return;
         }
+        */
 
         TaskManager.NextTarget();
     }    
 
     public static void EndExperiment()
     {
-        instance.ExpEndTime = DateTime.Now;
+        instance.expEndTime = DateTime.Now;
         instance.state = ExperimentState.Relax;
 
-        float time = (float)(instance.ExpEndTime.Ticks - instance.ExpStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
+        float time = (float)(instance.expEndTime.Ticks - instance.expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
         //long time = (ExpEndTime.Ticks - ExpStartTime.Ticks) / 1000000;
         Debug.Log("Time Cost: " + time.ToString("F3"));
         //hintText.text = "The End. Total Cost: " + time;
@@ -184,16 +197,16 @@ public class ExperimentManager : MonoBehaviour {
         instance.PrintResult();
     }
 
-    public static void OpenNewRecord(TaskTarget target)
+    public static void OpenNewRecord(CollectTarget target)
     {
-        Record prevRecord = (instance.RecordList.Count == 0) ? null : instance.RecordList[instance.RecordList.Count - 1];
+        CollectRecord prevRecord = (instance.RecordList.Count == 0) ? null : instance.RecordList[instance.RecordList.Count - 1];
 
-        instance.RecordList.Add(new Record(prevRecord, target, instance.ExpStartTime.Ticks));
+        instance.RecordList.Add(new CollectRecord(prevRecord, target, instance.expStartTime.Ticks));
     }
     public static void CloseRecord()
     {
         //record task result
-        instance.RecordList[instance.RecordList.Count - 1].TaskEnd(instance.ExpStartTime.Ticks);
+        instance.RecordList[instance.RecordList.Count - 1].TaskEnd(instance.expStartTime.Ticks);
 
         //pop discomfort panel or generate next task
         if (instance.RecordList.Count % 5 == 0)
@@ -208,7 +221,7 @@ public class ExperimentManager : MonoBehaviour {
 
     void PrintResult()
     {
-        float time = (float)(ExpEndTime.Ticks - ExpStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
+        float time = (float)(expEndTime.Ticks - expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
         string dateformat = "yyyyMMdd-HHmm";
         string filename = DateTime.Now.ToString(dateformat);
 

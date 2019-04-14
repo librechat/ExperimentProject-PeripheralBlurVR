@@ -8,9 +8,10 @@ public class TaskManager : MonoBehaviour {
     [SerializeField]
     public MazeTask CurrentTask;
 
-    List<TaskTarget> targetList;
+    List<CollectTarget> CollectTargetList;
+    private int currentCollectTargetIndex = -1;
 
-    private int currentTargetIndex = -1;
+    // List<SpatialTarget> SpatialTargetList;
 
     public static TaskManager s_Instance;
 
@@ -22,59 +23,57 @@ public class TaskManager : MonoBehaviour {
 
     public static void Init(Transform playerController)
     {
-        if (s_Instance.targetList == null) s_Instance.targetList = new List<TaskTarget>();
+        if (s_Instance.CollectTargetList == null) s_Instance.CollectTargetList = new List<CollectTarget>();
         else Clear();
 
-        /*
-        ======== Camera limits, depends on task and HMDType ========
-        OVRManager cameraManager;
-        cameraManager.usePositionTracking = s_Instance.currentTaskData.CameraPositionTrack;
-        cameraManager.useRotationTracking = s_Instance.currentTaskData.CameraRotationTrack;
+        // init collect task
+        s_Instance.CollectTargetList = s_Instance.CurrentTask.Init(playerController);
 
-        OVRPlayerController player = playerController.GetComponent<OVRPlayerController>();
-        player.EnableLinearMovement = s_Instance.currentTaskData.PlayerPositionCtrl;
-        player.EnableRotation = s_Instance.currentTaskData.PlayerRotationCtrl;
-        */
-
-        // init task
-        s_Instance.targetList = s_Instance.CurrentTask.Init(playerController);
-
-        for (int i = 0; i < s_Instance.targetList.Count; i++)
+        for (int i = 0; i < s_Instance.CollectTargetList.Count; i++)
         {
-            s_Instance.targetList[i].gameObject.SetActive(false);
+            s_Instance.CollectTargetList[i].gameObject.SetActive(false);
         }
-        s_Instance.currentTargetIndex = s_Instance.targetList.Count;
+        s_Instance.currentCollectTargetIndex = s_Instance.CollectTargetList.Count;
+
+        // init spatial task
+
+        //for(int i = 0; i < s_Instance.)
+    }
+
+    public void update(float timestep)
+    {
+
     }
 
     public static void Clear()
     {
-        if (s_Instance.targetList != null && s_Instance.targetList.Count != 0)
+        if (s_Instance.CollectTargetList != null && s_Instance.CollectTargetList.Count != 0)
         {
-            for (int i = 0; i < s_Instance.targetList.Count; i++)
+            for (int i = 0; i < s_Instance.CollectTargetList.Count; i++)
             {
-                Destroy(s_Instance.targetList[i].gameObject);
+                Destroy(s_Instance.CollectTargetList[i].gameObject);
             }
-            s_Instance.targetList.Clear();
+            s_Instance.CollectTargetList.Clear();
         }
     }
 
-    IEnumerator GenerateNextCoroutine()
+    IEnumerator GenerateNextCollectCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
 
-        if (currentTargetIndex != 0)
+        if (currentCollectTargetIndex != 0)
         {
-            currentTargetIndex--;
+            currentCollectTargetIndex--;
 
             // show new target
-            targetList[currentTargetIndex].gameObject.SetActive(true);
+            CollectTargetList[currentCollectTargetIndex].gameObject.SetActive(true);
 
-            ExperimentManager.OpenNewRecord(targetList[currentTargetIndex]);
+            ExperimentManager.OpenNewRecord(CollectTargetList[currentCollectTargetIndex]);
         }
-        s_Instance.targetList.RemoveAt(currentTargetIndex);
+        s_Instance.CollectTargetList.RemoveAt(currentCollectTargetIndex);
 
         // task end
-        if (targetList.Count == 0)
+        if (CollectTargetList.Count == 0)
         {
             ExperimentManager.EndExperiment();
         }
@@ -84,7 +83,7 @@ public class TaskManager : MonoBehaviour {
 
     public static void NextTarget()
     {
-        IEnumerator coroutine = s_Instance.GenerateNextCoroutine ();
+        IEnumerator coroutine = s_Instance.GenerateNextCollectCoroutine ();
         s_Instance.StartCoroutine(coroutine);
     }
 
@@ -93,7 +92,7 @@ public class TaskManager : MonoBehaviour {
         Debug.Log(ExperimentManager.State);
         if (ExperimentManager.State != ExperimentManager.ExperimentState.Performing) return false;
 
-        if (targetIndex > s_Instance.targetList.Count) return false;
+        if (targetIndex > s_Instance.CollectTargetList.Count) return false;
 
         ExperimentManager.CloseRecord();
 

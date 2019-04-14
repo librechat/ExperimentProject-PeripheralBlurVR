@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TaskTarget : MonoBehaviour {
+public class CollectTarget : MonoBehaviour {
 
     //[SerializeField]
     public int TargetIndex;

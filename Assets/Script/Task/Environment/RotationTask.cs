@@ -7,12 +7,12 @@ public class RotationTask : Task {
     [SerializeField]
     float reachableDistance;
 
-    public override List<TaskTarget> Init(Transform playerController)
+    public override List<CollectTarget> Init(Transform playerController)
     {
-        List<TaskTarget> targetList = new List<TaskTarget>();
+        List<CollectTarget> targetList = new List<CollectTarget>();
 
         Vector3 initialPos = playerController.position;
-        for (int i = 0; i < NumOfTargets; i++)
+        for (int i = 0; i < NumOfCollectTargets; i++)
         {
 
             Vector2 circle;
@@ -33,9 +33,9 @@ public class RotationTask : Task {
             } while (distance < reachableDistance / 2.2f);
 
 
-            GameObject gm = Instantiate(targetPrefab);
+            GameObject gm = Instantiate(collectTargetPrefab);
             gm.transform.position = pos;
-            targetList.Add(gm.GetComponent<TaskTarget>());
+            targetList.Add(gm.GetComponent<CollectTarget>());
             targetList[i].TargetIndex = i;
         }
 

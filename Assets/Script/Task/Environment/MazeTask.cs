@@ -19,9 +19,9 @@ public class MazeTask : Task {
     [SerializeField]
     Transform wallPrefab;
 
-    public override List<TaskTarget> Init(Transform playerController)
+    public override List<CollectTarget> Init(Transform playerController)
     {
-        List<TaskTarget> targetList = new List<TaskTarget>();
+        List<CollectTarget> targetList = new List<CollectTarget>();
         Vector3 initialPos = playerController.position;
 
         // build maze by map
@@ -40,9 +40,9 @@ public class MazeTask : Task {
         List<Vector2i> targetPosList = new List<Vector2i>(mazeInfo.targetPos);
         for (int i = 0; i < targetPosList.Count; i++)
         {
-            GameObject gm = Instantiate(targetPrefab, new Vector3(targetPosList[i].x, initialPos.y, targetPosList[i].y), Quaternion.identity);
+            GameObject gm = Instantiate(collectTargetPrefab, new Vector3(targetPosList[i].x, initialPos.y, targetPosList[i].y), Quaternion.identity);
 
-            targetList.Add(gm.GetComponent<TaskTarget>());
+            targetList.Add(gm.GetComponent<CollectTarget>());
             targetList[i].TargetIndex = i;
         }
 
@@ -82,8 +82,6 @@ public class MazeTask : Task {
             wallList = new List<Wall>();
             for (int i = 0; i < 4; i++) wallList.Add(null);
         }
-
-
     };
     class Wall
     {
@@ -253,7 +251,7 @@ public class MazeTask : Task {
         for (int i = 0; i < total; i++) gridIndex.Add(i);
 
         List<Vector2i> targetPosList = new List<Vector2i>();
-        for (int i = 0; i < NumOfTargets; i++)
+        for (int i = 0; i < NumOfCollectTargets; i++)
         {
             int n = Random.Range(0, gridIndex.Count);
             int index = gridIndex[n];
