@@ -62,10 +62,10 @@ public class StereoCameraBlur : MonoBehaviour {
             BlurEnabled = !BlurEnabled;
         }
 
-        if (Input.GetKeyUp(KeyCode.A))
+        /*if (Input.GetKeyUp(KeyCode.A))
         {
             RandomArray(18);
-        } 
+        } */
 	}
 
     void RandomArray(int count) {

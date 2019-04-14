@@ -99,9 +99,4 @@ public class TaskManager : MonoBehaviour {
 
         return true;
     }
-
-    void TurnAnchorsIntoData()
-    {
-        // turn targetAnchorList into TaskData.PositionList
-    }
 }
