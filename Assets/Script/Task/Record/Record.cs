@@ -3,6 +3,7 @@ using System;
 
 public class Record {
 
+    public int taskIndex;
     public int recordIndex;
 
     public float timeStamp;     // now - expstart
@@ -16,11 +17,6 @@ public class Record {
         endTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
         timeStamp = endTimeStamp;
         executeTime = endTimeStamp - startTimeStamp;
-    }
-
-    public virtual string ToString()
-    {
-        return "";
     }
 
     protected float TicksToSecond(long ticks)

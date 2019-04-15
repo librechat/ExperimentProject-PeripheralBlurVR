@@ -2,24 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectTarget : MonoBehaviour {
-
-    //[SerializeField]
-    public int TargetIndex;
-
+public class CollectTask : BaseTask
+{
     private bool catched = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    void OnTriggerEnter(Collider collider) {
+    void OnTriggerEnter(Collider collider)
+    {
 
         if (collider.gameObject.tag == "Hand" && !catched && gameObject.tag != "Hand")
         {
@@ -31,10 +19,10 @@ public class CollectTarget : MonoBehaviour {
     {
         catched = true;
 
-        bool result = TaskManager.EliminateTarget(TargetIndex);
+        bool result = CollectTaskManager.EliminateTarget(TaskIndex);
         if (result)
         {
-            
+
             // disappear effects
             Destroy(gameObject);
         }

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotationTask : Task {
+public class RotationBuilder : BaseEnvBuilder {
 
     [SerializeField]
     float reachableDistance;
 
-    public override List<CollectTarget> Init(Transform playerController)
+    public List<Vector3> CollectTaskPosition;
+
+    public override void Init(Transform playerController)
     {
-        List<CollectTarget> targetList = new List<CollectTarget>();
+        CollectTaskPosition = new List<Vector3>();
 
         Vector3 initialPos = playerController.position;
         for (int i = 0; i < NumOfCollectTargets; i++)
@@ -27,18 +29,14 @@ public class RotationTask : Task {
                 distance = reachableDistance;
                 if (i != 0)
                 {
-                    distance = (pos - targetList[i - 1].gameObject.transform.position).magnitude;
+                    distance = (pos - CollectTaskPosition[i - 1]).magnitude;
                 }
 
             } while (distance < reachableDistance / 2.2f);
 
-
-            GameObject gm = Instantiate(collectTargetPrefab);
-            gm.transform.position = pos;
-            targetList.Add(gm.GetComponent<CollectTarget>());
-            targetList[i].TargetIndex = i;
+            CollectTaskPosition.Add(pos);
         }
 
-        return targetList;
+        return;
     }
 }

@@ -50,12 +50,7 @@ public class ExperimentManager : MonoBehaviour {
     Transform playerController;
    
     [SerializeField]
-    Text hintText;
-    [SerializeField]
-    Slider discomfortSlider;
-    [SerializeField]
-    GameObject discomfortPanel;
-    
+    Text hintText;   
 
     /* Experiment Records */
     public static long ExpStartTicks
@@ -103,11 +98,9 @@ public class ExperimentManager : MonoBehaviour {
 
                 RecordList = new List<CollectRecord>();
 
-                TaskManager.Init(playerController);
+                taskManager.Init(playerController);
 
-                TaskManager.NextTarget();
-
-                // TODO: display start hint?
+                // display start hint?
 
                 state = ExperimentState.Performing;
             }
@@ -121,38 +114,10 @@ public class ExperimentManager : MonoBehaviour {
             else if (InputManager.GetQuitButton())
             {
                 EndExperiment();
-                TaskManager.Clear();
+                taskManager.End();
                 state = ExperimentState.Prepare;
             }
             else ;
-
-            // answering discomfort
-            if(discomfortPanel.activeSelf){
-                if (InputManager.GetLStickToRight())
-                {
-                    stickCounter += stickSpeed * Time.deltaTime;
-                    if (stickCounter > stickMax)
-                    {
-                        discomfortSlider.value++;
-                        stickCounter = 0;
-                    }
-                
-                }
-                else if (InputManager.GetLStickToLeft())
-                {
-                    stickCounter += stickSpeed * Time.deltaTime;
-                    if (stickCounter > stickMax)
-                    {
-                        discomfortSlider.value--;
-                        stickCounter = 0;
-                    }
-                }
-                else stickCounter = 0.0f;
-                if (InputManager.GetLStickConfirm())
-                {              
-                    OnDiscomfortAnswered(discomfortSlider.value);
-                } 
-            }
             
             taskManager.update(Time.deltaTime);
             
@@ -165,23 +130,7 @@ public class ExperimentManager : MonoBehaviour {
             }
         }
         else ;
-	}
-
-    public void OnDiscomfortAnswered(float value)
-    {
-        /*
-        RecordList[RecordList.Count - 1].RecordDiscomfort((int)value, instance.expStartTime.Ticks);
-        discomfortPanel.SetActive(false);
-
-        if ((int)value == 10)
-        {
-            EndExperiment();
-            return;
-        }
-        */
-
-        TaskManager.NextTarget();
-    }    
+	}  
 
     public static void EndExperiment()
     {
@@ -194,57 +143,11 @@ public class ExperimentManager : MonoBehaviour {
         //hintText.text = "The End. Total Cost: " + time;
         instance.hintText.text = "End of Experiment!! Thank U";
 
-        instance.PrintResult();
+        // instance.PrintResult();
     }
 
-    public static void OpenNewRecord(CollectTarget target)
+    void PrintSummary()
     {
-        CollectRecord prevRecord = (instance.RecordList.Count == 0) ? null : instance.RecordList[instance.RecordList.Count - 1];
 
-        instance.RecordList.Add(new CollectRecord(prevRecord, target, instance.expStartTime.Ticks));
     }
-    public static void CloseRecord()
-    {
-        //record task result
-        instance.RecordList[instance.RecordList.Count - 1].TaskEnd(instance.expStartTime.Ticks);
-
-        //pop discomfort panel or generate next task
-        if (instance.RecordList.Count % 5 == 0)
-        {
-            instance.discomfortPanel.SetActive(true);
-        }
-        else
-        {
-            TaskManager.NextTarget();
-        }
-    }
-
-    void PrintResult()
-    {
-        float time = (float)(expEndTime.Ticks - expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
-        string dateformat = "yyyyMMdd-HHmm";
-        string filename = DateTime.Now.ToString(dateformat);
-
-        string header = "RecordIndex,TargetIndex,ExecuteTime,Discomfort,PrevDistance,StartTimeStamp,EndTimeStamp,DiscomfortTimeStamp"; //TargetPosition
-        string content = "";
-        for (int i = 0; i < RecordList.Count; i++)
-        {
-            content += (RecordList[i].ToString() + "\n");
-        }
-
-        string path = Application.streamingAssetsPath +"/" + filename + "_DetailRecords" + ".csv";
-        StreamWriter writer = new StreamWriter(path, true);
-        writer.WriteLine( header +"\n"+ content );
-        writer.Close();
-
-
-        string line =
-           DateTime.Now.ToString(dateformat) +
-           "\nExpTotalTime: " + time.ToString("F3");
-
-        path = Application.streamingAssetsPath + "/" + filename + "_ExperimentInfo" + ".txt";
-        writer = new StreamWriter(path, true);
-        writer.WriteLine(line);
-        writer.Close();
-    }   
 }

@@ -1,16 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
-public class SpatialRecord : MonoBehaviour {
+public class SpatialRecord : Record {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public static string RecordHeader = "Index,TaskIndex,StartTimeStamp,EndTimeStamp,ResponseTime,Error";
+
+    public SpatialRecord(SpatialRecord preRecord, SpatialTask task, long expStartTicks)
+    {
+        taskIndex = task.TaskIndex;
+        recordIndex = (preRecord == null) ? 0 : preRecord.recordIndex + 1;
+
+        startTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
+    }
+
+    public override void TaskEnd(long expStartTicks)
+    {
+        base.TaskEnd(expStartTicks);
+    }
 }

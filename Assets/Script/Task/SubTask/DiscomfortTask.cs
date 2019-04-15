@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiscomfortTaskManager : MonoBehaviour {
+public class DiscomfortTask : BaseTask {
 
 	// Use this for initialization
 	void Start () {

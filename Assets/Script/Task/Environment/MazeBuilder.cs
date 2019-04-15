@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class MazeTask : Task {
+public class MazeBuilder : BaseEnvBuilder {
 
     [Header("Build Maze Reference")]
 
@@ -19,9 +19,9 @@ public class MazeTask : Task {
     [SerializeField]
     Transform wallPrefab;
 
-    public override List<CollectTarget> Init(Transform playerController)
+    public override void Init(Transform playerController)
     {
-        List<CollectTarget> targetList = new List<CollectTarget>();
+        CollectTaskPosList = new List<Vector3>();
         Vector3 initialPos = playerController.position;
 
         // build maze by map
@@ -37,16 +37,13 @@ public class MazeTask : Task {
             Instantiate(wallPrefab, position, rotation);
         }
 
-        List<Vector2i> targetPosList = new List<Vector2i>(mazeInfo.targetPos);
-        for (int i = 0; i < targetPosList.Count; i++)
+        List<Vector2i> collectTaskPosList = new List<Vector2i>(mazeInfo.targetPos);
+        for (int i = 0; i < collectTaskPosList.Count; i++)
         {
-            GameObject gm = Instantiate(collectTargetPrefab, new Vector3(targetPosList[i].x, initialPos.y, targetPosList[i].y), Quaternion.identity);
-
-            targetList.Add(gm.GetComponent<CollectTarget>());
-            targetList[i].TargetIndex = i;
+            CollectTaskPosList.Add(new Vector3(collectTaskPosList[i].x, initialPos.y, collectTaskPosList[i].y));
         }
 
-        return targetList;
+        return;
     }
 
 
@@ -245,24 +242,40 @@ public class MazeTask : Task {
             }
         }
 
-        // generate target position
+        // generate collect position
         int total = mapsize.x * mapsize.y;
         List<int> gridIndex = new List<int>();
         for (int i = 0; i < total; i++) gridIndex.Add(i);
 
-        List<Vector2i> targetPosList = new List<Vector2i>();
+        List<Vector2i> collectPosList = new List<Vector2i>();
+        for (int i = 0; i < CollectTaskManager.NumOfTask; i++)
+        {
+            int n = Random.Range(0, gridIndex.Count);
+            int index = gridIndex[n];
+
+            collectPosList.Add(new Vector2i(index / mapsize.y, index % mapsize.y));
+
+            gridIndex.RemoveAt(n);
+        }
+
+        // generate spatial task position
+        gridIndex = new List<int>();
+        for (int i = 0; i < total; i++) gridIndex.Add(i);
+
+        List<Vector2i> spatialPosList = new List<Vector2i>();
         for (int i = 0; i < NumOfCollectTargets; i++)
         {
             int n = Random.Range(0, gridIndex.Count);
             int index = gridIndex[n];
 
-            targetPosList.Add(new Vector2i(index / mapsize.y, index % mapsize.y));
+            spatialPosList.Add(new Vector2i(index / mapsize.y, index % mapsize.y));
 
             gridIndex.RemoveAt(n);
         }
 
+
         // write to json file
-        PrintToJson(wallPosList, targetPosList);
+        PrintToJson(wallPosList, collectPosList);
     }
 
     // ====================== JSON =============================

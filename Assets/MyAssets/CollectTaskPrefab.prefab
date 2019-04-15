@@ -38,9 +38,9 @@ GameObject:
   - component: {fileID: 33026417368456424}
   - component: {fileID: 23167932425151784}
   - component: {fileID: 135660644925774226}
-  - component: {fileID: 114678424643388526}
+  - component: {fileID: 114752625122225738}
   m_Layer: 0
-  m_Name: Target
+  m_Name: CollectTaskPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,7 +219,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114678424643388526
+--- !u!114 &114752625122225738
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,10 +227,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1821839260165118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e5876b128a0c444fb33ff19a016cfb4, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c03911c550b33c48b2feb85977a2c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetIndex: 0
+  TaskIndex: 0
 --- !u!135 &135660644925774226
 SphereCollider:
   m_ObjectHideFlags: 1

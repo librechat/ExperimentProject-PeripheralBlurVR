@@ -4,24 +4,19 @@ using System;
 public class CollectRecord: Record
 {
 
-    public static string RecordHeader = "RecordIndex,TargetIndex,ExecuteTime,Discomfort,PrevDistance,StartTimeStamp,EndTimeStamp,DiscomfortTimeStamp";
+    public static string RecordHeader = "Index,TaskIndex,StartTimeStamp,EndTimeStamp,ExecuteTime,PrevDistance"; //,TravelDistance
 
-    public int targetIndex;
-    
     public float prevDistance;  // distance to previous target
-    public int discomfort;
     public Vector3 targetPosition;
 
-    public CollectRecord(CollectRecord preRecord, CollectTarget target, long expStartTicks)
+    public CollectRecord(CollectRecord preRecord, CollectTask task, long expStartTicks)
     {
-        targetIndex = target.TargetIndex;
+        taskIndex = task.TaskIndex;
         recordIndex = (preRecord == null)? 0: preRecord.recordIndex + 1;
 
         startTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
-        targetPosition = target.gameObject.transform.position;
+        targetPosition = task.gameObject.transform.position;
         prevDistance = (recordIndex == 0) ? 0.0f : (targetPosition - preRecord.targetPosition).magnitude;
-
-        //discomfort = (recordIndex == 0) ? -1 : preRecord.discomfort;
     }
 
     public override void TaskEnd(long expStartTicks)
@@ -31,21 +26,14 @@ public class CollectRecord: Record
         executeTime = endTimeStamp - startTimeStamp;
     }
 
-    /* public void RecordDiscomfort(int discomf, long expStartTicks)
-    {
-        discomfort = discomf;
-        discomfortTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
-    }*/
-
     public override string ToString()
     {
         return recordIndex.ToString() + "," +
-            targetIndex.ToString() + "," +
-            executeTime.ToString() + "," +
-            discomfort.ToString() + "," +
-            //targetPosition.ToString("F3") + "," +
-            prevDistance.ToString() + "," +
+            taskIndex.ToString() + "," +
             startTimeStamp.ToString() + "," +
-            endTimeStamp.ToString();
-    }        
+            endTimeStamp.ToString() + "," +
+            executeTime.ToString() + "," +            
+            prevDistance.ToString() ;
+        //targetPosition.ToString("F3") + "," +
+    }
 }
