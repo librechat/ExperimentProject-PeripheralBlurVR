@@ -19,9 +19,9 @@ public class CollectRecord: Record
         prevDistance = (recordIndex == 0) ? 0.0f : (targetPosition - preRecord.targetPosition).magnitude;
     }
 
-    public override void TaskEnd(long expStartTicks)
+    public override void CloseRecord()
     {
-        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
+        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - ExperimentManager.ExpStartTicks);
         timeStamp = endTimeStamp;
         executeTime = endTimeStamp - startTimeStamp;
     }
@@ -34,6 +34,7 @@ public class CollectRecord: Record
             endTimeStamp.ToString() + "," +
             executeTime.ToString() + "," +            
             prevDistance.ToString() ;
+        
         //targetPosition.ToString("F3") + "," +
     }
 }

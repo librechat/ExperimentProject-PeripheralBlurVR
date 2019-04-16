@@ -53,10 +53,20 @@ public static class InputManager{
     {
         return Input.GetKeyDown("space");
     }
-
     public static bool GetQuitButton()
     {
         return Input.GetKeyDown(KeyCode.Escape);
+    }
+
+    public static bool GetDiscomfortConfirmButton()
+    {
+        return Input.GetKeyDown(KeyCode.Q);
+    }
+    public static bool GetSpatialConfirmButton()
+    {
+        // oculus
+        if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Confirm.GetStateDown(SteamVR_Input_Sources.Any);
+        else return false;
     }
 
     public static bool GetLStickToLeft() {
@@ -64,19 +74,16 @@ public static class InputManager{
         else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.SliderDecrease.GetStateUp(SteamVR_Input_Sources.Any);
         else return false;
     }
-
     public static bool GetLStickToRight() {
         if (Hardware == HmdType.Oculus) return Input.GetAxis("Oculus_GearVR_LThumbstickX") > 0.5f;
         else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.SliderIncrease.GetStateUp(SteamVR_Input_Sources.Any);
         else return false;
     }
-
     public static bool GetLStickConfirm(){
         if (Hardware == HmdType.Oculus) return Input.GetButtonUp("Oculus_GearVR_LThumbStick");
         else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Confirm.GetStateDown(SteamVR_Input_Sources.Any);
         else return false;
     }
-
     public static Vector2 GetMoveAxis()
     {
         if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Move.GetAxis(SteamVR_Input_Sources.Any);

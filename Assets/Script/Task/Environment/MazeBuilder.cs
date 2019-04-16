@@ -29,18 +29,26 @@ public class MazeBuilder : BaseEnvBuilder {
         
         MazeInfo mazeInfo = ReadFromJson();
 
+        float scale = 2.0f;
+
         List<WallPos> wallPosList = new List<WallPos>(mazeInfo.wallPos);        
         for (int i = 0; i < wallPosList.Count; i++)
         {
-            Vector3 position = new Vector3(wallPosList[i].x, 0, wallPosList[i].y);
+            Vector3 position = new Vector3(wallPosList[i].x, 0, wallPosList[i].y) * scale;
             Quaternion rotation = (wallPosList[i].direction) ? Quaternion.identity : Quaternion.Euler(0, 90, 0);
             Instantiate(wallPrefab, position, rotation);
         }
 
-        List<Vector2i> collectTaskPosList = new List<Vector2i>(mazeInfo.targetPos);
+        List<Vector2i> collectTaskPosList = new List<Vector2i>(mazeInfo.collectTaskPos);
         for (int i = 0; i < collectTaskPosList.Count; i++)
         {
-            CollectTaskPosList.Add(new Vector3(collectTaskPosList[i].x, initialPos.y, collectTaskPosList[i].y));
+            CollectTaskPosList.Add(new Vector3(collectTaskPosList[i].x * scale, initialPos.y, collectTaskPosList[i].y * scale));
+        }
+
+        List<Vector2i> spatialTaskPosList = new List<Vector2i>(mazeInfo.spatialTaskPos);
+        for (int i = 0; i < spatialTaskPosList.Count; i++)
+        {
+            SpatialTaskPosList.Add(new Vector3(spatialTaskPosList[i].x * scale, initialPos.y, spatialTaskPosList[i].y * scale));
         }
 
         return;
@@ -263,7 +271,7 @@ public class MazeBuilder : BaseEnvBuilder {
         for (int i = 0; i < total; i++) gridIndex.Add(i);
 
         List<Vector2i> spatialPosList = new List<Vector2i>();
-        for (int i = 0; i < NumOfCollectTargets; i++)
+        for (int i = 0; i < SpatialTaskManager.NumOfTask; i++)
         {
             int n = Random.Range(0, gridIndex.Count);
             int index = gridIndex[n];
@@ -275,7 +283,7 @@ public class MazeBuilder : BaseEnvBuilder {
 
 
         // write to json file
-        PrintToJson(wallPosList, collectPosList);
+        PrintToJson(wallPosList, collectPosList, spatialPosList);
     }
 
     // ====================== JSON =============================
@@ -283,7 +291,8 @@ public class MazeBuilder : BaseEnvBuilder {
     [System.Serializable]
     public class MazeInfo{
         public WallPos[] wallPos;
-        public Vector2i[] targetPos;
+        public Vector2i[] collectTaskPos;
+        public Vector2i[] spatialTaskPos;
     }
     [System.Serializable]
     public class WallPos{
@@ -298,23 +307,12 @@ public class MazeBuilder : BaseEnvBuilder {
         }
     };
 
-    void PrintToJson(List<WallPos> wallPosList, List<Vector2i> targetPosList)
+    void PrintToJson(List<WallPos> wallPosList, List<Vector2i> collectPosList, List<Vector2i> spatialPosList)
     {
-        /*
-        {
-            "wall": [
-                {
-                    "x": 123,
-                    "y": 123
-                }
-            ]
-        }
-        */
-
-
         MazeInfo WL = new MazeInfo();
         WL.wallPos = wallPosList.ToArray();
-        WL.targetPos = targetPosList.ToArray();
+        WL.collectTaskPos = collectPosList.ToArray();
+        WL.spatialTaskPos = spatialPosList.ToArray();
 
         string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + fileName + ".json");
         string dataAsJson = JsonUtility.ToJson(WL, true);

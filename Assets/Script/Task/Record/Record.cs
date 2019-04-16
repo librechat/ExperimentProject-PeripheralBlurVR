@@ -12,9 +12,9 @@ public class Record {
     protected float startTimeStamp;
     protected float endTimeStamp;
 
-    public virtual void TaskEnd(long expStartTicks)
+    public virtual void CloseRecord()
     {
-        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
+        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - ExperimentManager.ExpStartTicks);
         timeStamp = endTimeStamp;
         executeTime = endTimeStamp - startTimeStamp;
     }

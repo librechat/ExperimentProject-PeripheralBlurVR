@@ -48,6 +48,16 @@ public class ExperimentManager : MonoBehaviour {
 
     [SerializeField]
     Transform playerController;
+    public static Transform PlayerController
+    {
+        get { return instance.playerController; }
+    }
+    [SerializeField]
+    Transform controllerStick;
+    public static Transform ControllerStick
+    {
+        get { return instance.controllerStick; }
+    }
    
     [SerializeField]
     Text hintText;   
@@ -143,11 +153,23 @@ public class ExperimentManager : MonoBehaviour {
         //hintText.text = "The End. Total Cost: " + time;
         instance.hintText.text = "End of Experiment!! Thank U";
 
-        // instance.PrintResult();
+        instance.PrintSummary();
     }
 
     void PrintSummary()
     {
+        taskManager.PrintResult();
 
+        float time = (float)(expEndTime.Ticks - expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
+        string dateformat = "yyyyMMdd-HHmm";
+        string filename = DateTime.Now.ToString(dateformat);
+
+        string line =
+           DateTime.Now.ToString(dateformat) +
+           "\nExpTotalTime: " + time.ToString("F3");
+        string path = Application.streamingAssetsPath + "/" + filename + "_ExperimentInfo" + ".txt";
+        StreamWriter writer = new StreamWriter(path, true);
+        writer.WriteLine(line);
+        writer.Close();
     }
 }

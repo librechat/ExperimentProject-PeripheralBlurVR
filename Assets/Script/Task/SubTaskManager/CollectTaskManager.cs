@@ -35,24 +35,25 @@ public class CollectTaskManager : BaseTaskManager {
             gm.SetActive(false);
         }
         currentTaskIndex = NumOfTask-1;
-        NextTask();
-    }
-    public override void update()
-    {
 
+        ActivateNextTask();
+    }
+    public override void update(float timestep)
+    {
+        
     }
     public override void Clear()
     {
         base.Clear();
     }
 
-    void NextTask()
+    void ActivateNextTask()
     {
-        IEnumerator coroutine = s_Instance.GenerateNextCollectCoroutine();
+        IEnumerator coroutine = s_Instance.ActivateTaskCoroutine();
         s_Instance.StartCoroutine(coroutine);
     }
 
-    IEnumerator GenerateNextCollectCoroutine()
+    IEnumerator ActivateTaskCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
 
@@ -63,7 +64,7 @@ public class CollectTaskManager : BaseTaskManager {
             // show new target
             TaskList[currentTaskIndex].gameObject.SetActive(true);
 
-            OpenNewRecord(TaskList[currentTaskIndex]);
+            OpenRecord(TaskList[currentTaskIndex]);
         }
         TaskList.RemoveAt(currentTaskIndex);
 
@@ -76,32 +77,32 @@ public class CollectTaskManager : BaseTaskManager {
         yield return null;
     }
 
-    public static bool EliminateTarget(int taskIndex)
+    public static bool FinishTask(int taskIndex)
     {
         if (ExperimentManager.State != ExperimentManager.ExperimentState.Performing) return false;
 
         if (taskIndex > s_Instance.TaskList.Count) return false;
 
-        s_Instance.CloseRecord();
+        s_Instance.CloseRecord(taskIndex);
 
         return true;
     }
 
     #region Records
 
-    public void OpenNewRecord(CollectTask target)
+    public override void OpenRecord(BaseTask task)
     {
         CollectRecord prevRecord = (RecordList.Count == 0) ? null : RecordList[RecordList.Count - 1] as CollectRecord;
-
-        RecordList.Add(new CollectRecord(prevRecord, target, ExperimentManager.ExpStartTicks));
+        RecordList.Add(new CollectRecord(prevRecord, task as CollectTask, ExperimentManager.ExpStartTicks));
     }
-    public override void CloseRecord()
+    public override void CloseRecord(int taskIndex)
     {
         //record task result
-        RecordList[RecordList.Count - 1].TaskEnd(ExperimentManager.ExpStartTicks);
+        int recIndex = TaskList[taskIndex].RecordIndex;
+        RecordList[recIndex].CloseRecord();
 
         // generate next task
-        NextTask();
+        ActivateNextTask();
     }
     void PrintResult()
     {

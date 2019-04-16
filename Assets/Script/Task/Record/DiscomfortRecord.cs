@@ -13,12 +13,12 @@ public class DiscomfortRecord : Record {
 
         startTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
 
-        discomfort = 0; // record manully
+        discomfort = 0; // will be record manully, remain empty here
     }
 
-    public override void TaskEnd(long expStartTicks)
+    public override void CloseRecord()
     {
-        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
+        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - ExperimentManager.ExpStartTicks);
         timeStamp = endTimeStamp;
         executeTime = endTimeStamp - startTimeStamp;
     }

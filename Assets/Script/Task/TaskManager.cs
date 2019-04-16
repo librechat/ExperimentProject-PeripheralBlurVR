@@ -43,7 +43,7 @@ public class TaskManager : MonoBehaviour {
 
     public void update(float timestep)
     {
-        for (int i = 0; i < subTaskManagers.Count; i++) subTaskManagers[i].update();
+        for (int i = 0; i < subTaskManagers.Count; i++) subTaskManagers[i].update(timestep);
     }
 
     public void End()
@@ -54,6 +54,6 @@ public class TaskManager : MonoBehaviour {
 
     public void PrintResult()
     {
-
+        for (int i = 0; i < subTaskManagers.Count; i++) subTaskManagers[i].Print();
     }
 }

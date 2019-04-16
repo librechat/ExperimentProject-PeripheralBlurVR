@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class BaseTaskManager : MonoBehaviour {
 
     [SerializeField]
-    protected int numOfTask;
+    protected int numOfTask = 0;
     [SerializeField]
     protected GameObject taskPrefab;
 
@@ -27,7 +29,7 @@ public class BaseTaskManager : MonoBehaviour {
         //RecordList = new List<Record>();
     }
 
-    public virtual void update()
+    public virtual void update(float timestep)
     {
 
     }
@@ -44,13 +46,36 @@ public class BaseTaskManager : MonoBehaviour {
         }
     }
 
-    public virtual void OpenNewRecord(BaseTask task)
+    public virtual void OpenRecord(BaseTask task)
     {
         
     }
 
-    public virtual void CloseRecord()
+    public virtual void CloseRecord(int taskIndex)
     {
         
+    }
+
+    public void Print()
+    {
+        string dateformat = "yyyyMMdd-HHmm";
+        string filename = DateTime.Now.ToString(dateformat);
+
+        string header = "";
+
+        if (TaskType == TaskManager.TaskTypeEnum.Collect) header = CollectRecord.RecordHeader;
+        else if (TaskType == TaskManager.TaskTypeEnum.Discomfort) header = DiscomfortRecord.RecordHeader;
+        else if (TaskType == TaskManager.TaskTypeEnum.Spatial) header = SpatialRecord.RecordHeader;
+
+        string content = "";
+        for (int i = 0; i < RecordList.Count; i++)
+        {
+            content += (RecordList[i].ToString() + "\n");
+        }
+
+        string path = Application.streamingAssetsPath + "/" + filename + "_DetailRecords_" + TaskType.ToString() + ".csv";
+        StreamWriter writer = new StreamWriter(path, true);
+        writer.WriteLine(header + "\n" + content);
+        writer.Close();
     }
 }

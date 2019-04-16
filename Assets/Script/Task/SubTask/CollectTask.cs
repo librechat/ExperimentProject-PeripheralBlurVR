@@ -6,6 +6,11 @@ public class CollectTask : BaseTask
 {
     private bool catched = false;
 
+    public void update(float timestep)
+    {
+        
+    }
+
     void OnTriggerEnter(Collider collider)
     {
 
@@ -14,17 +19,17 @@ public class CollectTask : BaseTask
             OnTargetCollected();
         }
     }
-
+    
     void OnTargetCollected()
     {
         catched = true;
 
-        bool result = CollectTaskManager.EliminateTarget(TaskIndex);
+        bool result = CollectTaskManager.FinishTask(TaskIndex);
         if (result)
         {
-
-            // disappear effects
-            Destroy(gameObject);
+            // show disappear effects
+            // Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
