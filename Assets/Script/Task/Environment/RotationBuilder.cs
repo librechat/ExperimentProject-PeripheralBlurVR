@@ -14,7 +14,7 @@ public class RotationBuilder : BaseEnvBuilder {
         CollectTaskPosition = new List<Vector3>();
 
         Vector3 initialPos = playerController.position;
-        for (int i = 0; i < NumOfCollectTargets; i++)
+        for (int i = 0; i < CollectTaskManager.NumOfTask; i++)
         {
 
             Vector2 circle;

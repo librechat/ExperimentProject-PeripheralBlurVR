@@ -49,6 +49,7 @@ public class SpatialTask : BaseTask {
             else if(stage == SpatialTaskStage.Closed)
             {
                 rend.material.color = disableColor;
+                AudioPlayer.Play(AudioPlayer.AudioName.Done);
             }
         }
     }

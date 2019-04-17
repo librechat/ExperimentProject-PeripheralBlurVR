@@ -34,21 +34,22 @@ public class DiscomfortTaskManager : BaseTaskManager
 
     IEnumerator ActivateTaskCoroutine()
     {
-        
+        while (ExperimentManager.State == ExperimentManager.ExperimentState.Performing)
+        {
+            yield return new WaitForSeconds((float)invokeInterval);
 
-        yield return new WaitForSeconds((float) invokeInterval);
+            Debug.Log("activate a discomfort task");
+            // generate a new task
+            GameObject gm = Instantiate(taskPrefab);
+            DiscomfortTask task = gm.GetComponent<DiscomfortTask>();
+            task.TaskIndex = TaskList.Count;
+            currentTaskIndex = TaskList.Count;
+            TaskList.Add(task);
 
-        Debug.Log("activate a discomfort task");
-        // generate a new task
-        GameObject gm = Instantiate(taskPrefab);
-        DiscomfortTask task = gm.GetComponent<DiscomfortTask>();
-        task.TaskIndex = TaskList.Count;
-        currentTaskIndex = TaskList.Count;
-        TaskList.Add(task);
+            OpenRecord(TaskList[currentTaskIndex]);
 
-        OpenRecord(TaskList[currentTaskIndex]);
-
-        yield return null;
+            yield return null;
+        }
     }
 
     public static bool FinishTask(int taskIndex)
@@ -64,6 +65,7 @@ public class DiscomfortTaskManager : BaseTaskManager
 
     public override void OpenRecord(BaseTask task)
     {
+        task.RecordIndex = RecordList.Count;
         DiscomfortRecord prevRecord = (RecordList.Count == 0) ? null : RecordList[RecordList.Count - 1] as DiscomfortRecord;
         RecordList.Add(new DiscomfortRecord(prevRecord, task as DiscomfortTask, ExperimentManager.ExpStartTicks));
     }

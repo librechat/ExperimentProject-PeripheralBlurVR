@@ -14,9 +14,7 @@ public class Record {
 
     public virtual void CloseRecord()
     {
-        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - ExperimentManager.ExpStartTicks);
-        timeStamp = endTimeStamp;
-        executeTime = endTimeStamp - startTimeStamp;
+        
     }
 
     protected float TicksToSecond(long ticks)

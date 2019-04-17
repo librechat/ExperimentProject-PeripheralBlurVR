@@ -69,7 +69,6 @@ public class ExperimentManager : MonoBehaviour {
     }
     private DateTime expStartTime;
     private DateTime expEndTime;
-    List<CollectRecord> RecordList;
 
     float stickCounter = 0.0f;
     float stickSpeed = 7.0f;
@@ -104,15 +103,13 @@ public class ExperimentManager : MonoBehaviour {
             if (InputManager.GetStartButton())
             {
                 Debug.Log("Get start button");
+
+                state = ExperimentState.Performing;
+
                 expStartTime = DateTime.Now;
-
-                RecordList = new List<CollectRecord>();
-
                 taskManager.Init(playerController);
 
                 // display start hint?
-
-                state = ExperimentState.Performing;
             }
         }
         else if (state == ExperimentState.Performing)

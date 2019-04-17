@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseEnvBuilder : MonoBehaviour {
 
-    public int NumOfCollectTargets;
+    
 
     public List<Vector3> CollectTaskPosList;
     public List<Vector3> SpatialTaskPosList;

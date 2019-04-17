@@ -14,11 +14,11 @@ MonoBehaviour:
   HmdType: 0
   RadiusList:
   - Name: 0
+    Inner: 0.1
+    Outer: 0.3
+  - Name: 1
     Inner: 0.2
     Outer: 0.4
-  - Name: 1
+  - Name: 2
     Inner: 0.3
     Outer: 0.5
-  - Name: 2
-    Inner: 0.4
-    Outer: 0.6

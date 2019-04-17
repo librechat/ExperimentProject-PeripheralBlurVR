@@ -28,7 +28,11 @@ public class DiscomfortTask : BaseTask {
             if (timer > threshold || InputManager.GetDiscomfortConfirmButton())
             {
                 bool result = DiscomfortTaskManager.FinishTask(TaskIndex);
-                if (result) activated = false;
+                if (result)
+                {
+                    activated = false;
+                    AudioPlayer.Play(AudioPlayer.AudioName.Done);
+                }
             }
         }
     }

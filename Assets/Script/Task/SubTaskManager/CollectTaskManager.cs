@@ -57,19 +57,19 @@ public class CollectTaskManager : BaseTaskManager {
     {
         yield return new WaitForSeconds(0.5f);
 
-        if (currentTaskIndex != 0)
+        if (currentTaskIndex >= 0)
         {
-            currentTaskIndex--;
-
             // show new target
             TaskList[currentTaskIndex].gameObject.SetActive(true);
 
             OpenRecord(TaskList[currentTaskIndex]);
+
+            currentTaskIndex--;
         }
-        TaskList.RemoveAt(currentTaskIndex);
+        //TaskList.RemoveAt(currentTaskIndex);
 
         // task end
-        if (TaskList.Count == 0)
+        else
         {
             ExperimentManager.EndExperiment();
         }
@@ -92,6 +92,7 @@ public class CollectTaskManager : BaseTaskManager {
 
     public override void OpenRecord(BaseTask task)
     {
+        task.RecordIndex = RecordList.Count;
         CollectRecord prevRecord = (RecordList.Count == 0) ? null : RecordList[RecordList.Count - 1] as CollectRecord;
         RecordList.Add(new CollectRecord(prevRecord, task as CollectTask, ExperimentManager.ExpStartTicks));
     }

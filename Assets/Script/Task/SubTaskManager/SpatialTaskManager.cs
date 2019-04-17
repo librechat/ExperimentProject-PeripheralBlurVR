@@ -55,6 +55,7 @@ public class SpatialTaskManager : BaseTaskManager {
 
     public override void OpenRecord(BaseTask task)
     {
+        task.RecordIndex = RecordList.Count;
         SpatialRecord prevRecord = (RecordList.Count == 0) ? null : RecordList[RecordList.Count - 1] as SpatialRecord;
         RecordList.Add(new SpatialRecord(prevRecord, task as SpatialTask, ExperimentManager.ExpStartTicks));
     }
