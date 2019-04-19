@@ -21,7 +21,6 @@ public class SpatialTask : BaseTask {
     Color disableColor = Color.black;
 
     private Renderer rend;
-    private AudioSource audioSource;
 
     private float timer = 0.0f;
     private float threshold = 30.0f;
@@ -42,14 +41,17 @@ public class SpatialTask : BaseTask {
             }
             else if(stage == SpatialTaskStage.Question)
             {
-                // spatialQuestion
-                audioSource.PlayOneShot(spatialQuestion);
+                TaskManager.ExistVoiceQuestion = true;
+
+                AudioPlayer.Play(AudioPlayer.AudioName.Spatial);
                 timer = 0.0f;
             }
             else if(stage == SpatialTaskStage.Closed)
             {
+                TaskManager.ExistVoiceQuestion = false;
+
                 rend.material.color = disableColor;
-                AudioPlayer.Play(AudioPlayer.AudioName.Done);
+                AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
             }
         }
     }
@@ -57,7 +59,6 @@ public class SpatialTask : BaseTask {
     private void Awake()
     {
         rend = GetComponent<Renderer>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -80,6 +81,7 @@ public class SpatialTask : BaseTask {
             Vector3 raycastDirection = playerPos - transform.position;
             float distance = raycastDirection.magnitude + 0.1f;
 
+            // when to invoke question stage
             RaycastHit hit;
             if (Physics.Raycast(transform.position, raycastDirection, out hit, distance))
             {

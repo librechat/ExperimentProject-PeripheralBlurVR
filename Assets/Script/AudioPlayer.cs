@@ -51,4 +51,10 @@ public class AudioPlayer : MonoBehaviour {
             s_Instance.pendingList.Add(index);
         }
     }
+
+    public static void PlaySE(AudioName audio)
+    {
+        int index = (int)audio;
+        s_Instance.audioSource.PlayOneShot(s_Instance.audioClipList[index]);
+    }
 }

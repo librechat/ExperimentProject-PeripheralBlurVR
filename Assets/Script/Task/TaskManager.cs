@@ -17,6 +17,16 @@ public class TaskManager : MonoBehaviour {
     [SerializeField]
     List<BaseTaskManager> subTaskManagers;
 
+    public static bool ExistVoiceQuestion = false;
+
+    public static TaskManager s_Instance;
+
+    void Awake()
+    {
+        if (s_Instance != null) Destroy(gameObject);
+        s_Instance = this;
+    }
+
     public void Init(Transform playerController)
     {
         builder.Init(playerController);

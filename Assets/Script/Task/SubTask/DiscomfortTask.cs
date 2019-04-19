@@ -4,23 +4,59 @@ using UnityEngine;
 
 public class DiscomfortTask : BaseTask {
 
+    public enum DiscomfortTaskStage
+    {
+        Waiting,
+        Question,
+        Closed
+    }
+
     [SerializeField]
     private AudioClip discomfortQuestion;
 
-    private bool activated = false;
     private float timer = 0.0f;
     private float threshold = 30.0f;
 
+    private DiscomfortTaskStage stage = DiscomfortTaskStage.Waiting;
+    public DiscomfortTaskStage Stage
+    {
+        get { return stage; }
+        set
+        {
+            stage = value;
+            if (stage == DiscomfortTaskStage.Question)
+            {
+                TaskManager.ExistVoiceQuestion = true;
+
+                AudioPlayer.Play(AudioPlayer.AudioName.Discomfort);
+                timer = 0.0f;               
+            }
+            else if (stage == DiscomfortTaskStage.Closed)
+            {
+                TaskManager.ExistVoiceQuestion = false;
+
+                AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
+            }
+        }
+    }
+
     void Awake()
     {
-        AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.PlayOneShot(discomfortQuestion);
-        activated = true;
+        if(!TaskManager.ExistVoiceQuestion){
+            Stage = DiscomfortTaskStage.Question;
+        }
     }
 
     void Update()
     {
-        if (activated)
+        if (Stage == DiscomfortTaskStage.Waiting)
+        {
+            if (!TaskManager.ExistVoiceQuestion)
+            {
+                Stage = DiscomfortTaskStage.Question;
+            }
+        }
+        else if (Stage == DiscomfortTaskStage.Question)
         {
             // to check if overtime
             timer += Time.deltaTime;
@@ -30,8 +66,7 @@ public class DiscomfortTask : BaseTask {
                 bool result = DiscomfortTaskManager.FinishTask(TaskIndex);
                 if (result)
                 {
-                    activated = false;
-                    AudioPlayer.Play(AudioPlayer.AudioName.Done);
+                    Stage = DiscomfortTaskStage.Closed;
                 }
             }
         }

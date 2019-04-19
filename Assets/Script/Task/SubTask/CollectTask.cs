@@ -30,7 +30,7 @@ public class CollectTask : BaseTask
             // show disappear effects
             // Destroy(gameObject);
             gameObject.SetActive(false);
-            AudioPlayer.Play(AudioPlayer.AudioName.Collected);
+            AudioPlayer.PlaySE(AudioPlayer.AudioName.Collected);
         }
     }
 }
