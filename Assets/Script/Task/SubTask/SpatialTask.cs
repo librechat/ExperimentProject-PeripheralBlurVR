@@ -20,12 +20,17 @@ public class SpatialTask : BaseTask {
     [SerializeField]
     Color disableColor = Color.black;
 
+    [SerializeField]
+    GameObject lamp;
+
     private Renderer rend;
 
     private float timer = 0.0f;
     private float threshold = 30.0f;
 
     public float angleError = 0.0f;
+
+    public Vector3 endPos;
 
     private SpatialTaskStage stage = SpatialTaskStage.Waiting;
     public SpatialTaskStage Stage
@@ -37,6 +42,8 @@ public class SpatialTask : BaseTask {
             if(stage == SpatialTaskStage.Discovered)
             {
                 rend.material.color = activateColor;
+                transform.position = endPos;
+
                 SpatialTaskManager.ActivateTask(TaskIndex);
             }
             else if(stage == SpatialTaskStage.Question)
@@ -51,6 +58,7 @@ public class SpatialTask : BaseTask {
                 TaskManager.ExistVoiceQuestion = false;
 
                 rend.material.color = disableColor;
+                lamp.SetActive(false);
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
             }
         }
@@ -70,28 +78,19 @@ public class SpatialTask : BaseTask {
                 Stage = SpatialTaskStage.Discovered;
             }
         }
+        else if(Stage == SpatialTaskStage.Discovered)
+        {
+            // to invoke question stage
+            if (other.gameObject.tag == "Hand" && gameObject.tag != "Hand")
+            {
+                Stage = SpatialTaskStage.Question;
+            }
+        }
     }
 
     private void Update()
     {
-        if (Stage == SpatialTaskStage.Discovered)
-        {
-            // count relative distance between participant and this
-            Vector3 playerPos = ExperimentManager.PlayerController.position;
-            Vector3 raycastDirection = playerPos - transform.position;
-            float distance = raycastDirection.magnitude + 0.1f;
-
-            // when to invoke question stage
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, raycastDirection, out hit, distance))
-            {
-                if(hit.collider.tag == "Wall")
-                {
-                    Stage = SpatialTaskStage.Question;
-                }
-            }
-        }
-        else if(Stage == SpatialTaskStage.Question)
+        if(Stage == SpatialTaskStage.Question)
         {
             timer += Time.deltaTime;
 

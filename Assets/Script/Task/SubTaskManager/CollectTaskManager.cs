@@ -34,7 +34,7 @@ public class CollectTaskManager : BaseTaskManager {
 
             gm.SetActive(false);
         }
-        currentTaskIndex = NumOfTask-1;
+        currentTaskIndex = 0;
 
         ActivateNextTask();
     }
@@ -57,14 +57,14 @@ public class CollectTaskManager : BaseTaskManager {
     {
         yield return new WaitForSeconds(0.5f);
 
-        if (currentTaskIndex >= 0)
+        if (currentTaskIndex < NumOfTask)
         {
             // show new target
             TaskList[currentTaskIndex].gameObject.SetActive(true);
 
             OpenRecord(TaskList[currentTaskIndex]);
 
-            currentTaskIndex--;
+            currentTaskIndex++;
         }
         //TaskList.RemoveAt(currentTaskIndex);
 

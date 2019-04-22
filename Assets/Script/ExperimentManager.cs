@@ -141,6 +141,8 @@ public class ExperimentManager : MonoBehaviour {
 
     public static void EndExperiment()
     {
+        AudioPlayer.Play(AudioPlayer.AudioName.Final);
+
         instance.expEndTime = DateTime.Now;
         instance.state = ExperimentState.Relax;
 
@@ -148,7 +150,7 @@ public class ExperimentManager : MonoBehaviour {
         //long time = (ExpEndTime.Ticks - ExpStartTime.Ticks) / 1000000;
         Debug.Log("Time Cost: " + time.ToString("F3"));
         //hintText.text = "The End. Total Cost: " + time;
-        instance.hintText.text = "End of Experiment!! Thank U";
+        //instance.hintText.text = "End of Experiment!! Thank U";
 
         instance.PrintSummary();
     }

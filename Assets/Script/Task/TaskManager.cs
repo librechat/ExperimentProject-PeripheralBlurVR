@@ -39,7 +39,8 @@ public class TaskManager : MonoBehaviour {
                     subTaskManagers[i].Init(builder.CollectTaskPosList);
                     break;
                 case TaskTypeEnum.Spatial:
-                    subTaskManagers[i].Init(builder.SpatialTaskPosList);
+                    SpatialTaskManager spManager = subTaskManagers[i] as SpatialTaskManager;
+                    spManager.Init(builder.SpatialInfoList);
                     break;
                 case TaskTypeEnum.Discomfort:
                     subTaskManagers[i].Init();

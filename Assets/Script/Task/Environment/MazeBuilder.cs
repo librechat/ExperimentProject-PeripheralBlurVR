@@ -22,6 +22,7 @@ public class MazeBuilder : BaseEnvBuilder {
     public override void Init(Transform playerController)
     {
         CollectTaskPosList = new List<Vector3>();
+        SpatialInfoList = new List<SpatialTaskData>();
         Vector3 initialPos = playerController.position;
 
         // build maze by map
@@ -45,10 +46,14 @@ public class MazeBuilder : BaseEnvBuilder {
             CollectTaskPosList.Add(new Vector3(collectTaskPosList[i].x * scale, initialPos.y, collectTaskPosList[i].y * scale));
         }
 
-        List<Vector2i> spatialTaskPosList = new List<Vector2i>(mazeInfo.spatialTaskPos);
-        for (int i = 0; i < spatialTaskPosList.Count; i++)
+        List<SpatialTaskInfo> spatialInfoList = new List<SpatialTaskInfo>(mazeInfo.spatialTaskInfo);
+        for (int i = 0; i < spatialInfoList.Count; i++)
         {
-            SpatialTaskPosList.Add(new Vector3(spatialTaskPosList[i].x * scale, initialPos.y, spatialTaskPosList[i].y * scale));
+            SpatialTaskData data = new SpatialTaskData();
+            data.startPos = new Vector3(spatialInfoList[i].startPos.x * scale, initialPos.y, spatialInfoList[i].startPos.y * scale);
+            data.endPos = new Vector3(spatialInfoList[i].endPos.x * scale, initialPos.y, spatialInfoList[i].endPos.y * scale);
+
+            SpatialInfoList.Add(data);
         }
 
         return;
@@ -270,20 +275,34 @@ public class MazeBuilder : BaseEnvBuilder {
         gridIndex = new List<int>();
         for (int i = 0; i < total; i++) gridIndex.Add(i);
 
-        List<Vector2i> spatialPosList = new List<Vector2i>();
+        List<SpatialTaskInfo> spatialInfoList = new List<SpatialTaskInfo>();
         for (int i = 0; i < SpatialTaskManager.NumOfTask; i++)
         {
             int n = Random.Range(0, gridIndex.Count);
             int index = gridIndex[n];
 
-            spatialPosList.Add(new Vector2i(index / mapsize.y, index % mapsize.y));
+            SpatialTaskInfo info = new SpatialTaskInfo();
+            info.startPos = new Vector2i(index / mapsize.y, index % mapsize.y);
+
+            int dx = Random.Range(-1, 2);
+            int dy = Random.Range(-1, 2);
+            
+            while((dx==0&&dy==0) || !(info.startPos.x + dx >= 0 && info.startPos.x + dx < mapsize.x && info.startPos.y + dy >= 0 && info.startPos.y + dy < mapsize.y))
+            {
+                dx = Random.Range(-1, 2);
+                dy = Random.Range(-1, 2);
+            }
+
+            info.endPos = info.startPos + new Vector2i(dx, dy);
+
+            spatialInfoList.Add(info);
 
             gridIndex.RemoveAt(n);
         }
 
 
         // write to json file
-        PrintToJson(wallPosList, collectPosList, spatialPosList);
+        PrintToJson(wallPosList, collectPosList, spatialInfoList);
     }
 
     // ====================== JSON =============================
@@ -292,7 +311,7 @@ public class MazeBuilder : BaseEnvBuilder {
     public class MazeInfo{
         public WallPos[] wallPos;
         public Vector2i[] collectTaskPos;
-        public Vector2i[] spatialTaskPos;
+        public SpatialTaskInfo[] spatialTaskInfo;
     }
     [System.Serializable]
     public class WallPos{
@@ -306,13 +325,19 @@ public class MazeBuilder : BaseEnvBuilder {
             direction = d;
         }
     };
+    [System.Serializable]
+    public class SpatialTaskInfo
+    {
+        public Vector2i startPos;
+        public Vector2i endPos;
+    }
 
-    void PrintToJson(List<WallPos> wallPosList, List<Vector2i> collectPosList, List<Vector2i> spatialPosList)
+    void PrintToJson(List<WallPos> wallPosList, List<Vector2i> collectPosList, List<SpatialTaskInfo> spatialInfoList)
     {
         MazeInfo WL = new MazeInfo();
         WL.wallPos = wallPosList.ToArray();
         WL.collectTaskPos = collectPosList.ToArray();
-        WL.spatialTaskPos = spatialPosList.ToArray();
+        WL.spatialTaskInfo = spatialInfoList.ToArray();
 
         string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + fileName + ".json");
         string dataAsJson = JsonUtility.ToJson(WL, true);

@@ -9,7 +9,8 @@ public class AudioPlayer : MonoBehaviour {
         Discomfort = 0,
         Spatial,
         Done,
-        Collected
+        Collected,
+        Final
     }
 
     [SerializeField]

@@ -60,7 +60,7 @@ public static class InputManager{
 
     public static bool GetDiscomfortConfirmButton()
     {
-        return Input.GetKeyDown(KeyCode.Q);
+        return Input.GetKeyDown(KeyCode.Q) || SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
     }
     public static bool GetSpatialConfirmButton()
     {

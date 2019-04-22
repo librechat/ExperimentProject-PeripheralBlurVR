@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class BaseEnvBuilder : MonoBehaviour {
 
-    
+    public class SpatialTaskData
+    {
+        public Vector3 startPos;
+        public Vector3 endPos;
+    }
 
     public List<Vector3> CollectTaskPosList;
-    public List<Vector3> SpatialTaskPosList;
+    public List<SpatialTaskData> SpatialInfoList;
 
     public virtual void Init(Transform playerController)
     {

@@ -17,18 +17,26 @@ public class SpatialTaskManager : BaseTaskManager {
         if (s_Instance != null) Destroy(gameObject);
         s_Instance = this;
     }
-    public override void Init(List<Vector3> positionList)
+    public void Init(List<BaseEnvBuilder.SpatialTaskData> infoList)
     {
         TaskList = new List<BaseTask>();
         RecordList = new List<Record>();
 
-        for (int i = 0; i < positionList.Count; i++)
+        for (int i = 0; i < infoList.Count; i++)
         {
-            GameObject gm = Instantiate(taskPrefab, positionList[i], Quaternion.identity);
+            GameObject gm = Instantiate(taskPrefab, infoList[i].startPos, Quaternion.identity);
 
-            TaskList.Add(gm.GetComponent<SpatialTask>());
-            TaskList[i].TaskIndex = i;
+            SpatialTask task = gm.GetComponent<SpatialTask>();
+            TaskList.Add(task);
+
+            task.endPos = infoList[i].endPos;
+            task.TaskIndex = i;
+
+            gm.SetActive(false);
         }
+
+        currentTaskIndex = 0;
+        ActivateNextTask();
     }
     public override void update(float timestep)
     {
@@ -68,7 +76,17 @@ public class SpatialTaskManager : BaseTaskManager {
 
         // record task result
         rec.CloseRecord();
+
+        ActivateNextTask();
     }
 
-
+    void ActivateNextTask()
+    {
+        if (currentTaskIndex < NumOfTask)
+        {
+            // show new target
+            TaskList[currentTaskIndex].gameObject.SetActive(true);
+            currentTaskIndex++;
+        }
+    }
 }
