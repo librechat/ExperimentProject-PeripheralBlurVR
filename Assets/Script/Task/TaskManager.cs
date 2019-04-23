@@ -4,99 +4,67 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour {
 
-    [Header("Task Options")]
+    public enum TaskTypeEnum
+    {
+        Collect,
+        Spatial,
+        Discomfort
+    }
+
     [SerializeField]
-    public MazeTask CurrentTask;
+    BaseEnvBuilder builder;
 
-    List<TaskTarget> targetList;
+    [SerializeField]
+    List<BaseTaskManager> subTaskManagers;
 
-    private int currentTargetIndex = -1;
+    public static bool ExistVoiceQuestion = false;
 
     public static TaskManager s_Instance;
 
-    void Awake () {
-
+    void Awake()
+    {
         if (s_Instance != null) Destroy(gameObject);
         s_Instance = this;
     }
 
-    public static void Init(Transform playerController)
+    public void Init(Transform playerController)
     {
-        if (s_Instance.targetList == null) s_Instance.targetList = new List<TaskTarget>();
-        else Clear();
-
-        /*
-        ======== Camera limits, depends on task and HMDType ========
-        OVRManager cameraManager;
-        cameraManager.usePositionTracking = s_Instance.currentTaskData.CameraPositionTrack;
-        cameraManager.useRotationTracking = s_Instance.currentTaskData.CameraRotationTrack;
-
-        OVRPlayerController player = playerController.GetComponent<OVRPlayerController>();
-        player.EnableLinearMovement = s_Instance.currentTaskData.PlayerPositionCtrl;
-        player.EnableRotation = s_Instance.currentTaskData.PlayerRotationCtrl;
-        */
-
-        // init task
-        s_Instance.targetList = s_Instance.CurrentTask.Init(playerController);
-
-        for (int i = 0; i < s_Instance.targetList.Count; i++)
+        builder.Init(playerController);
+        // builder
+        for (int i = 0; i < subTaskManagers.Count; i++)
         {
-            s_Instance.targetList[i].gameObject.SetActive(false);
-        }
-        s_Instance.currentTargetIndex = s_Instance.targetList.Count;
-    }
-
-    public static void Clear()
-    {
-        if (s_Instance.targetList != null && s_Instance.targetList.Count != 0)
-        {
-            for (int i = 0; i < s_Instance.targetList.Count; i++)
+            switch (subTaskManagers[i].TaskType)
             {
-                Destroy(s_Instance.targetList[i].gameObject);
+                case TaskTypeEnum.Collect:
+                    subTaskManagers[i].Init(builder.CollectTaskPosList);
+                    break;
+                case TaskTypeEnum.Spatial:
+                    SpatialTaskManager spManager = subTaskManagers[i] as SpatialTaskManager;
+                    spManager.Init(builder.SpatialInfoList);
+                    break;
+                case TaskTypeEnum.Discomfort:
+                    subTaskManagers[i].Init();
+                    break;
+                default:
+                    break;
             }
-            s_Instance.targetList.Clear();
+            
         }
     }
 
-    IEnumerator GenerateNextCoroutine()
+    public void update(float timestep)
     {
-        yield return new WaitForSeconds(0.5f);
-
-        if (currentTargetIndex != 0)
-        {
-            currentTargetIndex--;
-
-            // show new target
-            targetList[currentTargetIndex].gameObject.SetActive(true);
-
-            ExperimentManager.OpenNewRecord(targetList[currentTargetIndex]);
-        }
-        s_Instance.targetList.RemoveAt(currentTargetIndex);
-
-        // task end
-        if (targetList.Count == 0)
-        {
-            ExperimentManager.EndExperiment();
-        }
-
-        yield return null;
+        for (int i = 0; i < subTaskManagers.Count; i++) subTaskManagers[i].update(timestep);
     }
 
-    public static void NextTarget()
+    public void End()
     {
-        IEnumerator coroutine = s_Instance.GenerateNextCoroutine ();
-        s_Instance.StartCoroutine(coroutine);
+        for (int i = 0; i < subTaskManagers.Count; i++) subTaskManagers[i].Clear();
     }
 
-    public static bool EliminateTarget(int targetIndex)
+
+    public void PrintResult()
     {
-        Debug.Log(ExperimentManager.State);
-        if (ExperimentManager.State != ExperimentManager.ExperimentState.Performing) return false;
-
-        if (targetIndex > s_Instance.targetList.Count) return false;
-
-        ExperimentManager.CloseRecord();
-
-        return true;
+        for (int i = 0; i < subTaskManagers.Count; i++) subTaskManagers[i].Print();
     }
 }

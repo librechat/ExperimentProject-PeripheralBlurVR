@@ -1,0 +1,753 @@
+{
+    "wallPos": [
+        {
+            "x": -0.5,
+            "y": 0.0,
+            "direction": true
+        },
+        {
+            "x": 0.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": -0.5,
+            "y": 1.0,
+            "direction": true
+        },
+        {
+            "x": 0.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": -0.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": 0.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 0.0,
+            "y": 3.5,
+            "direction": false
+        },
+        {
+            "x": -0.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 0.0,
+            "y": 4.5,
+            "direction": false
+        },
+        {
+            "x": -0.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": -0.5,
+            "y": 5.0,
+            "direction": true
+        },
+        {
+            "x": 0.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": -0.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": 0.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": -0.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": 0.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": -0.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": 0.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 0.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": -0.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 1.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 1.5,
+            "y": 1.0,
+            "direction": true
+        },
+        {
+            "x": 1.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 1.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": 1.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": 1.0,
+            "y": 7.5,
+            "direction": false
+        },
+        {
+            "x": 1.0,
+            "y": 8.5,
+            "direction": false
+        },
+        {
+            "x": 1.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 2.0,
+            "y": 0.5,
+            "direction": false
+        },
+        {
+            "x": 2.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 2.5,
+            "y": 1.0,
+            "direction": true
+        },
+        {
+            "x": 2.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": 2.0,
+            "y": 2.5,
+            "direction": false
+        },
+        {
+            "x": 2.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 2.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": 2.0,
+            "y": 5.5,
+            "direction": false
+        },
+        {
+            "x": 2.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": 2.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": 2.0,
+            "y": 7.5,
+            "direction": false
+        },
+        {
+            "x": 2.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 2.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 3.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 3.5,
+            "y": 1.0,
+            "direction": true
+        },
+        {
+            "x": 3.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": 3.0,
+            "y": 2.5,
+            "direction": false
+        },
+        {
+            "x": 3.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 3.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": 3.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": 3.0,
+            "y": 8.5,
+            "direction": false
+        },
+        {
+            "x": 3.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 4.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 4.5,
+            "y": 1.0,
+            "direction": true
+        },
+        {
+            "x": 4.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": 4.0,
+            "y": 2.5,
+            "direction": false
+        },
+        {
+            "x": 4.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 4.0,
+            "y": 4.5,
+            "direction": false
+        },
+        {
+            "x": 4.5,
+            "y": 5.0,
+            "direction": true
+        },
+        {
+            "x": 4.0,
+            "y": 5.5,
+            "direction": false
+        },
+        {
+            "x": 4.0,
+            "y": 6.5,
+            "direction": false
+        },
+        {
+            "x": 4.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": 4.0,
+            "y": 8.5,
+            "direction": false
+        },
+        {
+            "x": 4.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 5.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 5.0,
+            "y": 1.5,
+            "direction": false
+        },
+        {
+            "x": 5.0,
+            "y": 2.5,
+            "direction": false
+        },
+        {
+            "x": 5.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 5.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": 5.0,
+            "y": 4.5,
+            "direction": false
+        },
+        {
+            "x": 5.5,
+            "y": 5.0,
+            "direction": true
+        },
+        {
+            "x": 5.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": 5.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 5.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 6.5,
+            "y": 0.0,
+            "direction": true
+        },
+        {
+            "x": 6.0,
+            "y": 0.5,
+            "direction": false
+        },
+        {
+            "x": 6.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 6.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 6.0,
+            "y": 4.5,
+            "direction": false
+        },
+        {
+            "x": 6.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": 6.0,
+            "y": 7.5,
+            "direction": false
+        },
+        {
+            "x": 6.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": 6.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 6.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 7.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 7.0,
+            "y": 1.5,
+            "direction": false
+        },
+        {
+            "x": 7.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": 7.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 7.0,
+            "y": 3.5,
+            "direction": false
+        },
+        {
+            "x": 7.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": 7.0,
+            "y": 4.5,
+            "direction": false
+        },
+        {
+            "x": 7.5,
+            "y": 5.0,
+            "direction": true
+        },
+        {
+            "x": 7.0,
+            "y": 5.5,
+            "direction": false
+        },
+        {
+            "x": 7.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": 7.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": 7.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 7.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 8.5,
+            "y": 0.0,
+            "direction": true
+        },
+        {
+            "x": 8.0,
+            "y": 0.5,
+            "direction": false
+        },
+        {
+            "x": 8.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 8.0,
+            "y": 1.5,
+            "direction": false
+        },
+        {
+            "x": 8.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": 8.0,
+            "y": 4.5,
+            "direction": false
+        },
+        {
+            "x": 8.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": 8.0,
+            "y": 9.5,
+            "direction": false
+        },
+        {
+            "x": 9.5,
+            "y": 0.0,
+            "direction": true
+        },
+        {
+            "x": 9.0,
+            "y": -0.5,
+            "direction": false
+        },
+        {
+            "x": 9.5,
+            "y": 1.0,
+            "direction": true
+        },
+        {
+            "x": 9.5,
+            "y": 2.0,
+            "direction": true
+        },
+        {
+            "x": 9.0,
+            "y": 2.5,
+            "direction": false
+        },
+        {
+            "x": 9.5,
+            "y": 3.0,
+            "direction": true
+        },
+        {
+            "x": 9.5,
+            "y": 4.0,
+            "direction": true
+        },
+        {
+            "x": 9.5,
+            "y": 5.0,
+            "direction": true
+        },
+        {
+            "x": 9.0,
+            "y": 5.5,
+            "direction": false
+        },
+        {
+            "x": 9.5,
+            "y": 6.0,
+            "direction": true
+        },
+        {
+            "x": 9.5,
+            "y": 7.0,
+            "direction": true
+        },
+        {
+            "x": 9.0,
+            "y": 7.5,
+            "direction": false
+        },
+        {
+            "x": 9.5,
+            "y": 8.0,
+            "direction": true
+        },
+        {
+            "x": 9.0,
+            "y": 8.5,
+            "direction": false
+        },
+        {
+            "x": 9.5,
+            "y": 9.0,
+            "direction": true
+        },
+        {
+            "x": 9.0,
+            "y": 9.5,
+            "direction": false
+        }
+    ],
+    "collectTaskPos": [
+        {
+            "x": 1,
+            "y": 1
+        },
+        {
+            "x": 0,
+            "y": 4
+        },
+        {
+            "x": 0,
+            "y": 5
+        },
+        {
+            "x": 0,
+            "y": 7
+        },
+        {
+            "x": 1,
+            "y": 5
+        },
+        {
+            "x": 4,
+            "y": 5
+        },
+        {
+            "x": 3,
+            "y": 7
+        },
+        {
+            "x": 2,
+            "y": 9
+        },
+        {
+            "x": 3,
+            "y": 8
+        },
+        {
+            "x": 5,
+            "y": 7
+        },
+        {
+            "x": 6,
+            "y": 5
+        },
+        {
+            "x": 7,
+            "y": 7
+        },
+        {
+            "x": 9,
+            "y": 6
+        },
+        {
+            "x": 8,
+            "y": 5
+        },
+        {
+            "x": 9,
+            "y": 3
+        },
+        {
+            "x": 9,
+            "y": 1
+        },
+        {
+            "x": 6,
+            "y": 1
+        },
+        {
+            "x": 5,
+            "y": 2
+        },
+        {
+            "x": 6,
+            "y": 3
+        },
+        {
+            "x": 7,
+            "y": 4
+        },
+        {
+            "x": 5,
+            "y": 1
+        },
+        {
+            "x": 4,
+            "y": 2
+        },
+        {
+            "x": 2,
+            "y": 0
+        },
+        {
+            "x": 0,
+            "y": 3
+        },
+        {
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "spatialTaskInfo": [
+		{
+            "startPos": {
+                "x": 0,
+                "y": 9
+            },
+            "endPos": {
+                "x": 1,
+                "y": 6
+            }
+        },
+		{
+            "startPos": {
+                "x": 3,
+                "y": 6
+            },
+            "endPos": {
+                "x": 1,
+                "y": 8
+            }
+        },
+		{
+            "startPos": {
+                "x": 9,
+                "y": 8
+            },
+            "endPos": {
+                "x": 9,
+                "y": 5
+            }
+        },
+		{
+            "startPos": {
+                "x": 8,
+                "y": 4
+            },
+            "endPos": {
+                "x": 7,
+                "y": 1
+            }
+        },		
+		{
+            "startPos": {
+                "x": 4,
+                "y": 0
+            },
+            "endPos": {
+                "x": 0,
+                "y": 2
+            }
+        }
+    ]
+}
