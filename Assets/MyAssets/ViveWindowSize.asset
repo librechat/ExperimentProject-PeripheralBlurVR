@@ -17,8 +17,8 @@ MonoBehaviour:
     Inner: 0.1
     Outer: 0.3
   - Name: 1
+    Inner: 0.15
+    Outer: 0.35
+  - Name: 2
     Inner: 0.2
     Outer: 0.4
-  - Name: 2
-    Inner: 0.3
-    Outer: 0.5
