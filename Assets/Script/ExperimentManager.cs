@@ -27,6 +27,11 @@ public class ExperimentManager : MonoBehaviour {
 
     [SerializeField]
     ConditionData.ConditionEnum m_ConditionName;
+    public static string ConditionName
+    {
+        get { return instance.m_ConditionName.ToString(); }
+    }
+
     [SerializeField]
     List<ConditionData> m_ConditionList;
     public static ConditionData Condition {
@@ -159,14 +164,17 @@ public class ExperimentManager : MonoBehaviour {
     {
         taskManager.PrintResult();
 
+        string condition = m_ConditionName.ToString();
+
         float time = (float)(expEndTime.Ticks - expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
         string dateformat = "yyyyMMdd-HHmm";
-        string filename = DateTime.Now.ToString(dateformat);
+        string filename = DateTime.Now.ToString(dateformat) + "-" + condition;
 
         string line =
-           DateTime.Now.ToString(dateformat) +
+            condition + "\n"+
+            DateTime.Now.ToString(dateformat) +
            "\nExpTotalTime: " + time.ToString("F3");
-        string path = Application.streamingAssetsPath + "/" + filename + "_ExperimentInfo" + ".txt";
+        string path = Application.streamingAssetsPath + "/" + filename + ".txt";
         StreamWriter writer = new StreamWriter(path, true);
         writer.WriteLine(line);
         writer.Close();

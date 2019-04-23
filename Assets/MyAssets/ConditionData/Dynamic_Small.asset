@@ -9,9 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efe9cb1ba797e3c419fba4654389644b, type: 3}
-  m_Name: CD2_B
+  m_Name: Dynamic_Small
   m_EditorClassIdentifier: 
   BlurInPeripheral: 1
-  WindowSize: 2
-  WindowPosition: 0
+  WindowSize: 0
+  WindowPosition: 1
   ImageSource: 0

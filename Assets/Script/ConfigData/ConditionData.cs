@@ -7,8 +7,12 @@ public class ConditionData : ScriptableObject {
 
     public enum ConditionEnum {
         Baseline = 0,
-        ConditionA,
-        ConditionB
+        Static_Small,
+        Static_Medium,
+        Static_Large,
+        Dynamic_Small,
+        Dynamic_Medium,
+        Dynamic_Large
     };
 
 

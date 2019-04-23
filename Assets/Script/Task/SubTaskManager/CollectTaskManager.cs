@@ -104,24 +104,6 @@ public class CollectTaskManager : BaseTaskManager {
 
         // generate next task
         ActivateNextTask();
-    }
-    void PrintResult()
-    {
-        string dateformat = "yyyyMMdd-HHmm";
-        string filename = DateTime.Now.ToString(dateformat);
-
-        string header = CollectRecord.RecordHeader; //TargetPosition
-        string content = "";
-        for (int i = 0; i < RecordList.Count; i++)
-        {
-            content += (RecordList[i].ToString() + "\n");
-        }
-
-        string path = Application.streamingAssetsPath + "/" + filename + "_DetailRecords" + ".csv";
-        StreamWriter writer = new StreamWriter(path, true);
-        writer.WriteLine(header + "\n" + content);
-        writer.Close();
-    }
-    
+    }    
     #endregion
 }

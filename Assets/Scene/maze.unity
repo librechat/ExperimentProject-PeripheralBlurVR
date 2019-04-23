@@ -803,11 +803,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce05159c011401848bb42a5a21b0cc9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ConditionName: 1
+  m_ConditionName: 2
   m_ConditionList:
   - {fileID: 11400000, guid: 59f6d64310e0b78448bc4e5bd967ffe8, type: 2}
   - {fileID: 11400000, guid: 42f8374c2c569f4408aaea0bb5501ae6, type: 2}
+  - {fileID: 11400000, guid: 361676bce81118b4584d8f7177eafd11, type: 2}
   - {fileID: 11400000, guid: 36840fe69d461b141b51d54e28d4f48a, type: 2}
+  - {fileID: 11400000, guid: 58828669b86592c41bfc4aa9b633b4da, type: 2}
+  - {fileID: 11400000, guid: b5e12c71915ec3345bb182e23e65b068, type: 2}
+  - {fileID: 11400000, guid: c1a8ca94f1d37c54289eddf47a377137, type: 2}
   visualEffectManager: {fileID: 1157059904}
   playerController: {fileID: 318181466}
   controllerStick: {fileID: 18403703}
