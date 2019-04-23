@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DiscomfortTask : BaseTask {
 
@@ -17,6 +18,10 @@ public class DiscomfortTask : BaseTask {
     private float timer = 0.0f;
     private float threshold = 30.0f;
 
+    private long startTick;
+    private long questionedTick;
+    private long closedTick;
+
     private DiscomfortTaskStage stage = DiscomfortTaskStage.Waiting;
     public DiscomfortTaskStage Stage
     {
@@ -27,6 +32,7 @@ public class DiscomfortTask : BaseTask {
             if (stage == DiscomfortTaskStage.Question)
             {
                 TaskManager.ExistVoiceQuestion = true;
+                questionedTick = DateTime.Now.Ticks;
 
                 AudioPlayer.Play(AudioPlayer.AudioName.Discomfort);
                 timer = 0.0f;               
@@ -34,6 +40,7 @@ public class DiscomfortTask : BaseTask {
             else if (stage == DiscomfortTaskStage.Closed)
             {
                 TaskManager.ExistVoiceQuestion = false;
+                closedTick = DateTime.Now.Ticks;
 
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
             }
@@ -42,7 +49,14 @@ public class DiscomfortTask : BaseTask {
 
     void Awake()
     {
-        if(!TaskManager.ExistVoiceQuestion){
+        
+    }
+
+    private void Start()
+    {
+        startTick = DateTime.Now.Ticks;
+        if (!TaskManager.ExistVoiceQuestion)
+        {
             Stage = DiscomfortTaskStage.Question;
         }
     }

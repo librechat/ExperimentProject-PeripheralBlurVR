@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SpatialTask : BaseTask {
 
@@ -32,6 +33,11 @@ public class SpatialTask : BaseTask {
 
     public Vector3 endPos;
 
+    private long startTick;
+    private long discoveredTick;
+    private long questionedTick;
+    private long closedTick;
+
     private SpatialTaskStage stage = SpatialTaskStage.Waiting;
     public SpatialTaskStage Stage
     {
@@ -43,12 +49,14 @@ public class SpatialTask : BaseTask {
             {
                 rend.material.color = activateColor;
                 transform.position = endPos;
+                discoveredTick = DateTime.Now.Ticks;
 
                 SpatialTaskManager.ActivateTask(TaskIndex);
             }
             else if(stage == SpatialTaskStage.Question)
             {
                 TaskManager.ExistVoiceQuestion = true;
+                questionedTick = DateTime.Now.Ticks;
 
                 AudioPlayer.Play(AudioPlayer.AudioName.Spatial);
                 timer = 0.0f;
@@ -56,6 +64,7 @@ public class SpatialTask : BaseTask {
             else if(stage == SpatialTaskStage.Closed)
             {
                 TaskManager.ExistVoiceQuestion = false;
+                closedTick = DateTime.Now.Ticks;
 
                 rend.material.color = disableColor;
                 lamp.SetActive(false);
@@ -67,6 +76,11 @@ public class SpatialTask : BaseTask {
     private void Awake()
     {
         rend = GetComponent<Renderer>();
+    }
+
+    private void Start()
+    {
+        startTick = DateTime.Now.Ticks;
     }
 
     private void OnTriggerEnter(Collider other)
