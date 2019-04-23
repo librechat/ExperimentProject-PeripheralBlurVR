@@ -48,7 +48,7 @@ public class SpatialTask : BaseTask {
             if(stage == SpatialTaskStage.Discovered)
             {
                 rend.material.color = activateColor;
-                transform.position = endPos;
+                StartCoroutine(FadeOutCoroutine());
                 discoveredTick = DateTime.Now.Ticks;
 
                 SpatialTaskManager.ActivateTask(TaskIndex);
@@ -121,6 +121,33 @@ public class SpatialTask : BaseTask {
                 if (result) Stage = SpatialTaskStage.Closed;
             }
         }
+    }
+
+    IEnumerator FadeOutCoroutine()
+    {
+        float timer = 0.0f;
+        float fadeout_time = 0.5f;
+        float dissolve_amount = 0.0f;
+
+        Light light = lamp.GetComponent<Light>();
+        float intensity = 1.0f;
+
+        while (timer < fadeout_time)
+        {
+            timer += Time.deltaTime;
+            dissolve_amount = timer / fadeout_time;
+            intensity = 1.0f - timer / fadeout_time;
+
+            light.intensity = intensity;
+            rend.material.SetFloat("_DissolveAmount", dissolve_amount);
+            
+            yield return null;
+        }
+
+        transform.position = endPos;
+        light.intensity = 0.8f;
+
+        yield return null;
     }
 
 }
