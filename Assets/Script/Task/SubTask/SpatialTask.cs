@@ -48,7 +48,9 @@ public class SpatialTask : BaseTask {
             if(stage == SpatialTaskStage.Discovered)
             {
                 rend.material.color = activateColor;
+                AudioPlayer.PlaySE(AudioPlayer.AudioName.Collected);
                 StartCoroutine(FadeOutCoroutine());
+
                 discoveredTick = DateTime.Now.Ticks;
 
                 SpatialTaskManager.ActivateTask(TaskIndex);
@@ -67,8 +69,10 @@ public class SpatialTask : BaseTask {
                 closedTick = DateTime.Now.Ticks;
 
                 rend.material.color = disableColor;
-                lamp.SetActive(false);
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
+                StartCoroutine(DisableCoroutine());
+
+                
             }
         }
     }
@@ -126,7 +130,7 @@ public class SpatialTask : BaseTask {
     IEnumerator FadeOutCoroutine()
     {
         float timer = 0.0f;
-        float fadeout_time = 0.5f;
+        float fadeout_time = 0.3f;
         float dissolve_amount = 0.0f;
 
         Light light = lamp.GetComponent<Light>();
@@ -146,6 +150,33 @@ public class SpatialTask : BaseTask {
 
         transform.position = endPos;
         light.intensity = 0.8f;
+
+        yield return null;
+    }
+
+    IEnumerator DisableCoroutine()
+    {
+        float timer = 0.0f;
+        float fadeout_time = 0.3f;
+        float dissolve_amount = 0.0f;
+
+        Light light = lamp.GetComponent<Light>();
+        float intensity = 0.8f;
+
+        while (timer < fadeout_time)
+        {
+            timer += Time.deltaTime;
+            dissolve_amount = timer / fadeout_time;
+            intensity = 1.0f - timer / fadeout_time;
+
+            light.intensity = intensity;
+            rend.material.SetFloat("_DissolveAmount", dissolve_amount);
+
+            yield return null;
+        }
+        light.intensity = 0.0f;
+
+        gameObject.SetActive(false);
 
         yield return null;
     }

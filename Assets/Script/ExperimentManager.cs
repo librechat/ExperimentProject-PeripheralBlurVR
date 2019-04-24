@@ -52,6 +52,14 @@ public class ExperimentManager : MonoBehaviour {
     [Header("Object Reference")]
 
     [SerializeField]
+    Transform vrRig;
+    public static Transform VRRig
+    {
+        get { return instance.vrRig; }
+    }
+
+
+    [SerializeField]
     Transform playerController;
     public static Transform PlayerController
     {

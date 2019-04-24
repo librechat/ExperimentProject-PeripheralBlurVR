@@ -56,6 +56,8 @@ public class MazeBuilder : BaseEnvBuilder {
             SpatialInfoList.Add(data);
         }
 
+        ExperimentManager.VRRig.position = new Vector3(entryIndex.x * scale, 0, entryIndex.y * scale);
+
         return;
     }
 
