@@ -11,7 +11,6 @@ public class TransformRecorder : BaseRecorder {
 
     public override void Load(string fileName)
     {
-
         m_ClipList = new List<BaseRecordData>();
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + name + ".txt");
 
@@ -24,7 +23,12 @@ public class TransformRecorder : BaseRecorder {
                 String line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    string[] s = line.Trim().Split('/');
+
+                    string[] elements = line.Trim().Split('#');
+                    int index = Int.Parse(elements[0]);
+                    float timeStamp = Convert.ToSingle(elements[1]);
+
+                    string[] s = elements[2].Trim().Split('/');
 
                     Matrix4x4 m = Matrix4x4.zero;
                     for (int i = 0; i < 4; i++)
@@ -35,7 +39,7 @@ public class TransformRecorder : BaseRecorder {
                         }
                     }
 
-                    m_ClipList.Add(new TransformRecordData(m));
+                    m_ClipList.Add(new TransformRecordData(index, timeStamp, m));
                 }
             }
         }
@@ -45,18 +49,23 @@ public class TransformRecorder : BaseRecorder {
 		// get transfom matrix and turn to string
         var m = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
 
-        string s = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}/{15}",
+        string s = string.Format("{16}#{17}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}/{15}",
             m[0, 0], m[0, 1], m[0, 2], m[0, 3],
             m[1, 0], m[1, 1], m[1, 2], m[1, 3],
             m[2, 0], m[2, 1], m[2, 2], m[2, 3],
-            m[3, 0], m[3, 1], m[3, 2], m[3, 3]);
+            m[3, 0], m[3, 1], m[3, 2], m[3, 3],
+            currentClip,
+            Time.time);
+
+        m_StringList.Add(s);
     }
 	
 	public override void Play(int currentClip){
-        // read from array
-        
+        TransformRecordData data = m_ClipList[currentClip] as TransformRecordData;
 
-        // this.transform = m_ClipList[currentClip];
+        transform.position = data.position;
+        transform.rotation = data.rotation;
+        transform.lossyScale = data.scale;
     }
 }
 
@@ -66,8 +75,11 @@ public class TransformRecordData: BaseRecordData
     public Quaternion rotation;
     public Vector3 scale;
 
-    public TransformRecordData(Matrix4x4 m)
+    public TransformRecordData(int idx, float time, Matrix4x4 m)
     {
+        index = idx;
+        timeStamp = time;
+        
         position = m.MultiplyPoint3x4(Vector3.zero);
         rotation = m.rotation;
         scale = m.lossyScale;

@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using ThreadPriority = System.Threading.ThreadPriority;
 
-public class ControllerRecorder : BaseRecorder {
+public class GazeRecorder : BaseRecorder {
 	
 	public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
@@ -28,7 +28,7 @@ public class ControllerRecorder : BaseRecorder {
 
                     // elements[2]
 
-                    m_ClipList.Add(new ControllerRecordData(index, timeStamp));
+                    m_ClipList.Add(new GazeRecorderData(index, timeStamp));
                 }
             }
         }
@@ -45,14 +45,14 @@ public class ControllerRecorder : BaseRecorder {
 	
 	public override void Play(int currentClip){
         // read from array
-        ControllerRecordData data = m_ClipList[currentClip] as ControllerRecordData;
+        GazeRecorderData data = m_ClipList[currentClip] as GazeRecorderData;
         
 	}
 }
 
-public class ControllerRecordData : BaseRecordData
+public class GazeRecorderData : BaseRecordData
 {
-    public ControllerRecordData(int idx, float time)
+    public GazeRecorderData(int idx, float time)
     {
         index = idx;
         timeStamp = time;
