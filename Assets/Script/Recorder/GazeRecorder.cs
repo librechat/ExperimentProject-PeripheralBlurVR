@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 using System.IO;
 using System.Threading;
 using ThreadPriority = System.Threading.ThreadPriority;
 
 public class GazeRecorder : BaseRecorder {
-	
-	public override void Load(string fileName){
+
+    public Vector2 rawGazePointLeft;
+    public Vector2 rawGazePointRight;
+    public Vector2 rawGazePointCenter;
+
+    public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + name + ".txt");
 
@@ -23,7 +28,7 @@ public class GazeRecorder : BaseRecorder {
                 {
 
                     string[] elements = line.Trim().Split('#');
-                    int index = Int.Parse(elements[0]);
+                    int index = int.Parse(elements[0]);
                     float timeStamp = Convert.ToSingle(elements[1]);
 
                     // elements[2]

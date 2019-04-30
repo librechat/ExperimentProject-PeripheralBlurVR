@@ -41,17 +41,23 @@ public class VRRecorderManager: MonoBehaviour
 	private int currentClip = 0;
 	
 	
-	void Init(){
+	public void Init(){
 		
 		timer = 0.0f;
 		globalTimer = 0.0f;
 		currentClip = 0;
 		
 		if(mode == RecorderMode.IsPlaying){
+            InputManager.Hardware = InputManager.HmdType.Recorder;
 			// load record file
-			for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList.Load(fileName);
+			for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList[i].Load(fileName);
 		}
 	}
+
+    public void Save()
+    {
+        for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Save(fileName);
+    }
 	
 	void Update(){
 		
@@ -68,10 +74,10 @@ public class VRRecorderManager: MonoBehaviour
 	}
 	
 	void Record(){
-		for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList.Record(currentClip);
+		for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList[i].Record(currentClip);
 	}
 	
 	void Play(){
-		for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList.Play(currentClip);
+		for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList[i].Play(currentClip);
 	}
 }

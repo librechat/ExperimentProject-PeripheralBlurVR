@@ -9,27 +9,30 @@ public class GazeInputManager : MonoBehaviour {
 
     public static Vector2 GazePointLeft
     {
-        get { return s_Instance.gazePointLeft; }
+        get { return s_Instance.rawGazePointLeft; }
     }
     public static Vector2 GazePointRight
     {
-        get { return s_Instance.gazePointRight; }
+        get { return s_Instance.rawGazePointRight; }
     }
     public static Vector2 GazePointCenter
     {
-        get { return s_Instance.gazePointCenter; }
+        get { return s_Instance.rawGazePointCenter; }
     }
 
-    private Vector2 gazePointLeft;
-    private Vector2 gazePointRight;
-    private Vector2 gazePointCenter;
+    private Vector2 rawGazePointLeft;
+    private Vector2 rawGazePointRight;
+    private Vector2 rawGazePointCenter;
 
+    private GazeRecorder m_Recorder;
     public static GazeInputManager s_Instance;
 
     void Awake()
     {
         if (s_Instance != null) Destroy(gameObject);
         s_Instance = this;
+
+        m_Recorder = GetComponent<GazeRecorder>();
     }
 
     void Start()
@@ -50,11 +53,17 @@ public class GazeInputManager : MonoBehaviour {
 
     void Update()
     {
-        if (PupilTools.IsConnected && PupilTools.IsGazing)
+        if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
-            gazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
-            gazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
-            gazePointCenter = PupilData._2D.GazePosition;
+            rawGazePointLeft = m_Recorder.rawGazePointLeft;
+            rawGazePointRight = m_Recorder.rawGazePointRight;
+            rawGazePointCenter = m_Recorder.rawGazePointCenter;
+        }
+        else if (PupilTools.IsConnected && PupilTools.IsGazing)
+        {
+            rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
+            rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
+            rawGazePointCenter = PupilData._2D.GazePosition;
         }
     }
 }

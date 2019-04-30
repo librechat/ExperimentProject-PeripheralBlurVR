@@ -25,7 +25,7 @@ public class TransformRecorder : BaseRecorder {
                 {
 
                     string[] elements = line.Trim().Split('#');
-                    int index = Int.Parse(elements[0]);
+                    int index = int.Parse(elements[0]);
                     float timeStamp = Convert.ToSingle(elements[1]);
 
                     string[] s = elements[2].Trim().Split('/');
