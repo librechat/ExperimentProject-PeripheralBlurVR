@@ -55,9 +55,9 @@ public class GazeInputManager : MonoBehaviour {
     {
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
-            rawGazePointLeft = m_Recorder.rawGazePointLeft;
-            rawGazePointRight = m_Recorder.rawGazePointRight;
-            rawGazePointCenter = m_Recorder.rawGazePointCenter;
+            rawGazePointLeft = m_Recorder.RawGazePointLeft;
+            rawGazePointRight = m_Recorder.RawGazePointRight;
+            rawGazePointCenter = m_Recorder.RawGazePointCenter;
         }
         else if (PupilTools.IsConnected && PupilTools.IsGazing)
         {

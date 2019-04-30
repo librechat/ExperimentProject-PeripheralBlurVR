@@ -65,7 +65,7 @@ public class TransformRecorder : BaseRecorder {
 
         transform.position = data.position;
         transform.rotation = data.rotation;
-        transform.lossyScale = data.scale;
+        // transform.lossyScale = data.scale; // scale wont change during playing
     }
 }
 

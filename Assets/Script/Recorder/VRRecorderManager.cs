@@ -59,10 +59,10 @@ public class VRRecorderManager: MonoBehaviour
         for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Save(fileName);
     }
 	
-	void Update(){
+	void FixedUpdate(){
 		
-		timer += Time.deltaTime;
-		globalTimer += Time.deltaTime;
+		timer += Time.fixedDeltaTime;
+        globalTimer += Time.fixedDeltaTime;
 		
 		if(timer > clipInterval){
 			if(mode == RecorderMode.IsRecording) Record();

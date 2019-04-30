@@ -6,14 +6,23 @@ using System.IO;
 
 public class InputRecorder : BaseRecorder {
 
-    public bool startBtn;
-    public bool pauseBtn;
-    public bool resumeBtn;
-    public bool quitBtn;
+    public bool StartBtn { get { return startBtn; } set { startBtn = value; } }
+    public bool PauseBtn { get { return pauseBtn; } set { pauseBtn = value; } }
+    public bool ResumeBtn { get { return resumeBtn; } set { resumeBtn = value; } }
+    public bool QuitBtn { get { return quitBtn; } set { quitBtn = value; } }
 
-    public bool discomfortConfirmBtn;
-    public bool spatialConfirmBtn;
-    public Vector2 moveAxis;
+    public bool DiscomfortConfirmBtn { get { return discomfortConfirmBtn; } set { discomfortConfirmBtn = value; } }
+    public bool SpatialConfirmBtn { get { return spatialConfirmBtn; } set { spatialConfirmBtn = value; } }
+    public Vector2 MoveAxis { get { return moveAxis; } set { moveAxis = value; } }
+    
+    private bool startBtn;
+    private bool pauseBtn;
+    private bool resumeBtn;
+    private bool quitBtn;
+
+    private bool discomfortConfirmBtn;
+    private bool spatialConfirmBtn;
+    private Vector2 moveAxis;
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
@@ -71,6 +80,14 @@ public class InputRecorder : BaseRecorder {
             Time.time);
 
         m_StringList.Add(s);
+
+        if (startBtn) startBtn = false;
+        if (pauseBtn) pauseBtn = false;
+        if (resumeBtn) resumeBtn = false;
+        if (quitBtn) quitBtn = false;
+        if (discomfortConfirmBtn) discomfortConfirmBtn = false;
+        if (spatialConfirmBtn) spatialConfirmBtn = false;
+        if (moveAxis != Vector2.zero) moveAxis = Vector2.zero;
 	}
 	
 	public override void Play(int currentClip){
