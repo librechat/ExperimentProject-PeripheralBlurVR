@@ -9,19 +9,25 @@ using ThreadPriority = System.Threading.ThreadPriority;
 public class BaseRecorder : MonoBehaviour {
 	
 	[SerializeField]
-	public string name;
+	public string recordName;
 	
 	protected List<BaseRecordData> m_ClipList;
     protected List<string> m_StringList;
 	// public ArrayList trackerArray = new ArrayList(100000);
 	
-	public virtual void Load(string fileName){
+    public void InitRecord()
+    {
+        m_StringList = new List<string>();
+    }
+
+
+    public virtual void Load(string fileName){
 		
 	}
 
     public void Save(string fileName)
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + name + ".txt");
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + recordName + ".txt");
 
         using (StreamWriter outputFile = new StreamWriter(filePath))
         {

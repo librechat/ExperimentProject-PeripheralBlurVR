@@ -12,7 +12,7 @@ public class TransformRecorder : BaseRecorder {
     public override void Load(string fileName)
     {
         m_ClipList = new List<BaseRecordData>();
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + name + ".txt");
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + recordName + ".txt");
 
         if (new FileInfo(filePath).Exists == false) return;
 
@@ -43,6 +43,19 @@ public class TransformRecorder : BaseRecorder {
                 }
             }
         }
+
+        // disable steam vr input
+        Valve.VR.SteamVR_Behaviour_Pose pos = GetComponent<Valve.VR.SteamVR_Behaviour_Pose>();
+        if (pos != null) pos.poseAction = Valve.VR.SteamVR_Input.GetAction<Valve.VR.SteamVR_Action_Pose>("");
+
+        UnityEngine.SpatialTracking.TrackedPoseDriver driver = GetComponent<UnityEngine.SpatialTracking.TrackedPoseDriver>();
+        if (driver != null)
+        {
+            driver.trackingType = (UnityEngine.SpatialTracking.TrackedPoseDriver.TrackingType)3;
+            
+            
+        }
+
     }
 
 	public override void Record(int currentClip){
@@ -61,6 +74,8 @@ public class TransformRecorder : BaseRecorder {
     }
 	
 	public override void Play(int currentClip){
+
+        if (currentClip >= m_ClipList.Count) return;
         TransformRecordData data = m_ClipList[currentClip] as TransformRecordData;
 
         transform.position = data.position;

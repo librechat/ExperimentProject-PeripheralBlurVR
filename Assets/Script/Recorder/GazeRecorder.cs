@@ -19,7 +19,7 @@ public class GazeRecorder : BaseRecorder {
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + name + ".txt");
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + recordName + ".txt");
 
         if (new FileInfo(filePath).Exists == false) return;
 
@@ -61,7 +61,7 @@ public class GazeRecorder : BaseRecorder {
         Vector2 right = GazeInputManager.GazePointRight;
         Vector2 center = GazeInputManager.GazePointCenter;
 
-        string s = string.Format("{16}#{17}#{0}/{1}/{2}/{3}/{4}/{5}",
+        string s = string.Format("{6}#{7}#{0}/{1}/{2}/{3}/{4}/{5}",
             left.x,
             left.y,
             right.x,
@@ -76,6 +76,7 @@ public class GazeRecorder : BaseRecorder {
 	
 	public override void Play(int currentClip){
         // read from array
+        if (currentClip >= m_ClipList.Count) return;
         GazeRecorderData data = m_ClipList[currentClip] as GazeRecorderData;
 
         rawGazePointCenter = data.rawGazePointCenter;

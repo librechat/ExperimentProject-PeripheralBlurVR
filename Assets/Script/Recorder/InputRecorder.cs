@@ -26,7 +26,7 @@ public class InputRecorder : BaseRecorder {
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + name + ".txt");
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + recordName + ".txt");
 
         if (new FileInfo(filePath).Exists == false) return;
 
@@ -61,6 +61,7 @@ public class InputRecorder : BaseRecorder {
                 }
             }
         }
+
     }
 	
 	public override void Record(int currentClip){
@@ -92,8 +93,17 @@ public class InputRecorder : BaseRecorder {
 	
 	public override void Play(int currentClip){
         // read from array
+
+        if (currentClip >= m_ClipList.Count) return;
         InputRecordData data = m_ClipList[currentClip] as InputRecordData;
-        
+
+        startBtn = data.startBtn;
+        pauseBtn = data.pauseBtn;
+        resumeBtn = data.resumeBtn;
+        quitBtn = data.quitBtn;
+        discomfortConfirmBtn = data.discomfortConfirmBtn;
+        spatialConfirmBtn = data.spatialConfirmBtn;
+        moveAxis = data.moveAxis;
 	}
 }
 

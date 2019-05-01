@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class VRRecorderManager: MonoBehaviour
 {
@@ -39,30 +40,48 @@ public class VRRecorderManager: MonoBehaviour
 	private float timer = 0.0f;
 	private float globalTimer = 0.0f;
 	private int currentClip = 0;
-	
-	
-	public void Init(){
-		
-		timer = 0.0f;
-		globalTimer = 0.0f;
-		currentClip = 0;
-		
-		if(mode == RecorderMode.IsPlaying){
-            InputManager.Hardware = InputManager.HmdType.Recorder;
-			// load record file
-			for(int i=0; i<m_RecorderList.Count; i++) m_RecorderList[i].Load(fileName);
-		}
-	}
 
-    public void Save()
+    private void Awake()
     {
-        for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Save(fileName);
+        timer = 0.0f;
+        globalTimer = 0.0f;
+        currentClip = 0;
+
+        if (mode == RecorderMode.IsPlaying)
+        {
+            // XRSettings.enabled = false;
+            // UnityEngine.XR.InputTracking.disablePositionalTracking = true;
+
+            InputManager.Hardware = InputManager.HmdType.Recorder;
+            // load record file
+            for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Load(fileName);
+        }
+        else if (mode == RecorderMode.IsRecording)
+        {
+            XRSettings.enabled = true;
+            for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].InitRecord();
+        }
+    }
+
+    public void Stop()
+    {
+        if (mode == RecorderMode.IsRecording) {
+            for (int i = 0; i < m_RecorderList.Count; i++)
+            {
+                m_RecorderList[i].Record(currentClip);
+                m_RecorderList[i].Save(fileName);
+            }
+        }
+
+        mode = RecorderMode.None;
     }
 	
-	void FixedUpdate(){
-		
-		timer += Time.fixedDeltaTime;
-        globalTimer += Time.fixedDeltaTime;
+	public void _Update(float timeStep){
+
+        if (mode == RecorderMode.None) return;
+
+		timer += timeStep;
+        globalTimer += timeStep;
 		
 		if(timer > clipInterval){
 			if(mode == RecorderMode.IsRecording) Record();

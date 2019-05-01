@@ -107,12 +107,13 @@ public class ExperimentManager : MonoBehaviour {
         visualEffectManager.SetParameters(m_ConditionList[(int)m_ConditionName]);
     }
 	
-	void Update () {
+	void FixedUpdate () {
 #if UNITY_EDITOR
         if(!Application.isPlaying){
             return;
         }
 #endif
+        recordManager._Update(Time.fixedDeltaTime);
         if (state == ExperimentState.Prepare)
         {
             if (InputManager.GetStartButton())
@@ -123,7 +124,6 @@ public class ExperimentManager : MonoBehaviour {
 
                 expStartTime = DateTime.Now;
                 taskManager.Init(playerController);
-                recordManager.Init();
                 // display start hint?
             }
         }
@@ -168,7 +168,7 @@ public class ExperimentManager : MonoBehaviour {
         //instance.hintText.text = "End of Experiment!! Thank U";
 
         instance.PrintSummary();
-        instance.recordManager.Save();
+        instance.recordManager.Stop();
     }
 
     void PrintSummary()
