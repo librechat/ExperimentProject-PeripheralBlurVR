@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.XR;
 using Valve.VR;
 
-public static class InputManager{
+public class InputManager: MonoBehaviour{
 
     public enum HmdType
     {
         Vive,
         Oculus,
+        Recorder,
 
         None
     };
@@ -32,61 +33,110 @@ public static class InputManager{
             }
             return hardware;
         }
+        set { hardware = value; }
     }
     private static HmdType hardware = HmdType.None;
 
+    private InputRecorder m_Recorder;
+    public static InputManager instance;
+
+    void Awake()
+    {
+        if (instance != null) Destroy(gameObject);
+        instance = this;
+
+        m_Recorder = GetComponent<InputRecorder>();
+    }
+
     public static bool GetStartButton(){
 
-        if (Input.GetKeyDown(KeyCode.A)) return true;
+        if (Hardware == HmdType.Recorder) {
+            return instance.m_Recorder.StartBtn;
+        }
 
-        if (Hardware == HmdType.Oculus) return Input.GetButtonDown("Oculus_GearVR_A");
-        else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
-        else return false;
+        bool result = false;
+
+        if (Input.GetKeyDown(KeyCode.A)) result = true;
+        // should be removed in formal study
+        else if (Hardware == HmdType.Oculus) result = Input.GetButtonDown("Oculus_GearVR_A");
+        else if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.StartBtn = result;
+        return result;
     }
 
     public static bool GetPauseButton()
     {
-        return Input.GetKeyDown(KeyCode.A);
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.PauseBtn;
+        }
+
+        bool result = Input.GetKeyDown(KeyCode.A);
+        instance.m_Recorder.PauseBtn = result;
+        return result;
     }
 
     public static bool GetResumeButton()
     {
-        return Input.GetKeyDown("space");
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.ResumeBtn;
+        }
+
+        bool result = Input.GetKeyDown("space");
+        instance.m_Recorder.ResumeBtn = result;
+        return result;
     }
     public static bool GetQuitButton()
     {
-        return Input.GetKeyDown(KeyCode.Escape);
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.QuitBtn;
+        }
+
+        bool result = Input.GetKeyDown(KeyCode.Escape);
+        instance.m_Recorder.QuitBtn = result;
+        return result;
     }
 
+    //==== player's input ==== 
     public static bool GetDiscomfortConfirmButton()
     {
-        return Input.GetKeyDown(KeyCode.Q) || SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.DiscomfortConfirmBtn;
+        }
+
+        bool result = Input.GetKeyDown(KeyCode.Q) || SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
+        instance.m_Recorder.DiscomfortConfirmBtn = result;
+        return result;
     }
     public static bool GetSpatialConfirmButton()
     {
-        // oculus
-        if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Confirm.GetStateDown(SteamVR_Input_Sources.Any);
-        else return false;
-    }
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.SpatialConfirmBtn;
+        }
 
-    public static bool GetLStickToLeft() {
-        if (Hardware == HmdType.Oculus) return Input.GetAxis("Oculus_GearVR_LThumbstickX") < -0.5f;
-        else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.SliderDecrease.GetStateUp(SteamVR_Input_Sources.Any);
-        else return false;
-    }
-    public static bool GetLStickToRight() {
-        if (Hardware == HmdType.Oculus) return Input.GetAxis("Oculus_GearVR_LThumbstickX") > 0.5f;
-        else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.SliderIncrease.GetStateUp(SteamVR_Input_Sources.Any);
-        else return false;
-    }
-    public static bool GetLStickConfirm(){
-        if (Hardware == HmdType.Oculus) return Input.GetButtonUp("Oculus_GearVR_LThumbStick");
-        else if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Confirm.GetStateDown(SteamVR_Input_Sources.Any);
-        else return false;
+        // oculus
+        bool result = false;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Confirm.GetStateDown(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.SpatialConfirmBtn = result;
+        return result;
     }
     public static Vector2 GetMoveAxis()
     {
-        if (Hardware == HmdType.Vive) return SteamVR_Actions._default.Move.GetAxis(SteamVR_Input_Sources.Any);
-        else return Vector2.zero;
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.MoveAxis;
+        }
+
+        Vector2 result = Vector2.zero;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Move.GetAxis(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.MoveAxis = result;
+        return result;
     }
 }
