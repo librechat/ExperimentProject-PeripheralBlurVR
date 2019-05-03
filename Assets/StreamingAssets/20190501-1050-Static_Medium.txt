@@ -1,3 +1,0 @@
-Static_Medium
-20190501-1050
-ExpTotalTime: 88.560
