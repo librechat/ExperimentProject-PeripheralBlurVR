@@ -12,7 +12,7 @@ public class TransformRecorder : BaseRecorder {
     public override void Load(string fileName)
     {
         m_ClipList = new List<BaseRecordData>();
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName + "_" + recordName + ".txt");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "/Behaviors/" + fileName + "_" + recordName + ".txt");
 
         if (new FileInfo(filePath).Exists == false) return;
 

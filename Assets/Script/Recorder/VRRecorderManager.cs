@@ -31,7 +31,7 @@ public class VRRecorderManager: MonoBehaviour
     private float clipInterval;
 	
 	[SerializeField]
-	private string fileName;
+	private string loadFileName;
 	
 	[Header("Tracked Object Reference")]
 	[SerializeField]
@@ -54,7 +54,7 @@ public class VRRecorderManager: MonoBehaviour
 
             InputManager.Hardware = InputManager.HmdType.Recorder;
             // load record file
-            for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Load(fileName);
+            for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Load(loadFileName);
         }
         else if (mode == RecorderMode.IsRecording)
         {
@@ -69,7 +69,7 @@ public class VRRecorderManager: MonoBehaviour
             for (int i = 0; i < m_RecorderList.Count; i++)
             {
                 m_RecorderList[i].Record(currentClip);
-                m_RecorderList[i].Save(fileName);
+                m_RecorderList[i].Save();
             }
         }
 

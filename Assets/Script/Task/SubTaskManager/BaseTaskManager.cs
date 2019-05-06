@@ -75,7 +75,7 @@ public class BaseTaskManager : MonoBehaviour {
             content += (RecordList[i].ToString() + "\n");
         }
 
-        string path = Application.streamingAssetsPath + "/" + filename + "_" + condition + "_" + TaskType.ToString() + ".csv";
+        string path = Application.streamingAssetsPath + "/Records/" + filename + "_" + condition + "_" + TaskType.ToString() + ".csv";
         StreamWriter writer = new StreamWriter(path, true);
         writer.WriteLine(header + "\n" + content);
         writer.Close();
