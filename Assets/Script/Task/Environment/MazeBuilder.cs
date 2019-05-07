@@ -5,12 +5,17 @@ using System.IO;
 
 public class MazeBuilder : BaseEnvBuilder {
 
-    [Header("Build Maze Reference")]
+    [Header("Load Level Reference")]
+    public LevelData.LevelEnum loadLevel;
+    [SerializeField]
+    private List<LevelData> loadLevelList;
+
+    [Header("Generate Reference")]
 
     [SerializeField]
     bool AutoGenerate = false;
     [SerializeField]
-    string fileName;
+    string saveFileName;
 
     [SerializeField]
     Vector2i mapsize;
@@ -18,6 +23,8 @@ public class MazeBuilder : BaseEnvBuilder {
     Vector2i entryIndex;
     [SerializeField]
     Transform wallPrefab;
+
+    private float entryRotation = 0.0f;
 
     public override void Init(Transform playerController)
     {
@@ -57,6 +64,7 @@ public class MazeBuilder : BaseEnvBuilder {
         }
 
         ExperimentManager.VRRig.position = new Vector3(entryIndex.x * scale, 0, entryIndex.y * scale);
+        ExperimentManager.VRRig.Rotate(new Vector3(0, entryRotation, 0));
 
         return;
     }
@@ -341,14 +349,20 @@ public class MazeBuilder : BaseEnvBuilder {
         WL.collectTaskPos = collectPosList.ToArray();
         WL.spatialTaskInfo = spatialInfoList.ToArray();
 
-        string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + fileName + ".json");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + saveFileName + ".json");
         string dataAsJson = JsonUtility.ToJson(WL, true);
         File.WriteAllText(filePath, dataAsJson);
     }
 
     MazeInfo ReadFromJson()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + fileName + ".json");
+        LevelData levelData = loadLevelList[(int)loadLevel];
+
+        mapsize = levelData.mapSize;
+        entryIndex = levelData.entryPos;
+        entryRotation = levelData.entryRotation;
+        
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + levelData.fileName + ".json");
         string dataAsJson = File.ReadAllText(filePath);
         MazeInfo WL = JsonUtility.FromJson<MazeInfo>(dataAsJson);
         return WL;
