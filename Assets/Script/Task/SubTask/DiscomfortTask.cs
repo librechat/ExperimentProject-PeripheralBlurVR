@@ -55,10 +55,6 @@ public class DiscomfortTask : BaseTask {
     private void Start()
     {
         startTick = DateTime.Now.Ticks;
-        if (!TaskManager.ExistVoiceQuestion)
-        {
-            Stage = DiscomfortTaskStage.Question;
-        }
     }
 
     void Update()

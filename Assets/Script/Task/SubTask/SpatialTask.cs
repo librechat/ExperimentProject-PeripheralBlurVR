@@ -150,6 +150,7 @@ public class SpatialTask : BaseTask {
 
         transform.position = endPos;
         light.intensity = 0.8f;
+        rend.material.SetFloat("_DissolveAmount", 0.0f);
 
         yield return null;
     }

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 71f14a2d79f732f4d9893ef1b911f4ff, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.48397553, g: 0.5757211, b: 0.6801981, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -140,7 +140,7 @@ MonoBehaviour:
   CurShader: {fileID: 4800000, guid: a887ca6eb3e21274a8efa5ce614f93db, type: 3}
   material: {fileID: 2100000, guid: b8e9a6d518716e846aa68f59960d7789, type: 2}
   DownSampleNum: 1
-  BlurSpreadSize: 2.4
+  BlurSpreadSize: 3
   BlurIterations: 3
 --- !u!136 &5587547
 CapsuleCollider:
@@ -454,12 +454,12 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1615348694}
+      objectReference: {fileID: 756238397}
     - target: {fileID: 33444363276661976, guid: b1f8909c65658db40b54158858cbc1c8,
         type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 381193081}
+      objectReference: {fileID: 682372424}
     - target: {fileID: 114630644385712918, guid: b1f8909c65658db40b54158858cbc1c8,
         type: 2}
       propertyPath: hmd
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91168be59b711434086141dbe7f417fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!43 &381193081
+--- !u!43 &682372424
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -887,6 +887,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02686539cf429734594f62aed8a08947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &756238397
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &887956678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1113,7 @@ MonoBehaviour:
   BlurEnabled: 1
   indicated: 0
   DownSampleNum: 1
-  BlurSpreadSize: 2.4
+  BlurSpreadSize: 3
   BlurIterations: 3
   indicatedColor: {r: 1, g: 0.15190282, b: 0, a: 1}
 --- !u!4 &1157059905
@@ -1126,7 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce05159c011401848bb42a5a21b0cc9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ConditionName: 2
+  m_ConditionName: 1
   m_ConditionList:
   - {fileID: 11400000, guid: 59f6d64310e0b78448bc4e5bd967ffe8, type: 2}
   - {fileID: 11400000, guid: 42f8374c2c569f4408aaea0bb5501ae6, type: 2}
@@ -1306,9 +1339,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a43e3a091b2134c8bc0ab36b9b2ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 2
+  mode: 0
   fps: 60
-  fileName: record
+  loadFileName: 
   m_RecorderList:
   - {fileID: 351653176}
   - {fileID: 700478015}
@@ -1316,39 +1349,6 @@ MonoBehaviour:
   - {fileID: 318181471}
   - {fileID: 5587548}
   - {fileID: 318181470}
---- !u!21 &1615348694
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1976242800
 GameObject:
   m_ObjectHideFlags: 0
