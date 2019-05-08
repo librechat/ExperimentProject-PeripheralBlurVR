@@ -71,7 +71,8 @@ public class CollectTaskManager : BaseTaskManager {
         // task end
         else
         {
-            ExperimentManager.EndExperiment();
+            // ExperimentManager.EndExperiment();
+            ExperimentManager.TryEndExperiment("collect");
         }
 
         yield return null;

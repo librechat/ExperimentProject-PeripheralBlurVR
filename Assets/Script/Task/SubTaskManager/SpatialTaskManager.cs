@@ -88,5 +88,9 @@ public class SpatialTaskManager : BaseTaskManager {
             TaskList[currentTaskIndex].gameObject.SetActive(true);
             currentTaskIndex++;
         }
+        else
+        {
+            ExperimentManager.TryEndExperiment("spatial");
+        }
     }
 }

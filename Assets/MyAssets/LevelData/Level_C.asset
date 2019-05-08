@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Name: Level_C
   m_EditorClassIdentifier: 
   levelName: 2
-  fileName: maze20_A
+  fileName: maze20_C
   mapSize:
     x: 20
     y: 20
   entryPos:
     x: 10
     y: 10
-  entryRotation: 180
+  entryRotation: 90

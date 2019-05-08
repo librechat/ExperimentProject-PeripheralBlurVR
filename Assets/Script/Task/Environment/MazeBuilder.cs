@@ -365,6 +365,53 @@ public class MazeBuilder : BaseEnvBuilder {
         string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + levelData.fileName + ".json");
         string dataAsJson = File.ReadAllText(filePath);
         MazeInfo WL = JsonUtility.FromJson<MazeInfo>(dataAsJson);
+
+        // RevertPath(WL, levelData.fileName);
+        // StartPathFrom(50, 9, WL, levelData.fileName);
+
         return WL;
+    }
+
+    void RevertPath(MazeInfo input, string originFileName)
+    {
+        MazeInfo WL = new MazeInfo();
+        WL.wallPos = input.wallPos;
+
+        List<Vector2i> collectPosList = new List<Vector2i>(input.collectTaskPos);
+        collectPosList.Reverse();
+        WL.collectTaskPos = collectPosList.ToArray();
+
+        List<SpatialTaskInfo> spatialTaskList = new List<SpatialTaskInfo>(input.spatialTaskInfo);
+        spatialTaskList.Reverse();
+        for (int i = 0; i < spatialTaskList.Count; i++)
+        {
+            Vector2i temp = spatialTaskList[i].startPos;
+            spatialTaskList[i].startPos = spatialTaskList[i].endPos;
+            spatialTaskList[i].endPos = temp;
+        }
+        WL.spatialTaskInfo = spatialTaskList.ToArray();
+
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + originFileName + "_Revert" + ".json");
+        string dataAsJson = JsonUtility.ToJson(WL, true);
+        File.WriteAllText(filePath, dataAsJson);
+    }
+    void StartPathFrom(int firstCollectIndex, int firstSpatialIndex, MazeInfo input, string originFileName)
+    {
+        MazeInfo WL = new MazeInfo();
+        WL.wallPos = input.wallPos;
+
+        List<Vector2i> collectPosList = new List<Vector2i>(input.collectTaskPos);
+        List<Vector2i> new_collectPosList = collectPosList.GetRange(firstCollectIndex, collectPosList.Count - firstCollectIndex);
+        new_collectPosList.AddRange(collectPosList.GetRange(0, firstCollectIndex));
+        WL.collectTaskPos = new_collectPosList.ToArray();
+
+        List<SpatialTaskInfo> spatialTaskList = new List<SpatialTaskInfo>(input.spatialTaskInfo);
+        List<SpatialTaskInfo> new_spatialTaskList = spatialTaskList.GetRange(firstSpatialIndex, spatialTaskList.Count- firstSpatialIndex);
+        new_spatialTaskList.AddRange(spatialTaskList.GetRange(0, firstSpatialIndex));
+        WL.spatialTaskInfo = new_spatialTaskList.ToArray();
+
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Levels/" + originFileName + "_StartAt" + firstCollectIndex + ".json");
+        string dataAsJson = JsonUtility.ToJson(WL, true);
+        File.WriteAllText(filePath, dataAsJson);
     }
 }

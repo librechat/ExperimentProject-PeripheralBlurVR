@@ -152,7 +152,17 @@ public class ExperimentManager : MonoBehaviour {
             }
         }
         else ;
-	}  
+	}
+
+    bool m_CollectEnd = false;
+    bool m_SpatialEnd = false;
+    public static void TryEndExperiment(string source)
+    {
+        if (source == "collect") instance.m_CollectEnd = true;
+        if (source == "spatial") instance.m_SpatialEnd = true;
+
+        if (instance.m_CollectEnd && instance.m_SpatialEnd) ExperimentManager.EndExperiment();
+    }
 
     public static void EndExperiment()
     {
