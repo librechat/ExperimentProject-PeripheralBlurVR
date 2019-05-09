@@ -95,13 +95,13 @@ public class CollectTaskManager : BaseTaskManager {
     {
         task.RecordIndex = RecordList.Count;
         CollectRecord prevRecord = (RecordList.Count == 0) ? null : RecordList[RecordList.Count - 1] as CollectRecord;
-        RecordList.Add(new CollectRecord(prevRecord, task as CollectTask, ExperimentManager.ExpStartTicks));
+        RecordList.Add(new CollectRecord(prevRecord, task as CollectTask));
     }
     public override void CloseRecord(int taskIndex)
     {
         //record task result
         int recIndex = TaskList[taskIndex].RecordIndex;
-        RecordList[recIndex].CloseRecord();
+        RecordList[recIndex].CloseRecord(TaskList[taskIndex]);
 
         // generate next task
         ActivateNextTask();

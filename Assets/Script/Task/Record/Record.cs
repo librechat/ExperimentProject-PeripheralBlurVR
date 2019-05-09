@@ -6,13 +6,10 @@ public class Record {
     public int taskIndex;
     public int recordIndex;
 
-    public float timeStamp;     // now - expstart
-    public float executeTime;   // end - start
-
     protected float startTimeStamp;
     protected float endTimeStamp;
 
-    public virtual void CloseRecord()
+    public virtual void CloseRecord(BaseTask task)
     {
         
     }

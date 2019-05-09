@@ -32,7 +32,7 @@ public class BaseRecorder : MonoBehaviour {
 
         string condition = ExperimentManager.ConditionName;
 
-        string filePath = Path.Combine(Application.streamingAssetsPath, "/Behaviors/" + filename + "_" + condition + "_" + recordName + ".txt");
+        string filePath = Application.streamingAssetsPath + "/Behaviors/" + filename + "_" + condition + "_" + recordName + ".txt";
 
         using (StreamWriter outputFile = new StreamWriter(filePath))
         {

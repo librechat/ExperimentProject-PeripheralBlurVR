@@ -7,8 +7,8 @@ public class CollectTask : BaseTask
 {
     private bool catched = false;
 
-    private long startTick;
-    private long closedTick;
+    public long startTick;
+    public long closedTick;
 
     private void Start()
     {

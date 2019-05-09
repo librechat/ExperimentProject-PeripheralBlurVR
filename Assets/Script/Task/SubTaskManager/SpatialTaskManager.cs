@@ -65,17 +65,16 @@ public class SpatialTaskManager : BaseTaskManager {
     {
         task.RecordIndex = RecordList.Count;
         SpatialRecord prevRecord = (RecordList.Count == 0) ? null : RecordList[RecordList.Count - 1] as SpatialRecord;
-        RecordList.Add(new SpatialRecord(prevRecord, task as SpatialTask, ExperimentManager.ExpStartTicks));
+        RecordList.Add(new SpatialRecord(prevRecord, task as SpatialTask));
     }
     public override void CloseRecord(int taskIndex)
     {
         // fill in error
         SpatialTask task = TaskList[taskIndex] as SpatialTask;
         SpatialRecord rec = RecordList[task.RecordIndex] as SpatialRecord;
-        rec.angleError = task.angleError;
 
         // record task result
-        rec.CloseRecord();
+        rec.CloseRecord(task);
 
         ActivateNextTask();
     }

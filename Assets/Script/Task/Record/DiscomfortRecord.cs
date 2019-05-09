@@ -3,24 +3,29 @@ using System;
 
 public class DiscomfortRecord : Record {
 
-    public static string RecordHeader = "Index,TaskIndex,StartTimeStamp,EndTimeStamp,ResponseTime,Discomfort";
-    public int discomfort;
+    public static string RecordHeader = "Index,TaskIndex,StartTimeStamp,QustionedTimeStamp,EndTimeStamp,Discomfort";
 
-    public DiscomfortRecord(DiscomfortRecord preRecord, DiscomfortTask task, long expStartTicks)
+    float questionedTimeStamp = 0.0f;
+    public int discomfortScore;
+
+    public DiscomfortRecord(DiscomfortRecord preRecord, DiscomfortTask task)
     {
         taskIndex = task.TaskIndex;
         recordIndex = (preRecord == null) ? 0 : preRecord.recordIndex + 1;
 
-        startTimeStamp = TicksToSecond(DateTime.Now.Ticks - expStartTicks);
+        
 
-        discomfort = 0; // will be record manully, remain empty here
+        discomfortScore = 0; // will be record manully, remain empty here
     }
 
-    public override void CloseRecord()
+    public override void CloseRecord(BaseTask task)
     {
-        endTimeStamp = TicksToSecond(DateTime.Now.Ticks - ExperimentManager.ExpStartTicks);
-        timeStamp = endTimeStamp;
-        executeTime = endTimeStamp - startTimeStamp;
+        DiscomfortTask discomfort = task as DiscomfortTask;
+
+        long expStartTicks = ExperimentManager.ExpStartTicks;
+        startTimeStamp = TicksToSecond(discomfort.startTick - expStartTicks);
+        questionedTimeStamp = TicksToSecond(discomfort.questionedTick - expStartTicks);
+        endTimeStamp = TicksToSecond(discomfort.closedTick - expStartTicks);
     }
 
     public override string ToString()
@@ -29,7 +34,6 @@ public class DiscomfortRecord : Record {
             taskIndex.ToString() + "," +
             startTimeStamp.ToString() + "," +
             endTimeStamp.ToString() + "," +
-            executeTime.ToString() + "," +
-            discomfort.ToString();
+            discomfortScore.ToString();
     }
 }

@@ -33,10 +33,10 @@ public class SpatialTask : BaseTask {
 
     public Vector3 endPos;
 
-    private long startTick;
-    private long discoveredTick;
-    private long questionedTick;
-    private long closedTick;
+    public long startTick;
+    public long discoveredTick;
+    public long questionedTick;
+    public long closedTick;
 
     private SpatialTaskStage stage = SpatialTaskStage.Waiting;
     public SpatialTaskStage Stage
@@ -121,8 +121,12 @@ public class SpatialTask : BaseTask {
 
                 angleError = Vector3.Angle(pointing, groundTruth);
 
+                Stage = SpatialTaskStage.Closed;
                 bool result = SpatialTaskManager.FinishTask(TaskIndex);
-                if (result) Stage = SpatialTaskStage.Closed;
+                if (!result)
+                {
+
+                } 
             }
         }
     }

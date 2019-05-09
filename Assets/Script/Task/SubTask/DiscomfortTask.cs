@@ -18,9 +18,9 @@ public class DiscomfortTask : BaseTask {
     private float timer = 0.0f;
     private float threshold = 30.0f;
 
-    private long startTick;
-    private long questionedTick;
-    private long closedTick;
+    public long startTick;
+    public long questionedTick;
+    public long closedTick;
 
     private DiscomfortTaskStage stage = DiscomfortTaskStage.Waiting;
     public DiscomfortTaskStage Stage
@@ -73,10 +73,12 @@ public class DiscomfortTask : BaseTask {
 
             if (timer > threshold || InputManager.GetDiscomfortConfirmButton())
             {
+                Stage = DiscomfortTaskStage.Closed;
                 bool result = DiscomfortTaskManager.FinishTask(TaskIndex);
-                if (result)
+                if (!result)
                 {
-                    Stage = DiscomfortTaskStage.Closed;
+                    // Stage = DiscomfortTaskStage.Closed;
+                    Debug.Log("error happens in discomfort task");
                 }
             }
         }
