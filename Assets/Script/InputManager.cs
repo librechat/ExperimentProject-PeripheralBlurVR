@@ -58,8 +58,8 @@ public class InputManager: MonoBehaviour{
 
         if (Input.GetKeyDown(KeyCode.A)) result = true;
         // should be removed in formal study
-        else if (Hardware == HmdType.Oculus) result = Input.GetButtonDown("Oculus_GearVR_A");
-        else if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
+        // else if (Hardware == HmdType.Oculus) result = Input.GetButtonDown("Oculus_GearVR_A");
+        // else if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.StartBtn = result;
         return result;
@@ -108,7 +108,7 @@ public class InputManager: MonoBehaviour{
             return instance.m_Recorder.DiscomfortConfirmBtn;
         }
 
-        bool result = Input.GetKeyDown(KeyCode.Q) || SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any);
+        bool result = Input.GetKeyDown(KeyCode.Q); //  || SteamVR_Actions._default.Confirm.GetStateUp(SteamVR_Input_Sources.Any)
         instance.m_Recorder.DiscomfortConfirmBtn = result;
         return result;
     }

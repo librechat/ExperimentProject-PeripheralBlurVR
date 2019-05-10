@@ -131,7 +131,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 5587544}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e20265586a4da44ebe77859791315a5, type: 3}
   m_Name: 
@@ -234,6 +234,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 89724f8a898e1754992e5348deb1855f, type: 3}
   - {fileID: 8300000, guid: e72ba862831aa154480be35b7a9e16da, type: 3}
   - {fileID: 8300000, guid: 5714b4f0f147d9948ae63750ddbea3cd, type: 3}
+  - {fileID: 8300000, guid: 77c0ae6da75108b4cb77bcf6812e0f1e, type: 3}
   - {fileID: 8300000, guid: cc637e8a1adfb8848a3530830bcab896, type: 3}
   - {fileID: 8300000, guid: df9bce58a53261a46b548e384e699e88, type: 3}
 --- !u!82 &207870772
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollectTaskPosList: []
-  loadLevel: 1
+  loadLevel: 0
   loadLevelList:
   - {fileID: 11400000, guid: f51ef06b366d06b4aa988751a1b44b40, type: 2}
   - {fileID: 11400000, guid: cf7ae3ad1f313fa4a9fe7f01bae616ef, type: 2}
@@ -459,12 +460,12 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1154876259}
+      objectReference: {fileID: 794303140}
     - target: {fileID: 33444363276661976, guid: b1f8909c65658db40b54158858cbc1c8,
         type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1739181660}
+      objectReference: {fileID: 1371685297}
     - target: {fileID: 114630644385712918, guid: b1f8909c65658db40b54158858cbc1c8,
         type: 2}
       propertyPath: hmd
@@ -737,6 +738,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02686539cf429734594f62aed8a08947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &794303140
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &887956678
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,39 +909,6 @@ MonoBehaviour:
   numOfTask: 20
   taskPrefab: {fileID: 1451290602988156, guid: 8c2c24343aa41c44e88dfd86623bc20d, type: 2}
   TaskType: 1
---- !u!21 &1154876259
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1157059903
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +961,7 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 2c9bc20bcb0d1254da245a3a942ac98d, type: 2}
   OculusForwardTarget: {fileID: 1276852691}
   m_WindowSizeConfig: {fileID: 11400000, guid: fe7077ff63c347f4181799c294d3eeed, type: 2}
-  BlurEnabled: 0
+  BlurEnabled: 1
   indicated: 0
   DownSampleNum: 1
   BlurSpreadSize: 3
@@ -1009,7 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce05159c011401848bb42a5a21b0cc9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ConditionName: 0
+  m_ConditionName: 3
   m_ConditionList:
   - {fileID: 11400000, guid: 59f6d64310e0b78448bc4e5bd967ffe8, type: 2}
   - {fileID: 11400000, guid: 42f8374c2c569f4408aaea0bb5501ae6, type: 2}
@@ -1189,7 +1190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a43e3a091b2134c8bc0ab36b9b2ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
+  mode: 0
   fps: 60
   loadFileName: 
   m_RecorderList:
@@ -1199,7 +1200,7 @@ MonoBehaviour:
   - {fileID: 318181471}
   - {fileID: 5587548}
   - {fileID: 318181470}
---- !u!43 &1739181660
+--- !u!43 &1371685297
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

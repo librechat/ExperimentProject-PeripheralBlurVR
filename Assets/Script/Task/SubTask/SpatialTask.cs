@@ -48,7 +48,7 @@ public class SpatialTask : BaseTask {
             if(stage == SpatialTaskStage.Discovered)
             {
                 rend.material.color = activateColor;
-                AudioPlayer.PlaySE(AudioPlayer.AudioName.Collected);
+                AudioPlayer.PlaySE(AudioPlayer.AudioName.SpatialDiscovered);
                 StartCoroutine(FadeOutCoroutine());
 
                 discoveredTick = DateTime.Now.Ticks;

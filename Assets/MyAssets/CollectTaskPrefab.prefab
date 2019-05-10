@@ -193,7 +193,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.39215687, b: 0.39215687, a: 1}
   m_Intensity: 0.8
-  m_Range: 2
+  m_Range: 3
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -232,6 +232,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskIndex: 0
   RecordIndex: 0
+  startTick: 0
+  closedTick: 0
 --- !u!135 &135660644925774226
 SphereCollider:
   m_ObjectHideFlags: 1

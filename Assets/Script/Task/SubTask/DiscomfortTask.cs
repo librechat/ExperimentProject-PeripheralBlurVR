@@ -41,7 +41,7 @@ public class DiscomfortTask : BaseTask {
             {
                 TaskManager.ExistVoiceQuestion = false;
                 closedTick = DateTime.Now.Ticks;
-
+                Debug.Log("discomfort closed");
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
             }
         }
@@ -71,7 +71,8 @@ public class DiscomfortTask : BaseTask {
             // to check if overtime
             timer += Time.deltaTime;
 
-            if (timer > threshold || InputManager.GetDiscomfortConfirmButton())
+            // timer > threshold
+            if (InputManager.GetDiscomfortConfirmButton())
             {
                 Stage = DiscomfortTaskStage.Closed;
                 bool result = DiscomfortTaskManager.FinishTask(TaskIndex);

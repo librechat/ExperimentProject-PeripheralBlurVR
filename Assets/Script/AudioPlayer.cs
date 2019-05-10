@@ -10,6 +10,7 @@ public class AudioPlayer : MonoBehaviour {
         Spatial,
         Done,
         Collected,
+        SpatialDiscovered,
         Final
     }
 

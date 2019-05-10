@@ -251,8 +251,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 0.99809384, b: 0.6179246, a: 1}
-  m_Intensity: 3
-  m_Range: 2
+  m_Intensity: 2
+  m_Range: 3
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -287,9 +287,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 0.9744293, b: 0.8537736, a: 1}
+  m_Color: {r: 1, g: 0.8991586, b: 0.4669811, a: 1}
   m_Intensity: 1
-  m_Range: 1
+  m_Range: 2
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -334,6 +334,10 @@ MonoBehaviour:
   lamp: {fileID: 1166341366369326}
   angleError: 0
   endPos: {x: 0, y: 0, z: 0}
+  startTick: 0
+  discoveredTick: 0
+  questionedTick: 0
+  closedTick: 0
 --- !u!136 &136514536472010936
 CapsuleCollider:
   m_ObjectHideFlags: 1

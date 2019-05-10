@@ -55,7 +55,7 @@ public class CollectTaskManager : BaseTaskManager {
 
     IEnumerator ActivateTaskCoroutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         if (currentTaskIndex < NumOfTask)
         {

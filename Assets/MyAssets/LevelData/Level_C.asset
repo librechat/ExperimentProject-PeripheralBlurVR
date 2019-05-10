@@ -17,6 +17,6 @@ MonoBehaviour:
     x: 20
     y: 20
   entryPos:
-    x: 10
+    x: 11
     y: 10
-  entryRotation: 90
+  entryRotation: 180

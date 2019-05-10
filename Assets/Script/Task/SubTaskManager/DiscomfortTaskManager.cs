@@ -50,6 +50,7 @@ public class DiscomfortTaskManager : BaseTaskManager
 
             yield return null;
         }
+        yield return null;
     }
 
     public static bool FinishTask(int taskIndex)
