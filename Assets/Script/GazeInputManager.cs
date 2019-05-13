@@ -9,16 +9,20 @@ public class GazeInputManager : MonoBehaviour {
 
     public static Vector2 GazePointLeft
     {
-        get { return s_Instance.rawGazePointLeft; }
+        get { return s_Instance.gazePointLeft; }
     }
     public static Vector2 GazePointRight
     {
-        get { return s_Instance.rawGazePointRight; }
+        get { return s_Instance.gazePointRight; }
     }
     public static Vector2 GazePointCenter
     {
-        get { return s_Instance.rawGazePointCenter; }
+        get { return s_Instance.gazePointCenter; }
     }
+
+    private Vector2 gazePointLeft;
+    private Vector2 gazePointRight;
+    private Vector2 gazePointCenter;
 
     private Vector2 rawGazePointLeft;
     private Vector2 rawGazePointRight;
@@ -26,6 +30,9 @@ public class GazeInputManager : MonoBehaviour {
 
     private GazeRecorder m_Recorder;
     public static GazeInputManager s_Instance;
+
+    [SerializeField]
+    private bool usingRawSignal = true;
 
     void Awake()
     {
@@ -55,15 +62,43 @@ public class GazeInputManager : MonoBehaviour {
     {
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
-            rawGazePointLeft = m_Recorder.RawGazePointLeft;
-            rawGazePointRight = m_Recorder.RawGazePointRight;
-            rawGazePointCenter = m_Recorder.RawGazePointCenter;
+            gazePointLeft = m_Recorder.RawGazePointLeft;
+            gazePointRight = m_Recorder.RawGazePointRight;
+            gazePointCenter = m_Recorder.RawGazePointCenter;
         }
         else if (PupilTools.IsConnected && PupilTools.IsGazing)
         {
-            rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
-            rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
-            rawGazePointCenter = PupilData._2D.GazePosition;
+            if (usingRawSignal)
+            {
+                gazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
+                gazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
+                gazePointCenter = PupilData._2D.GazePosition;
+            }
+            else
+            {
+                rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
+                rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
+                rawGazePointCenter = PupilData._2D.GazePosition;
+
+                UpdateGazePoint(rawGazePointLeft, gazePointLeft);
+                UpdateGazePoint(rawGazePointRight, gazePointRight);
+                UpdateGazePoint(rawGazePointCenter, gazePointCenter);
+            }
+            
+        }
+    }
+
+    void UpdateGazePoint(Vector2 rawPoint, Vector2 gazePoint)
+    {
+        if (gazePoint == null) gazePoint = rawPoint;
+        else
+        {
+            Vector2 delta = gazePoint - rawPoint;
+            
+            if (delta.magnitude < 0.5f)
+            {
+                gazePoint = rawPoint;
+            }
         }
     }
 }
