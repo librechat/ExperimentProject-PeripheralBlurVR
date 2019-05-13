@@ -3,7 +3,7 @@ using System;
 
 public class SpatialRecord : Record {
 
-    public static string RecordHeader = "Index,TaskIndex,StartTimeStamp,DiscoveredTimeStamp,QuestionedTimeStamp,EndTimeStamp,ResponseTime,Error";
+    public static string RecordHeader = "Index,TaskIndex,StartTimeStamp,DiscoveredTimeStamp,QuestionedTimeStamp,EndTimeStamp,Error";
 
     public float discoveredTimeStamp = 0.0f;
     public float questionedTimeStamp = 0.0f;

@@ -26,6 +26,11 @@ public class MazeBuilder : BaseEnvBuilder {
 
     private float entryRotation = 0.0f;
 
+    public void Start()
+    {
+        loadLevel = ExperimentManager.CurrentExpSetting.level;
+    }
+
     public override void Init(Transform playerController)
     {
         CollectTaskPosList = new List<Vector3>();
@@ -33,7 +38,12 @@ public class MazeBuilder : BaseEnvBuilder {
         Vector3 initialPos = playerController.position;
 
         // build maze by map
-        if (AutoGenerate) GenerateMaze();
+        if (AutoGenerate)
+        {
+            GenerateMaze();
+            Debug.Log("generate done, file name: "+saveFileName);
+            return;
+        }
         
         MazeInfo mazeInfo = ReadFromJson();
 
@@ -366,8 +376,8 @@ public class MazeBuilder : BaseEnvBuilder {
         string dataAsJson = File.ReadAllText(filePath);
         MazeInfo WL = JsonUtility.FromJson<MazeInfo>(dataAsJson);
 
-        // RevertPath(WL, levelData.fileName);
-        // StartPathFrom(51, 9, WL, levelData.fileName);
+        //RevertPath(WL, levelData.fileName);
+        //StartPathFrom(51, 9, WL, levelData.fileName);
 
         return WL;
     }

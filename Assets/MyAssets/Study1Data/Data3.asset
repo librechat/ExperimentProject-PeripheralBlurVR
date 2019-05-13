@@ -8,15 +8,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3a512c313a23243a40c933b63417f2, type: 3}
-  m_Name: Level_C
+  m_Script: {fileID: 11500000, guid: 0f6ec054933ab89449e64137d609b986, type: 3}
+  m_Name: Data3
   m_EditorClassIdentifier: 
-  levelName: 2
-  fileName: maze20_A_StartAt51
-  mapSize:
-    x: 20
-    y: 20
-  entryPos:
-    x: 11
-    y: 10
-  entryRotation: 180
+  session: 1
+  SessionSettings:
+  - condition: 3
+    level: 1
+  - condition: 0
+    level: 2
+  - condition: 1
+    level: 0

@@ -25,11 +25,23 @@ public class ExperimentManager : MonoBehaviour {
     }
     private ExperimentState state = ExperimentState.Prepare;
 
+    [Header("Experiment Setting Data")]
     [SerializeField]
+    private ExperimentData m_ExperimentSettingConfig;
+    public static ExperimentData.SessionSetting CurrentExpSetting
+    {
+        get
+        {
+            return instance.m_ExperimentSettingConfig.SessionSettings[instance.m_ExperimentSettingConfig.session-1];
+        }
+    }
+
     ConditionData.ConditionEnum m_ConditionName;
     public static string ConditionName
     {
-        get { return instance.m_ConditionName.ToString(); }
+        get {
+            return instance.m_ConditionName.ToString();
+        }
     }
 
     [SerializeField]
@@ -99,6 +111,7 @@ public class ExperimentManager : MonoBehaviour {
         if (instance != null) Destroy(gameObject);
         instance = this;
 
+        m_ConditionName = CurrentExpSetting.condition;
         m_Condition = m_ConditionList[(int)m_ConditionName];
 	}
 
@@ -167,9 +180,8 @@ public class ExperimentManager : MonoBehaviour {
     public static void EndExperiment()
     {
         AudioPlayer.Play(AudioPlayer.AudioName.Final);
-
-        instance.expEndTime = DateTime.Now;
         instance.state = ExperimentState.Relax;
+        instance.expEndTime = DateTime.Now;        
 
         float time = (float)(instance.expEndTime.Ticks - instance.expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
         //long time = (ExpEndTime.Ticks - ExpStartTime.Ticks) / 1000000;

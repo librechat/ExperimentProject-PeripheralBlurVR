@@ -33,6 +33,7 @@ public class DiscomfortRecord : Record {
         return recordIndex.ToString() + "," +
             taskIndex.ToString() + "," +
             startTimeStamp.ToString() + "," +
+            questionedTimeStamp.ToString() + "," +
             endTimeStamp.ToString() + "," +
             discomfortScore.ToString();
     }
