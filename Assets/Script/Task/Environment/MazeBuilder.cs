@@ -377,7 +377,7 @@ public class MazeBuilder : BaseEnvBuilder {
         MazeInfo WL = JsonUtility.FromJson<MazeInfo>(dataAsJson);
 
         //RevertPath(WL, levelData.fileName);
-        //StartPathFrom(51, 9, WL, levelData.fileName);
+        //StartPathFrom(52, 9, WL, levelData.fileName);
 
         return WL;
     }
