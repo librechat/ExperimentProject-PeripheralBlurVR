@@ -20,6 +20,19 @@ public class GazeInputManager : MonoBehaviour {
         get { return s_Instance.gazePointCenter; }
     }
 
+    public static Vector2 RawGazePointLeft
+    {
+        get { return s_Instance.rawGazePointLeft;}
+    }
+    public static Vector2 RawGazePointRight
+    {
+        get { return s_Instance.rawGazePointRight;}
+    }
+    public static Vector2 RawGazePointCenter
+    {
+        get { return s_Instance.rawGazePointCenter;}
+    }
+
     private Vector2 gazePointLeft;
     private Vector2 gazePointRight;
     private Vector2 gazePointCenter;
@@ -62,12 +75,16 @@ public class GazeInputManager : MonoBehaviour {
     {
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
-            gazePointLeft = m_Recorder.RawGazePointLeft;
-            gazePointRight = m_Recorder.RawGazePointRight;
-            gazePointCenter = m_Recorder.RawGazePointCenter;
+            rawGazePointLeft = m_Recorder.RawGazePointLeft;
+            rawGazePointRight = m_Recorder.RawGazePointRight;
+            rawGazePointCenter = m_Recorder.RawGazePointCenter;
         }
         else if (PupilTools.IsConnected && PupilTools.IsGazing)
         {
+            rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
+            rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
+            rawGazePointCenter = PupilData._2D.GazePosition;
+
             if (usingRawSignal)
             {
                 gazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);

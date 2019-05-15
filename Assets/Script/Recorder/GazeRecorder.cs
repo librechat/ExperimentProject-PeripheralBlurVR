@@ -57,9 +57,9 @@ public class GazeRecorder : BaseRecorder {
 	
 	public override void Record(int currentClip){
 		// record controller action state as string
-        Vector2 left = GazeInputManager.GazePointLeft;
-        Vector2 right = GazeInputManager.GazePointRight;
-        Vector2 center = GazeInputManager.GazePointCenter;
+        Vector2 left = GazeInputManager.RawGazePointLeft;
+        Vector2 right = GazeInputManager.RawGazePointRight;
+        Vector2 center = GazeInputManager.RawGazePointCenter;
 
         string s = string.Format("{6}#{7}#{0}/{1}/{2}/{3}/{4}/{5}",
             left.x,
