@@ -41,6 +41,10 @@ public class GazeInputManager : MonoBehaviour {
     private Vector2 rawGazePointRight;
     private Vector2 rawGazePointCenter;
 
+    private bool blink = false;
+
+    private float speed = 2.0f;
+
     private GazeRecorder m_Recorder;
     public static GazeInputManager s_Instance;
 
@@ -58,21 +62,75 @@ public class GazeInputManager : MonoBehaviour {
     void Start()
     {
         PupilData.calculateMovingAverage = false;
-
         sceneCamera = VisaulEffectManager.SceneCamera;
+
+        PupilTools.OnConnected += StartSubscription;
+        PupilTools.OnDisconnecting += StopSubscription;
+        PupilTools.OnReceiveData += CustomReceiveData;
     }
 
-    void OnEnable()
+    void OnDisable()
     {
-        if (PupilTools.IsConnected)
+        PupilTools.OnConnected -= StartSubscription;
+        PupilTools.OnDisconnecting -= StopSubscription;
+        PupilTools.OnReceiveData -= CustomReceiveData;
+    }
+
+    void StartSubscription()
+    {
+        PupilTools.IsGazing = true;
+        PupilTools.SubscribeTo("gaze");
+
+        /*
+        PupilTools.SubscribeTo ("blinks");
+        PupilTools.Send(new Dictionary<string, object> {
+            { "subject", "start_plugin" }
+            ,{ "name", "Blink_Detection" }
+            ,{
+                "args", new Dictionary<string,object> {
+                    { "history_length", 0.2f }
+                    ,{ "onset_confidence_threshold", 0.5f }
+                    ,{ "offset_confidence_threshold", 0.5f }
+                }
+            }
+        });
+        */
+    }
+
+    void StopSubscription()
+    {
+        PupilTools.UnSubscribeFrom("gaze");
+        PupilTools.IsGazing = false;
+        /*
+        PupilTools.Send(new Dictionary<string, object> {
+            { "subject","stop_plugin" }
+            ,{ "name", "Blink_Detection" }
+        });
+
+        PupilTools.UnSubscribeFrom("blinks");
+        */
+    }
+
+    void CustomReceiveData(string topic, Dictionary<string, object> dictionary, byte[] thirdFrame = null)
+    {
+        if (topic == "blinks")
         {
-            PupilTools.IsGazing = true;
-            PupilTools.SubscribeTo("gaze");
+            if (dictionary.ContainsKey("timestamp"))
+            {
+                // Debug.Log("Blink detected: " + dictionary["timestamp"].ToString());
+                blink = true;
+                return;
+            }
         }
+        blink = false;
+        return;
     }
 
     void Update()
     {
+        // consider not to adopt gaze position: confidence, blink
+        if (blink) return;
+
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
             rawGazePointLeft = m_Recorder.RawGazePointLeft;
@@ -84,24 +142,20 @@ public class GazeInputManager : MonoBehaviour {
             rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
             rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
             rawGazePointCenter = PupilData._2D.GazePosition;
+        }
+        else return;
 
-            if (usingRawSignal)
-            {
-                gazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
-                gazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
-                gazePointCenter = PupilData._2D.GazePosition;
-            }
-            else
-            {
-                rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
-                rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
-                rawGazePointCenter = PupilData._2D.GazePosition;
-
-                UpdateGazePoint(rawGazePointLeft, gazePointLeft);
-                UpdateGazePoint(rawGazePointRight, gazePointRight);
-                UpdateGazePoint(rawGazePointCenter, gazePointCenter);
-            }
-            
+        if (usingRawSignal)
+        {
+            gazePointLeft = rawGazePointLeft;
+            gazePointRight = rawGazePointRight;
+            gazePointCenter = rawGazePointCenter;
+        }
+        else
+        {
+            UpdateGazePoint(rawGazePointLeft, gazePointLeft);
+            UpdateGazePoint(rawGazePointRight, gazePointRight);
+            UpdateGazePoint(rawGazePointCenter, gazePointCenter);
         }
     }
 
@@ -112,9 +166,10 @@ public class GazeInputManager : MonoBehaviour {
         {
             Vector2 delta = gazePoint - rawPoint;
             
-            if (delta.magnitude < 0.5f)
+            if (delta.magnitude < 0.05f)
             {
-                gazePoint = rawPoint;
+                // gazePoint = rawPoint;
+                gazePoint = Vector2.Lerp(gazePoint, rawPoint, speed * Time.deltaTime);
             }
         }
     }
