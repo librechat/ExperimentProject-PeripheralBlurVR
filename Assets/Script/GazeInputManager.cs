@@ -61,27 +61,30 @@ public class GazeInputManager : MonoBehaviour {
 
     void Start()
     {
-        PupilData.calculateMovingAverage = false;
         sceneCamera = VisaulEffectManager.SceneCamera;
 
+        /* PupilData.calculateMovingAverage = false;
         PupilTools.OnConnected += StartSubscription;
         PupilTools.OnDisconnecting += StopSubscription;
-        PupilTools.OnReceiveData += CustomReceiveData;
+        PupilTools.OnReceiveData += CustomReceiveData; */
     }
 
     void OnDisable()
     {
+        /*
         PupilTools.OnConnected -= StartSubscription;
         PupilTools.OnDisconnecting -= StopSubscription;
         PupilTools.OnReceiveData -= CustomReceiveData;
+        */
     }
 
     void StartSubscription()
     {
+        /*
         PupilTools.IsGazing = true;
         PupilTools.SubscribeTo("gaze");
 
-        /*
+        
         PupilTools.SubscribeTo ("blinks");
         PupilTools.Send(new Dictionary<string, object> {
             { "subject", "start_plugin" }
@@ -99,9 +102,10 @@ public class GazeInputManager : MonoBehaviour {
 
     void StopSubscription()
     {
+        /*
         PupilTools.UnSubscribeFrom("gaze");
         PupilTools.IsGazing = false;
-        /*
+        
         PupilTools.Send(new Dictionary<string, object> {
             { "subject","stop_plugin" }
             ,{ "name", "Blink_Detection" }
@@ -129,6 +133,9 @@ public class GazeInputManager : MonoBehaviour {
     void Update()
     {
         // consider not to adopt gaze position: confidence, blink
+        
+        /*
+        
         if (blink) return;
 
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
@@ -157,6 +164,7 @@ public class GazeInputManager : MonoBehaviour {
             UpdateGazePoint(rawGazePointRight, gazePointRight);
             UpdateGazePoint(rawGazePointCenter, gazePointCenter);
         }
+        */
     }
 
     void UpdateGazePoint(Vector2 rawPoint, Vector2 gazePoint)

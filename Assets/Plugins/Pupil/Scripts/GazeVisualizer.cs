@@ -122,7 +122,8 @@ namespace PupilLabs
             Vector3 direction = cameraTransform.TransformDirection(localGazeDirection);
 
             projectionMarker.localScale = origMarkerScale;
-            if (Physics.SphereCast(origin, sphereCastRadius, direction, out RaycastHit hit, Mathf.Infinity))
+            RaycastHit hit;
+            if (Physics.SphereCast(origin, sphereCastRadius, direction, out hit, Mathf.Infinity))
             {
                 Debug.DrawRay(origin, direction * hit.distance, Color.yellow);
 
