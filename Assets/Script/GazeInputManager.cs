@@ -1,11 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PupilLabs;
 
 public class GazeInputManager : MonoBehaviour {
 
-    private Camera sceneCamera;
-    private Vector3 standardViewportPoint = new Vector3(0.5f, 0.5f, 10);
+    [Header("Reference")]
+    public SubscriptionsController subscriptionsController;
+    public Transform cameraTransform;
+    private Camera camera;
+
+    private GazeRecorder m_Recorder;
+
+    [Header("Gaze Tracking Settings")]
+    [Range(0f, 1f)]
+    public float confidenceThreshold = 0.6f;
+
+    private GazeListener gazeListener = null;
+    private bool isGazing = false;
+
+    [Header("Gaze Data Handle Settings")]
+    [SerializeField]
+    private bool usingRawSignal = true;
+    private float lerpSpeed = 2.0f;
+
+    #region Data Accessors
 
     public static Vector2 GazePointLeft
     {
@@ -19,37 +38,22 @@ public class GazeInputManager : MonoBehaviour {
     {
         get { return s_Instance.gazePointCenter; }
     }
+    #endregion
 
-    public static Vector2 RawGazePointLeft
-    {
-        get { return s_Instance.rawGazePointLeft;}
-    }
-    public static Vector2 RawGazePointRight
-    {
-        get { return s_Instance.rawGazePointRight;}
-    }
-    public static Vector2 RawGazePointCenter
-    {
-        get { return s_Instance.rawGazePointCenter;}
-    }
+    #region Raw Data
 
+    private Vector2 gazePointCenter;
     private Vector2 gazePointLeft;
     private Vector2 gazePointRight;
-    private Vector2 gazePointCenter;
 
-    private Vector2 rawGazePointLeft;
-    private Vector2 rawGazePointRight;
-    private Vector2 rawGazePointCenter;
+    public Vector3 localGazeDirection;
+    public Vector3 gazeNormalLeft, gazeNormalRight;
+    public Vector3 eyeCenterLeft, eyeCenterRight;
 
     private bool blink = false;
+    #endregion
 
-    private float speed = 2.0f;
-
-    private GazeRecorder m_Recorder;
-    public static GazeInputManager s_Instance;
-
-    [SerializeField]
-    private bool usingRawSignal = true;
+    public static GazeInputManager s_Instance;    
 
     void Awake()
     {
@@ -57,114 +61,100 @@ public class GazeInputManager : MonoBehaviour {
         s_Instance = this;
 
         m_Recorder = GetComponent<GazeRecorder>();
+        camera = cameraTransform.GetComponent<Camera>();
     }
 
-    void Start()
+    void OnEnable()
     {
-        sceneCamera = VisaulEffectManager.SceneCamera;
-
-        /* PupilData.calculateMovingAverage = false;
-        PupilTools.OnConnected += StartSubscription;
-        PupilTools.OnDisconnecting += StopSubscription;
-        PupilTools.OnReceiveData += CustomReceiveData; */
+        if (subscriptionsController == null) return;
+        if (cameraTransform == null)
+        {
+            enabled = false;
+            return;
+        }
+        if (gazeListener == null)
+        {
+            gazeListener = new GazeListener(subscriptionsController);
+        }
+        gazeListener.OnReceive3dGaze += ReceiveGaze;
+        isGazing = true;
     }
 
     void OnDisable()
     {
-        /*
-        PupilTools.OnConnected -= StartSubscription;
-        PupilTools.OnDisconnecting -= StopSubscription;
-        PupilTools.OnReceiveData -= CustomReceiveData;
-        */
+        if (!isGazing) return;
+
+        isGazing = false;
+        if (gazeListener != null) gazeListener.OnReceive3dGaze -= ReceiveGaze;
     }
 
-    void StartSubscription()
+    void ReceiveGaze(GazeData gazeData)
     {
-        /*
-        PupilTools.IsGazing = true;
-        PupilTools.SubscribeTo("gaze");
+        if (gazeData.Confidence < confidenceThreshold) return;
 
-        
-        PupilTools.SubscribeTo ("blinks");
-        PupilTools.Send(new Dictionary<string, object> {
-            { "subject", "start_plugin" }
-            ,{ "name", "Blink_Detection" }
-            ,{
-                "args", new Dictionary<string,object> {
-                    { "history_length", 0.2f }
-                    ,{ "onset_confidence_threshold", 0.5f }
-                    ,{ "offset_confidence_threshold", 0.5f }
-                }
-            }
-        });
-        */
-    }
+        localGazeDirection = gazeData.GazeDirection;
 
-    void StopSubscription()
-    {
-        /*
-        PupilTools.UnSubscribeFrom("gaze");
-        PupilTools.IsGazing = false;
-        
-        PupilTools.Send(new Dictionary<string, object> {
-            { "subject","stop_plugin" }
-            ,{ "name", "Blink_Detection" }
-        });
-
-        PupilTools.UnSubscribeFrom("blinks");
-        */
-    }
-
-    void CustomReceiveData(string topic, Dictionary<string, object> dictionary, byte[] thirdFrame = null)
-    {
-        if (topic == "blinks")
+        if (gazeData.IsEyeDataAvailable(0))
         {
-            if (dictionary.ContainsKey("timestamp"))
-            {
-                // Debug.Log("Blink detected: " + dictionary["timestamp"].ToString());
-                blink = true;
-                return;
-            }
+            gazeNormalLeft = gazeData.GazeNormal0;
+            eyeCenterLeft = gazeData.EyeCenter0;
         }
-        blink = false;
-        return;
+        if (gazeData.IsEyeDataAvailable(1))
+        {
+            gazeNormalRight = gazeData.GazeNormal1;
+            eyeCenterRight = gazeData.EyeCenter1;
+        }
     }
 
     void Update()
     {
         // consider not to adopt gaze position: confidence, blink
         
-        /*
-        
-        if (blink) return;
+        if(!isGazing) return;
+
+        // if (blink) return;
 
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
-            rawGazePointLeft = m_Recorder.RawGazePointLeft;
-            rawGazePointRight = m_Recorder.RawGazePointRight;
-            rawGazePointCenter = m_Recorder.RawGazePointCenter;
+            localGazeDirection = m_Recorder.localGazeDirection;
+            eyeCenterLeft = m_Recorder.eyeCenterLeft;
+            eyeCenterRight = m_Recorder.eyeCenterRight;
+            gazeNormalLeft = m_Recorder.gazeNormalLeft;
+            gazeNormalRight = m_Recorder.gazeNormalRight;
         }
-        else if (PupilTools.IsConnected && PupilTools.IsGazing)
-        {
-            rawGazePointLeft = PupilData._2D.GetEyePosition(sceneCamera, PupilData.leftEyeID);
-            rawGazePointRight = PupilData._2D.GetEyePosition(sceneCamera, PupilData.rightEyeID);
-            rawGazePointCenter = PupilData._2D.GazePosition;
-        }
-        else return;
+
+        Vector2 rawPointCenter = GetScreenPoint(localGazeDirection);
+        Vector2 rawPointLeft = GetScreenPoint(eyeCenterLeft, gazeNormalLeft);
+        Vector2 rawPointRight = GetScreenPoint(eyeCenterRight, gazeNormalRight);
 
         if (usingRawSignal)
         {
-            gazePointLeft = rawGazePointLeft;
-            gazePointRight = rawGazePointRight;
-            gazePointCenter = rawGazePointCenter;
+            gazePointCenter = rawPointCenter;
+            gazePointLeft = rawPointLeft;
+            gazePointRight = rawPointRight;
         }
         else
         {
-            UpdateGazePoint(rawGazePointLeft, gazePointLeft);
-            UpdateGazePoint(rawGazePointRight, gazePointRight);
-            UpdateGazePoint(rawGazePointCenter, gazePointCenter);
+            UpdateGazePoint(rawPointCenter, gazePointCenter);
+            UpdateGazePoint(rawPointLeft, gazePointCenter);
+            UpdateGazePoint(rawPointRight, gazePointCenter);
         }
-        */
+    }
+
+    Vector2 GetScreenPoint(Vector3 localDirection)
+    {
+        Vector3 origin = cameraTransform.position;
+        Vector3 direction = cameraTransform.TransformDirection(localDirection);
+
+        return camera.WorldToScreenPoint(origin + direction);
+    }
+    Vector2 GetScreenPoint(Vector3 eyePos, Vector3 localDirection)
+    {
+        Vector3 origin = cameraTransform.position;
+        Vector3 direction = cameraTransform.TransformDirection(localDirection);
+        Vector3 pos = cameraTransform.TransformPoint(eyePos);
+
+        return camera.WorldToScreenPoint(eyePos + direction);
     }
 
     void UpdateGazePoint(Vector2 rawPoint, Vector2 gazePoint)
@@ -177,7 +167,7 @@ public class GazeInputManager : MonoBehaviour {
             if (delta.magnitude < 0.05f)
             {
                 // gazePoint = rawPoint;
-                gazePoint = Vector2.Lerp(gazePoint, rawPoint, speed * Time.deltaTime);
+                gazePoint = Vector2.Lerp(gazePoint, rawPoint, lerpSpeed * Time.deltaTime);
             }
         }
     }
