@@ -146,7 +146,14 @@ public class GazeInputManager : MonoBehaviour {
         Vector3 origin = cameraTransform.position;
         Vector3 direction = cameraTransform.TransformDirection(localDirection);
 
-        return camera.WorldToScreenPoint(origin + direction);
+        Vector2 point = camera.WorldToScreenPoint(origin + direction);       
+
+        point.x /= camera.pixelWidth;
+        point.y /= camera.pixelHeight;
+
+        Debug.Log(point);
+
+        return point;
     }
     Vector2 GetScreenPoint(Vector3 eyePos, Vector3 localDirection)
     {
