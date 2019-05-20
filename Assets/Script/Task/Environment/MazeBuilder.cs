@@ -80,7 +80,7 @@ public class MazeBuilder : BaseEnvBuilder {
     }
 
 
-    //=============== Build Maze ==============
+    #region Build Maze Classes
     [System.Serializable]
     public class Vector2i {
         public int x;
@@ -148,7 +148,7 @@ public class MazeBuilder : BaseEnvBuilder {
         if (pos.x < 0 || pos.y < 0 || pos.x >= mapsize.x || pos.y >= mapsize.y) return false;
         else return true;
     }
-
+    #endregion
     void GenerateMaze()
     {
         Debug.Log("Generate");
