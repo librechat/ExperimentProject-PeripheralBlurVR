@@ -12,6 +12,7 @@ public class GazeRecorder : BaseRecorder {
     public Vector3 localGazeDirection;
     public Vector3 gazeNormalLeft, gazeNormalRight;
     public Vector3 eyeCenterLeft, eyeCenterRight;
+    public bool blink;
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
@@ -43,7 +44,9 @@ public class GazeRecorder : BaseRecorder {
                        vectorList.Add(new Vector3(x, y, z));
                     }
 
-                    m_ClipList.Add(new GazeRecorderData(index, timeStamp, vectorList));
+                    bool blink = Convert.ToBoolean(s[15]);
+
+                    m_ClipList.Add(new GazeRecorderData(index, timeStamp, vectorList, blink));
                 }
             }
         }
@@ -57,7 +60,9 @@ public class GazeRecorder : BaseRecorder {
         eyeCenterLeft = GazeInputManager.s_Instance.eyeCenterLeft;
         eyeCenterRight = GazeInputManager.s_Instance.eyeCenterRight;
 
-        string s = string.Format("{15}#{16}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}",
+        blink = GazeInputManager.s_Instance.blink;
+
+        string s = string.Format("{16}#{17}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}/{15}",
             localGazeDirection.x,
             localGazeDirection.y,
             localGazeDirection.z,
@@ -77,6 +82,8 @@ public class GazeRecorder : BaseRecorder {
             eyeCenterRight.x,
             eyeCenterRight.y,
             eyeCenterRight.z,
+
+            blink,
 
             currentClip,
             Time.time);
@@ -99,7 +106,9 @@ public class GazeRecorderData : BaseRecordData
     public Vector3 gazeNormalLeft, gazeNormalRight;
     public Vector3 eyeCenterLeft, eyeCenterRight;
 
-    public GazeRecorderData(int idx, float time, List<Vector3> vectorList)
+    public bool blink;
+
+    public GazeRecorderData(int idx, float time, List<Vector3> vectorList, bool blink)
     {
         index = idx;
         timeStamp = time;
@@ -109,5 +118,7 @@ public class GazeRecorderData : BaseRecordData
         gazeNormalRight = vectorList[2];
         eyeCenterLeft = vectorList[3];
         eyeCenterRight = vectorList[4];
+
+        this.blink = blink;
     }
 }

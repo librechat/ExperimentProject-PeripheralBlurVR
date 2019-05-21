@@ -17,6 +17,7 @@ public class GazeInputManager : MonoBehaviour {
     public float confidenceThreshold = 0.6f;
 
     private GazeListener gazeListener = null;
+    private BlinkListener blinkListener = null;
     private bool isGazing = false;
 
     [Header("Gaze Data Handle Settings")]
@@ -51,7 +52,7 @@ public class GazeInputManager : MonoBehaviour {
     public Vector3 gazeNormalLeft, gazeNormalRight;
     public Vector3 eyeCenterLeft, eyeCenterRight;
 
-    private bool blink = false;
+    public bool blink = false;
     #endregion
 
     public static GazeInputManager s_Instance;    
@@ -77,7 +78,12 @@ public class GazeInputManager : MonoBehaviour {
         {
             gazeListener = new GazeListener(subscriptionsController);
         }
+        if (blinkListener == null)
+        {
+            blinkListener = new BlinkListener(subscriptionsController);
+        }
         gazeListener.OnReceive3dGaze += Receive3dGaze;
+        blinkListener.OnBlinkDetected += BlinkDetected;
         isGazing = true;
     }
 
@@ -87,6 +93,7 @@ public class GazeInputManager : MonoBehaviour {
 
         isGazing = false;
         if (gazeListener != null) gazeListener.OnReceive3dGaze -= Receive3dGaze;
+        if (blinkListener != null) blinkListener.OnBlinkDetected -= BlinkDetected;
     }
 
     void Receive3dGaze(GazeData gazeData)
@@ -107,13 +114,16 @@ public class GazeInputManager : MonoBehaviour {
         }
     }
 
+    void BlinkDetected(bool blink)
+    {
+        this.blink = blink;
+    }
+
     void Update()
     {
         // consider not to adopt gaze position: blink
         
         if(!isGazing) return;
-
-        // TODO: detect blink and not to record gaze position when blinking
 
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
@@ -122,7 +132,12 @@ public class GazeInputManager : MonoBehaviour {
             eyeCenterRight = m_Recorder.eyeCenterRight;
             gazeNormalLeft = m_Recorder.gazeNormalLeft;
             gazeNormalRight = m_Recorder.gazeNormalRight;
+
+            blink = m_Recorder.blink;
         }
+
+        // TODO: if detect blink, not to generate gaze point
+        if (blink) return;
 
         Vector2 rawPointCenter = GetScreenPoint(localGazeDirection);
         Vector2 rawPointLeft = GetScreenPoint(eyeCenterLeft, gazeNormalLeft, Camera.MonoOrStereoscopicEye.Left);
