@@ -119,7 +119,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 5975811081193172790}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e20265586a4da44ebe77859791315a5, type: 3}
   m_Name: 
@@ -203,7 +203,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &537729863
+--- !u!43 &644495503
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -465,7 +465,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!21 &1202603788
+--- !u!21 &1762526544
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -1045,7 +1045,7 @@ PrefabInstance:
     - target: {fileID: 5975811081187749228, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5972262530017521235, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
@@ -1106,12 +1106,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1202603788}
+      objectReference: {fileID: 1762526544}
     - target: {fileID: 5951658626508884921, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 537729863}
+      objectReference: {fileID: 644495503}
     - target: {fileID: 5955945390595349629, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
       propertyPath: near clip plane
@@ -1306,6 +1306,12 @@ PrefabInstance:
       propertyPath: hintText
       value: 
       objectReference: {fileID: 114049875120878617}
+    - target: {fileID: 7834005055559503484, guid: 8fb772780e4da6949ba69cfaf2224641,
+        type: 3}
+      propertyPath: m_ExperimentSettingConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 95eb754c10f64d242a1751146bebebda,
+        type: 2}
     - target: {fileID: 7834005055668461905, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
       propertyPath: m_RecorderList.Array.data[2]
