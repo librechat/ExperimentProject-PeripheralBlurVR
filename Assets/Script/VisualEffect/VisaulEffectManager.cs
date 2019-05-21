@@ -123,10 +123,12 @@ public class VisaulEffectManager : MonoBehaviour
             blurredCameras[i].camera.ForwardTarget = forwardTarget;
             blurredCameras[i].camera.CurShader = CurShader;
         }
+    }
 
+    public void Init()
+    {
         // set parameters
         SetParameters(ExperimentManager.Condition);
-        
     }
 
     void OnValidate()

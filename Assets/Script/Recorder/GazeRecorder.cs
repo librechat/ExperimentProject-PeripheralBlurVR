@@ -9,13 +9,9 @@ using ThreadPriority = System.Threading.ThreadPriority;
 
 public class GazeRecorder : BaseRecorder {
 
-    public Vector2 RawGazePointLeft { get { return rawGazePointLeft; } }
-    public Vector2 RawGazePointRight { get { return rawGazePointRight; } }
-    public Vector2 RawGazePointCenter { get { return rawGazePointCenter; } }
-
-    private Vector2 rawGazePointLeft;
-    private Vector2 rawGazePointRight;
-    private Vector2 rawGazePointCenter;
+    public Vector3 localGazeDirection;
+    public Vector3 gazeNormalLeft, gazeNormalRight;
+    public Vector3 eyeCenterLeft, eyeCenterRight;
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
@@ -36,20 +32,18 @@ public class GazeRecorder : BaseRecorder {
                     float timeStamp = Convert.ToSingle(elements[1]);
 
                     string[] s = elements[2].Trim().Split('/');
-                    
-                    float x = Convert.ToSingle(s[0]);
-                    float y = Convert.ToSingle(s[1]);
-                    Vector2 left = new Vector2(x, y);
 
-                    x = Convert.ToSingle(s[2]);
-                    y = Convert.ToSingle(s[3]);
-                    Vector2 right = new Vector2(x, y);
+                    List<Vector3> vectorList = new List<Vector3>();
+                    for (int i = 0; i < 15; i+=3)
+                    {
+                        float x = Convert.ToSingle(s[i]);
+                        float y = Convert.ToSingle(s[i+1]);
+                        float z = Convert.ToSingle(s[i+2]);
 
-                    x = Convert.ToSingle(s[4]);
-                    y = Convert.ToSingle(s[5]);
-                    Vector2 center = new Vector2(x, y);
+                       vectorList.Add(new Vector3(x, y, z));
+                    }
 
-                    m_ClipList.Add(new GazeRecorderData(index, timeStamp, left, right, center));
+                    m_ClipList.Add(new GazeRecorderData(index, timeStamp, vectorList));
                 }
             }
         }
@@ -57,17 +51,33 @@ public class GazeRecorder : BaseRecorder {
 	
 	public override void Record(int currentClip){
 		// record controller action state as string
-        Vector2 left = GazeInputManager.GazePointLeft;
-        Vector2 right = GazeInputManager.GazePointRight;
-        Vector2 center = GazeInputManager.GazePointCenter;
+        localGazeDirection = GazeInputManager.s_Instance.localGazeDirection;
+        gazeNormalLeft = GazeInputManager.s_Instance.gazeNormalLeft;
+        gazeNormalRight = GazeInputManager.s_Instance.gazeNormalRight;
+        eyeCenterLeft = GazeInputManager.s_Instance.eyeCenterLeft;
+        eyeCenterRight = GazeInputManager.s_Instance.eyeCenterRight;
 
-        string s = string.Format("{6}#{7}#{0}/{1}/{2}/{3}/{4}/{5}",
-            left.x,
-            left.y,
-            right.x,
-            right.y,
-            center.x,
-            center.y,
+        string s = string.Format("{15}#{16}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}",
+            localGazeDirection.x,
+            localGazeDirection.y,
+            localGazeDirection.z,
+
+            gazeNormalLeft.x,
+            gazeNormalLeft.y,
+            gazeNormalLeft.z,
+            
+            gazeNormalRight.x,
+            gazeNormalRight.y,
+            gazeNormalRight.z,
+
+            eyeCenterLeft.x,
+            eyeCenterLeft.y,
+            eyeCenterLeft.z,
+
+            eyeCenterRight.x,
+            eyeCenterRight.y,
+            eyeCenterRight.z,
+
             currentClip,
             Time.time);
 
@@ -79,25 +89,25 @@ public class GazeRecorder : BaseRecorder {
         if (currentClip >= m_ClipList.Count) return;
         GazeRecorderData data = m_ClipList[currentClip] as GazeRecorderData;
 
-        rawGazePointCenter = data.rawGazePointCenter;
-        rawGazePointLeft = data.rawGazePointLeft;
-        rawGazePointRight = data.rawGazePointRight;
+        localGazeDirection = data.localGazeDirection;
 	}
 }
 
 public class GazeRecorderData : BaseRecordData
 {
-    public Vector2 rawGazePointLeft;
-    public Vector2 rawGazePointRight;
-    public Vector2 rawGazePointCenter;
-    
-    public GazeRecorderData(int idx, float time, Vector2 left, Vector2 right, Vector2 center)
+    public Vector3 localGazeDirection;
+    public Vector3 gazeNormalLeft, gazeNormalRight;
+    public Vector3 eyeCenterLeft, eyeCenterRight;
+
+    public GazeRecorderData(int idx, float time, List<Vector3> vectorList)
     {
         index = idx;
         timeStamp = time;
 
-        rawGazePointCenter = center;
-        rawGazePointLeft = left;
-        rawGazePointRight = right;
+        localGazeDirection = vectorList[0];
+        gazeNormalLeft = vectorList[1];
+        gazeNormalRight = vectorList[2];
+        eyeCenterLeft = vectorList[3];
+        eyeCenterRight = vectorList[4];
     }
 }

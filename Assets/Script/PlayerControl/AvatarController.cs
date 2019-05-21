@@ -17,7 +17,7 @@ public class AvatarController : MonoBehaviour {
     void FixedUpdate () {
         prevPos = transform.position;
         //UpdateRotation();
-        UpdateTransform();
+        if(ExperimentManager.State == ExperimentManager.ExperimentState.Performing) UpdateTransform();
 	}
 
     void OnTriggerEnter(Collider collider)

@@ -9,7 +9,7 @@ using System.IO;
 public class ExperimentManager : MonoBehaviour {
 
     public enum ExperimentState {
-        Prepare = 0,
+        Prepare,
         Performing,
         Pause,
         Relax
@@ -129,16 +129,10 @@ public class ExperimentManager : MonoBehaviour {
         recordManager._Update(Time.fixedDeltaTime);
         if (state == ExperimentState.Prepare)
         {
-            if (InputManager.GetStartButton())
+            /*if (InputManager.GetStartButton())
             {
-                Debug.Log("Get start button");
-
-                state = ExperimentState.Performing;
-
-                expStartTime = DateTime.Now;
-                taskManager.Init(playerController);
-                // display start hint?
-            }
+                
+            }*/
         }
         else if (state == ExperimentState.Performing)
         {
@@ -152,10 +146,10 @@ public class ExperimentManager : MonoBehaviour {
                 taskManager.End();
                 state = ExperimentState.Prepare;
             }
-            else ;
-            
+            else;
+
             taskManager.update(Time.deltaTime);
-            
+
         }
         else if (state == ExperimentState.Pause)
         {
@@ -164,11 +158,24 @@ public class ExperimentManager : MonoBehaviour {
                 state = ExperimentState.Performing;
             }
         }
-        else ;
+        else;
 	}
+
+    public static void StartExperiment()
+    {
+        Debug.Log("Get start button");
+
+        instance.state = ExperimentState.Performing;
+
+        instance.expStartTime = DateTime.Now;
+        instance.taskManager.Init(instance.playerController);
+        
+        // play start hint audio?
+    }
 
     bool m_CollectEnd = false;
     bool m_SpatialEnd = false;
+
     public static void TryEndExperiment(string source)
     {
         if (source == "collect") instance.m_CollectEnd = true;
