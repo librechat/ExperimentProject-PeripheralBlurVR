@@ -48,7 +48,6 @@ namespace PupilLabs
         public void Disable()
         {
             Debug.Log("Disabling Gaze Listener");
-
             subsCtrl.UnsubscribeFrom("gaze.3d", Receive3DGaze);
         }
 

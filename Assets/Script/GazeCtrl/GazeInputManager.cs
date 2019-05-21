@@ -22,6 +22,7 @@ public class GazeInputManager : MonoBehaviour {
     [Header("Gaze Data Handle Settings")]
     [SerializeField]
     private bool usingRawSignal = true;
+    [SerializeField]
     private float lerpSpeed = 2.0f;
 
     #region Data Accessors
@@ -76,7 +77,7 @@ public class GazeInputManager : MonoBehaviour {
         {
             gazeListener = new GazeListener(subscriptionsController);
         }
-        gazeListener.OnReceive3dGaze += ReceiveGaze;
+        gazeListener.OnReceive3dGaze += Receive3dGaze;
         isGazing = true;
     }
 
@@ -85,10 +86,10 @@ public class GazeInputManager : MonoBehaviour {
         if (!isGazing) return;
 
         isGazing = false;
-        if (gazeListener != null) gazeListener.OnReceive3dGaze -= ReceiveGaze;
+        if (gazeListener != null) gazeListener.OnReceive3dGaze -= Receive3dGaze;
     }
 
-    void ReceiveGaze(GazeData gazeData)
+    void Receive3dGaze(GazeData gazeData)
     {
         if (gazeData.Confidence < confidenceThreshold) return;
 
@@ -108,11 +109,11 @@ public class GazeInputManager : MonoBehaviour {
 
     void Update()
     {
-        // consider not to adopt gaze position: confidence, blink
+        // consider not to adopt gaze position: blink
         
         if(!isGazing) return;
 
-        // if (blink) return;
+        // TODO: detect blink and not to record gaze position when blinking
 
         if (InputManager.Hardware == InputManager.HmdType.Recorder)
         {
@@ -124,8 +125,8 @@ public class GazeInputManager : MonoBehaviour {
         }
 
         Vector2 rawPointCenter = GetScreenPoint(localGazeDirection);
-        Vector2 rawPointLeft = GetScreenPoint(eyeCenterLeft, gazeNormalLeft);
-        Vector2 rawPointRight = GetScreenPoint(eyeCenterRight, gazeNormalRight);
+        Vector2 rawPointLeft = GetScreenPoint(eyeCenterLeft, gazeNormalLeft, Camera.MonoOrStereoscopicEye.Left);
+        Vector2 rawPointRight = GetScreenPoint(eyeCenterRight, gazeNormalRight, Camera.MonoOrStereoscopicEye.Right);
 
         if (usingRawSignal)
         {
@@ -135,9 +136,9 @@ public class GazeInputManager : MonoBehaviour {
         }
         else
         {
-            UpdateGazePoint(rawPointCenter, gazePointCenter);
-            UpdateGazePoint(rawPointLeft, gazePointCenter);
-            UpdateGazePoint(rawPointRight, gazePointCenter);
+            gazePointCenter = UpdateGazePoint(rawPointCenter, gazePointCenter);
+            gazePointLeft = UpdateGazePoint(rawPointLeft, gazePointLeft);
+            gazePointRight = UpdateGazePoint(rawPointRight, gazePointRight);
         }
     }
 
@@ -155,27 +156,27 @@ public class GazeInputManager : MonoBehaviour {
 
         return point;
     }
-    Vector2 GetScreenPoint(Vector3 eyePos, Vector3 localDirection)
+    Vector2 GetScreenPoint(Vector3 eyePos, Vector3 localDirection, Camera.MonoOrStereoscopicEye eye)
     {
-        Vector3 origin = cameraTransform.position;
-        Vector3 direction = cameraTransform.TransformDirection(localDirection);
         Vector3 pos = cameraTransform.TransformPoint(eyePos);
+        Vector3 direction = cameraTransform.TransformDirection(localDirection);        
 
-        return camera.WorldToScreenPoint(eyePos + direction);
+        Vector2 point = camera.WorldToScreenPoint(pos + direction, eye);
+
+        point.x /= camera.pixelWidth;
+        point.y /= camera.pixelHeight;
+
+        return point;
     }
 
-    void UpdateGazePoint(Vector2 rawPoint, Vector2 gazePoint)
+    Vector2 UpdateGazePoint(Vector2 rawPoint, Vector2 gazePoint)
     {
-        if (gazePoint == null) gazePoint = rawPoint;
+        if (gazePoint == null) return rawPoint;
         else
         {
-            Vector2 delta = gazePoint - rawPoint;
-            
-            if (delta.magnitude < 0.05f)
-            {
-                // gazePoint = rawPoint;
-                gazePoint = Vector2.Lerp(gazePoint, rawPoint, lerpSpeed * Time.deltaTime);
-            }
+            //Vector2 delta = gazePoint - rawPoint;
+
+            return Vector2.Lerp(gazePoint, rawPoint, lerpSpeed * Time.deltaTime);
         }
     }
 }

@@ -38,5 +38,7 @@ public class CalibrationToggle : MonoBehaviour
         playGround.SetActive(true);
 
         ExperimentManager.StartExperiment();
+
+        // gameObject.SetActive(false);
     }
 }
