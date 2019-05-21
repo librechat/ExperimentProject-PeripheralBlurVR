@@ -80,7 +80,7 @@ public class MazeBuilder : BaseEnvBuilder {
     }
 
 
-    //=============== Build Maze ==============
+    #region Build Maze Classes
     [System.Serializable]
     public class Vector2i {
         public int x;
@@ -148,7 +148,7 @@ public class MazeBuilder : BaseEnvBuilder {
         if (pos.x < 0 || pos.y < 0 || pos.x >= mapsize.x || pos.y >= mapsize.y) return false;
         else return true;
     }
-
+    #endregion
     void GenerateMaze()
     {
         Debug.Log("Generate");
@@ -377,7 +377,7 @@ public class MazeBuilder : BaseEnvBuilder {
         MazeInfo WL = JsonUtility.FromJson<MazeInfo>(dataAsJson);
 
         //RevertPath(WL, levelData.fileName);
-        //StartPathFrom(51, 9, WL, levelData.fileName);
+        //StartPathFrom(52, 9, WL, levelData.fileName);
 
         return WL;
     }

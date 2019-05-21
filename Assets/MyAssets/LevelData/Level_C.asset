@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Level_C
   m_EditorClassIdentifier: 
   levelName: 2
-  fileName: maze20_A_StartAt51
+  fileName: maze20_A_StartAt52
   mapSize:
     x: 20
     y: 20
