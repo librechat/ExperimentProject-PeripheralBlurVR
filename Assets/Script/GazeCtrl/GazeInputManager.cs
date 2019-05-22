@@ -137,7 +137,11 @@ public class GazeInputManager : MonoBehaviour {
         }
 
         // TODO: if detect blink, not to generate gaze point
-        if (blink) return;
+        if (blink)
+        {
+            blink = false;
+            return;
+        }
 
         Vector2 rawPointCenter = GetScreenPoint(localGazeDirection);
         Vector2 rawPointLeft = GetScreenPoint(eyeCenterLeft, gazeNormalLeft, Camera.MonoOrStereoscopicEye.Left);
@@ -166,8 +170,6 @@ public class GazeInputManager : MonoBehaviour {
 
         point.x /= camera.pixelWidth;
         point.y /= camera.pixelHeight;
-
-        Debug.Log(point);
 
         return point;
     }

@@ -9,6 +9,9 @@ using ThreadPriority = System.Threading.ThreadPriority;
 
 public class GazeRecorder : BaseRecorder {
 
+    [SerializeField]
+    GazeInputManager gazeInputManager;
+
     public Vector3 localGazeDirection;
     public Vector3 gazeNormalLeft, gazeNormalRight;
     public Vector3 eyeCenterLeft, eyeCenterRight;
@@ -16,7 +19,7 @@ public class GazeRecorder : BaseRecorder {
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
-        string filePath = Path.Combine(Application.streamingAssetsPath, "/Behaviors/" + fileName + "_" + recordName + ".txt");
+        string filePath = Application.streamingAssetsPath + "/Behaviors/" + fileName + "_" + recordName + ".txt";
 
         if (new FileInfo(filePath).Exists == false) return;
 
@@ -54,13 +57,13 @@ public class GazeRecorder : BaseRecorder {
 	
 	public override void Record(int currentClip){
 		// record controller action state as string
-        localGazeDirection = GazeInputManager.s_Instance.localGazeDirection;
-        gazeNormalLeft = GazeInputManager.s_Instance.gazeNormalLeft;
-        gazeNormalRight = GazeInputManager.s_Instance.gazeNormalRight;
-        eyeCenterLeft = GazeInputManager.s_Instance.eyeCenterLeft;
-        eyeCenterRight = GazeInputManager.s_Instance.eyeCenterRight;
+        localGazeDirection = gazeInputManager.localGazeDirection;
+        gazeNormalLeft = gazeInputManager.gazeNormalLeft;
+        gazeNormalRight = gazeInputManager.gazeNormalRight;
+        eyeCenterLeft = gazeInputManager.eyeCenterLeft;
+        eyeCenterRight = gazeInputManager.eyeCenterRight;
 
-        blink = GazeInputManager.s_Instance.blink;
+        blink = gazeInputManager.blink;
 
         string s = string.Format("{16}#{17}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}/{14}/{15}",
             localGazeDirection.x,
@@ -97,7 +100,13 @@ public class GazeRecorder : BaseRecorder {
         GazeRecorderData data = m_ClipList[currentClip] as GazeRecorderData;
 
         localGazeDirection = data.localGazeDirection;
-	}
+        gazeNormalLeft = data.gazeNormalLeft;
+        gazeNormalRight = data.gazeNormalRight;
+        eyeCenterLeft = data.eyeCenterLeft;
+        eyeCenterRight = data.eyeCenterRight;
+
+        blink = data.blink;
+    }
 }
 
 public class GazeRecorderData : BaseRecordData

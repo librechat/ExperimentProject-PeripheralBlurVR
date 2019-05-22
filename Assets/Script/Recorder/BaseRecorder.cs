@@ -22,8 +22,7 @@ public class BaseRecorder : MonoBehaviour {
 
 
     public virtual void Load(string fileName){
-		
-	}
+    }
 
     public void Save()
     {
@@ -48,7 +47,7 @@ public class BaseRecorder : MonoBehaviour {
 		
 	}
 }
-
+[System.Serializable]
 public class BaseRecordData
 {
     public int index;

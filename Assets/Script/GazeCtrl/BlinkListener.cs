@@ -42,7 +42,7 @@ namespace PupilLabs
         {
             Debug.Log("Enabling Blink Listener");
 
-            subscriptionsController.SubscribeTo("blinks", CustomReceiveData);
+            subsCtrl.SubscribeTo("blinks", CustomReceiveData);
 
             requestCtrl.StartPlugin(
                 "Blink_Detection",
@@ -58,7 +58,7 @@ namespace PupilLabs
         {
             requestCtrl.StopPlugin("Blink_Detection");
 
-            subscriptionsController.UnsubscribeFrom("blinks", CustomReceiveData);
+            subsCtrl.UnsubscribeFrom("blinks", CustomReceiveData);
         }
 
         void CustomReceiveData(string topic, Dictionary<string, object> dictionary, byte[] thirdFrame = null)

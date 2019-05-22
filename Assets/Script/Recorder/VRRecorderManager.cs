@@ -54,6 +54,7 @@ public class VRRecorderManager: MonoBehaviour
 
             InputManager.Hardware = InputManager.HmdType.Recorder;
             // load record file
+            // Debug.Log("load record files");
             for (int i = 0; i < m_RecorderList.Count; i++) m_RecorderList[i].Load(loadFileName);
         }
         else if (mode == RecorderMode.IsRecording)

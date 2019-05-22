@@ -43,6 +43,8 @@ public class ExperimentManager : MonoBehaviour {
             return instance.m_ConditionName.ToString();
         }
     }
+    [SerializeField]
+    private bool usingGazeInfo = true;
 
     [SerializeField]
     List<ConditionData> m_ConditionList;
@@ -85,7 +87,9 @@ public class ExperimentManager : MonoBehaviour {
     {
         get { return instance.controllerStick; }
     }
-   
+    [SerializeField]
+    GameObject gazeManager;
+
     [SerializeField]
     Text hintText;   
 
@@ -113,7 +117,11 @@ public class ExperimentManager : MonoBehaviour {
 
         m_ConditionName = CurrentExpSetting.condition;
         m_Condition = m_ConditionList[(int)m_ConditionName];
-	}
+
+        if (!usingGazeInfo) gazeManager.SetActive(false);
+        else gazeManager.SetActive(true);
+
+    }
 
     void OnValidate()
     {
@@ -133,6 +141,10 @@ public class ExperimentManager : MonoBehaviour {
             {
                 
             }*/
+            if (!usingGazeInfo)
+            {
+                if (InputManager.GetStartButton()) StartExperiment();
+            }
         }
         else if (state == ExperimentState.Performing)
         {
@@ -163,7 +175,7 @@ public class ExperimentManager : MonoBehaviour {
 
     public static void StartExperiment()
     {
-        Debug.Log("Get start button");
+        Debug.Log("start experiment");
 
         instance.state = ExperimentState.Performing;
 
