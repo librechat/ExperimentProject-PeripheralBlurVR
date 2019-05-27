@@ -23,15 +23,15 @@ public class CalibrationToggle : MonoBehaviour
 
     void OnEnable()
     {
-        calibrationController.OnCalibrationSucceeded += AfterCalibration;
+        calibrationController.OnCalibrationSucceeded += StartExperiment;
     }
 
     void OnDisable()
     {
-        calibrationController.OnCalibrationSucceeded -= AfterCalibration;
+        calibrationController.OnCalibrationSucceeded -= StartExperiment;
     }
 
-    void AfterCalibration()
+    void StartExperiment()
     {
         visaulEffectManager.Init();
         camera.clearFlags = CameraClearFlags.Skybox;

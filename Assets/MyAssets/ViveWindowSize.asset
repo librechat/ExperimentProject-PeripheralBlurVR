@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -20,5 +21,5 @@ MonoBehaviour:
     Inner: 0.15
     Outer: 0.35
   - Name: 2
-    Inner: 0.2
-    Outer: 0.4
+    Inner: 0.17
+    Outer: 0.37

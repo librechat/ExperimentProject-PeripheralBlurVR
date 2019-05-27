@@ -185,14 +185,14 @@ public class VisaulEffectManager : MonoBehaviour
 
     void KeyInput()
     {
-        if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetButtonDown("Oculus_GearVR_X"))
+        /* if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetButtonDown("Oculus_GearVR_X"))
         {
             indicated = !indicated;
         }
         if (Input.GetKeyUp(KeyCode.Alpha2) || Input.GetButtonDown("Oculus_GearVR_Y"))
         {
             BlurEnabled = !BlurEnabled;
-        }
+        } */
     }
 
     public void SetParameters(ConditionData condition)

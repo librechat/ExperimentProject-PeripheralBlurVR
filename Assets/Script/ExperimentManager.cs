@@ -118,7 +118,11 @@ public class ExperimentManager : MonoBehaviour {
         m_ConditionName = CurrentExpSetting.condition;
         m_Condition = m_ConditionList[(int)m_ConditionName];
 
-        if (!usingGazeInfo) gazeManager.SetActive(false);
+        if (!usingGazeInfo)
+        {
+            gazeManager.SetActive(false);
+            visualEffectManager.Init();
+        }
         else gazeManager.SetActive(true);
 
     }
