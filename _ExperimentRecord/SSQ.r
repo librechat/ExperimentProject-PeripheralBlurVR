@@ -79,6 +79,8 @@ compareTable = data.frame(PreSSQ$Participant, PreSSQ$Session, PreSSQ$Condition, 
 colnames(compareTable) <- c("Participant", "Session", "Condition","Pre", "Post")
 print(compareTable)
 
+#compareTable[compareTable$Participant == 1,]
+
 #CompareWithCondition(PreSSQ, PostSSQ)
 #CompareWithSession(PreSSQ, PostSSQ)
 

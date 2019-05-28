@@ -2,16 +2,6 @@ library(ggplot2)
 library(gcookbook)
 library(rlist)
 
-#print lines options
-options = data.frame(
-  conditionIndex = 0, # 0 for print all
-  participantIndex = 0,
-  sessionIndex = 0,
-  
-  printAverage = TRUE,
-  groupWithSession = TRUE
-)
-
 #file folder
 folderName = "./Pilot1"
 conditionNames = c("StaticSmall","StaticLarge","Baseline")
@@ -25,12 +15,6 @@ color = brewer.pal(n=length(conditionNames), name = "Set2")
 defaultpar = par()
 par(mar=c(12,6,1,1))
 fontsize=1
-plot(NULL, xlim=c(0,20), ylim=c(1,10), type="l", xlab="", ylab="",
-     cex.lab=fontsize, cex.axis=fontsize, cex.main=fontsize, cex.sub=fontsize, xaxt="n", yaxt="n")
-title(xlab="Time (minute)", mgp=c(4.5, 2, 0), cex.lab=fontsize)
-title(ylab="Discomfort Score", mgp=c(3.5, 1, 0), cex.lab=fontsize)
-axis(1, at=seq(0,20,1), cex.axis=fontsize, mgp=c(3, 2, 0))
-axis(2, at=seq(1,10,1), cex.axis=fontsize)
 
 temp = list.files(path=folderName ,pattern="*.csv")
 
@@ -71,58 +55,71 @@ discomfortRecord = lapply(temp, function(t){
   return(rbind(default, tb))
 })
 
-#draw lines
-conditionIndex = options[["conditionIndex"]]
-participantIndex = options[["participantIndex"]]
-sessionIndex = options[["sessionIndex"]]
-lapply(seq_along(discomfortRecord), function(index){
-  if(conditionIndex != 0 && conditionIndex != condition[index]) return (NULL)
-  if(participantIndex != 0 && participantIndex != participant[index]) return(NULL)
-  if(sessionIndex != 0 && sessionIndex != session[index]) return(NULL)
+Draw = function(conditionIndex=0, participantIndex=0, sessionIndex = 0,
+                printAverage=TRUE, groupWithSession=FALSE,gradientByAnotherFactor=FALSE){
+  plot(NULL, xlim=c(0,20), ylim=c(1,10), type="l", xlab="", ylab="",
+       cex.lab=fontsize, cex.axis=fontsize, cex.main=fontsize, cex.sub=fontsize, xaxt="n", yaxt="n")
+  title(xlab="Time (minute)", mgp=c(4.5, 2, 0), cex.lab=fontsize)
+  title(ylab="Discomfort Score", mgp=c(3.5, 1, 0), cex.lab=fontsize)
+  axis(1, at=seq(0,20,1), cex.axis=fontsize, mgp=c(3, 2, 0))
+  axis(2, at=seq(1,10,1), cex.axis=fontsize)
   
-  c = color[condition[index]]
-  if(options[["groupWithSession"]]) c = color[session[index]]
-  
-  lines(discomfortRecord[[index]]$Index, discomfortRecord[[index]]$Discomfort,
-        col=c)
-})
-
-#compute average line
-if(participantIndex == 0 && options[["printAverage"]]){
-  group = seq_along(conditionNames)
-  if(options[["groupWithSession"]]) group = seq_along(sessionNames)
-  
-  lapply(group, function(groupIndex){
-    timeStamp = c(0:20)
-    timeStampIndex = seq.int(length(timeStamp))
+  #draw lines
+  lapply(seq_along(discomfortRecord), function(index){
+    if(conditionIndex != 0 && conditionIndex != condition[index]) return (NULL)
+    if(participantIndex != 0 && participantIndex != participant[index]) return(NULL)
+    if(sessionIndex != 0 && sessionIndex != session[index]) return(NULL)
     
-    averageDiscomfort = lapply(timeStampIndex, function(t){
-      sum = 0
-      valueAtTimeStamp = sapply(seq_along(discomfortRecord), function(index){
-        if(options[["groupWithSession"]] && session[index] != groupIndex) return(0)
-        if(!options[["groupWithSession"]] && condition[index] != groupIndex) return(0)
-        
-        if(t <= length(discomfortRecord[[index]]$Discomfort)) return (discomfortRecord[[index]]$Discomfort[t])
-        else return (discomfortRecord[[index]]$Discomfort[length(discomfortRecord[[index]]$Discomfort)])
-      })
-      avg = mean(valueAtTimeStamp[valueAtTimeStamp!=0])
-      return(avg)
-    })
-    #draw average line
-    lines(timeStamp, averageDiscomfort, col=color[groupIndex], lwd=4)
+    c = color[condition[index]]
+    if(groupWithSession) c = color[session[index]]
+    width = 1
+    if(gradientByAnotherFactor){
+      if(groupWithSession) width = condition[index]
+      else width = session[index]
+    }
+    
+    lines(discomfortRecord[[index]]$Index, discomfortRecord[[index]]$Discomfort,
+          col=c,lwd=width)
   })
+  
+  #compute average line
+  if(participantIndex == 0 && printAverage){
+    group = seq_along(conditionNames)
+    if(groupWithSession) group = seq_along(sessionNames)
+    
+    lapply(group, function(groupIndex){
+      timeStamp = c(0:20)
+      timeStampIndex = seq.int(length(timeStamp))
+      
+      averageDiscomfort = lapply(timeStampIndex, function(t){
+        sum = 0
+        valueAtTimeStamp = sapply(seq_along(discomfortRecord), function(index){
+          if(groupWithSession && session[index] != groupIndex) return(0)
+          if(!groupWithSession && condition[index] != groupIndex) return(0)
+          
+          if(t <= length(discomfortRecord[[index]]$Discomfort)) return (discomfortRecord[[index]]$Discomfort[t])
+          else return (discomfortRecord[[index]]$Discomfort[length(discomfortRecord[[index]]$Discomfort)])
+        })
+        avg = mean(valueAtTimeStamp[valueAtTimeStamp!=0])
+        return(avg)
+      })
+      #draw average line
+      lines(timeStamp, averageDiscomfort, col=color[groupIndex], lwd=4)
+    })
+  }
+  
+  #print legends
+  if(groupWithSession){
+    legend(x=0,y=-5,
+           legend=paste(rep(sessionNames,times=2),rep(c("","(Average)"),each=3),sep=" "),
+           col=rep(color, times=2), pch = rep(NA, times=6), lwd = rep(c(1,4),each=3),
+           cex=fontsize*0.8, y.intersp = 1, ncol=2, bty="n", xpd=TRUE)
+  } else {
+    #colorize condition
+    legend(x=0,y=-5,
+           legend=paste(rep(conditionNames,times=2),rep(c("","(Average)"),each=3),sep=" "),
+           col=rep(color, times=2), pch = rep(NA, times=6), lwd = rep(c(1,4),each=3),
+           cex=fontsize*0.8, y.intersp = 1, ncol=2, bty="n", xpd=TRUE)
+  }
 }
-
-#print legends
-if(options[["groupWithSession"]]){
-  legend(x=0,y=-5,
-         legend=paste(rep(sessionNames,times=2),rep(c("","(Average)"),each=3),sep=" "),
-         col=rep(color, times=2), pch = rep(NA, times=6), lwd = rep(c(1,4),each=3),
-         cex=fontsize*0.8, y.intersp = 1, ncol=2, bty="n", xpd=TRUE)
-} else {
-  #colorize condition
-  legend(x=0,y=-5,
-         legend=paste(rep(conditionNames,times=2),rep(c("","(Average)"),each=3),sep=" "),
-         col=rep(color, times=2), pch = rep(NA, times=6), lwd = rep(c(1,4),each=3),
-         cex=fontsize*0.8, y.intersp = 1, ncol=2, bty="n", xpd=TRUE)
-}
+Draw()
