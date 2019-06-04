@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class AvatarController : MonoBehaviour {
 
+    [SerializeField]
+    bool TranslationControllable;
+    [SerializeField]
+    bool RotationControllable;
+
     public float MoveSpeed = 1.0f;
     public float RotationAmount = 1.5f;
     private float RotationScaleMultiplier = 1.0f;
@@ -17,7 +22,11 @@ public class AvatarController : MonoBehaviour {
     void FixedUpdate () {
         prevPos = transform.position;
         //UpdateRotation();
-        if(ExperimentManager.State == ExperimentManager.ExperimentState.Performing) UpdateTransform();
+        if(ExperimentManager.State == ExperimentManager.ExperimentState.Performing)
+        {
+            if (TranslationControllable) UpdateTransform();
+            if (RotationControllable) UpdateRotation();
+        }
 	}
 
     void OnTriggerEnter(Collider collider)
@@ -33,9 +42,9 @@ public class AvatarController : MonoBehaviour {
     {
         Vector3 euler = transform.rotation.eulerAngles;
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
-
-        Vector2 secondaryAxis = InputManager.GetMoveAxis();
-        euler.y += secondaryAxis.x * rotateInfluence;
+;
+        float rotationAmount = InputManager.GetRotAxis().x;
+        euler.y += rotationAmount * rotateInfluence;
 
         transform.rotation = Quaternion.Euler(euler);
     }

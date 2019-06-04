@@ -197,21 +197,6 @@
           }
         },
         {
-          "path": "/user/hand/left/input/trackpad",
-          "mode": "dpad",
-          "parameters": {
-            "sub_mode": "click"
-          },
-          "inputs": {
-            "east": {
-              "output": "/actions/default/in/sliderincrease"
-            },
-            "west": {
-              "output": "/actions/default/in/sliderdecrease"
-            }
-          }
-        },
-        {
           "path": "/user/hand/right/input/trackpad",
           "mode": "trackpad",
           "parameters": {},

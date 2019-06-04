@@ -45,12 +45,8 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/SliderDecrease",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/SliderIncrease",
-      "type": "boolean"
+      "name": "/actions/default/in/Rotation",
+      "type": "vector2"
     },
     {
       "name": "/actions/default/out/Haptic",
@@ -89,7 +85,7 @@
   "action_sets": [
     {
       "name": "/actions/default",
-      "usage": "single"
+      "usage": "leftright"
     },
     {
       "name": "/actions/platformer",

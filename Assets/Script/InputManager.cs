@@ -101,6 +101,7 @@ public class InputManager: MonoBehaviour{
     }
 
     //==== player's input ==== 
+    // this one is deprcated
     public static bool GetDiscomfortConfirmButton()
     {
         if (Hardware == HmdType.Recorder)
@@ -112,6 +113,7 @@ public class InputManager: MonoBehaviour{
         instance.m_Recorder.DiscomfortConfirmBtn = result;
         return result;
     }
+
     public static bool GetSpatialConfirmButton()
     {
         if (Hardware == HmdType.Recorder)
@@ -137,6 +139,19 @@ public class InputManager: MonoBehaviour{
         if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Move.GetAxis(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.MoveAxis = result;
+        return result;
+    }
+    public static Vector2 GetRotAxis()
+    {
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.RotAxis;
+        }
+
+        Vector2 result = Vector2.zero;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Rotation.GetAxis(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.RotAxis = result;
         return result;
     }
 }

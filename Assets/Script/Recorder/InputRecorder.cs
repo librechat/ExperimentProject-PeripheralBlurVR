@@ -14,6 +14,7 @@ public class InputRecorder : BaseRecorder {
     public bool DiscomfortConfirmBtn { get { return discomfortConfirmBtn; } set { discomfortConfirmBtn = value; } }
     public bool SpatialConfirmBtn { get { return spatialConfirmBtn; } set { spatialConfirmBtn = value; } }
     public Vector2 MoveAxis { get { return moveAxis; } set { moveAxis = value; } }
+    public Vector2 RotAxis { get { return rotAxis; } set { rotAxis = value; } }
     
     private bool startBtn;
     private bool pauseBtn;
@@ -23,6 +24,7 @@ public class InputRecorder : BaseRecorder {
     private bool discomfortConfirmBtn;
     private bool spatialConfirmBtn;
     private Vector2 moveAxis;
+    private Vector2 rotAxis;
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
@@ -57,6 +59,10 @@ public class InputRecorder : BaseRecorder {
                     float y = Convert.ToSingle(s[7]);
                     data.moveAxis = new Vector2(x,y);
 
+                    x = Convert.ToSingle(s[8]);
+                    y = Convert.ToSingle(s[9]);
+                    data.rotAxis = new Vector2(x, y);
+
                     m_ClipList.Add(data);
                 }
             }
@@ -66,7 +72,7 @@ public class InputRecorder : BaseRecorder {
 	
 	public override void Record(int currentClip){
         // record controller action state as string
-        string s = string.Format("{8}#{9}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}",
+        string s = string.Format("{10}#{11}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}",
             startBtn,
             pauseBtn,
             resumeBtn,
@@ -76,6 +82,9 @@ public class InputRecorder : BaseRecorder {
 
             moveAxis.x,
             moveAxis.y,
+
+            rotAxis.x,
+            rotAxis.y,
 
             currentClip,
             Time.time);
@@ -89,6 +98,7 @@ public class InputRecorder : BaseRecorder {
         if (discomfortConfirmBtn) discomfortConfirmBtn = false;
         if (spatialConfirmBtn) spatialConfirmBtn = false;
         if (moveAxis != Vector2.zero) moveAxis = Vector2.zero;
+        if (rotAxis != Vector2.zero) rotAxis = Vector2.zero;
 	}
 	
 	public override void Play(int currentClip){
@@ -104,6 +114,7 @@ public class InputRecorder : BaseRecorder {
         discomfortConfirmBtn = data.discomfortConfirmBtn;
         spatialConfirmBtn = data.spatialConfirmBtn;
         moveAxis = data.moveAxis;
+        rotAxis = data.rotAxis;
 	}
 }
 
@@ -117,6 +128,7 @@ public class InputRecordData : BaseRecordData
     public bool discomfortConfirmBtn;
     public bool spatialConfirmBtn;
     public Vector2 moveAxis;
+    public Vector2 rotAxis;
 
     public InputRecordData(int idx, float time)
     {
@@ -125,6 +137,7 @@ public class InputRecordData : BaseRecordData
 
         discomfortConfirmBtn = false;
         spatialConfirmBtn = false;
-        Vector2 moveAxis = Vector2.zero;        
+        Vector2 moveAxis = Vector2.zero;
+        Vector2 rotAxis = Vector2.zero;
     }
 }
