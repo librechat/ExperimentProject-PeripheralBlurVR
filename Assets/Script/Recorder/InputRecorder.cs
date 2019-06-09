@@ -15,6 +15,11 @@ public class InputRecorder : BaseRecorder {
     public bool SpatialConfirmBtn { get { return spatialConfirmBtn; } set { spatialConfirmBtn = value; } }
     public Vector2 MoveAxis { get { return moveAxis; } set { moveAxis = value; } }
     public Vector2 RotAxis { get { return rotAxis; } set { rotAxis = value; } }
+
+    public bool MoveFoward { get { return moveFoward; } set { moveFoward = value; } }
+    public bool MoveBackward { get { return moveBackward; } set { moveBackward = value; } }
+    public bool TurnRight { get { return turnRight; } set { turnRight = value; } }
+    public bool TurnLeft { get { return turnLeft; } set { turnLeft = value; } }
     
     private bool startBtn;
     private bool pauseBtn;
@@ -25,6 +30,11 @@ public class InputRecorder : BaseRecorder {
     private bool spatialConfirmBtn;
     private Vector2 moveAxis;
     private Vector2 rotAxis;
+
+    public bool moveFoward;
+    public bool moveBackward;
+    public bool turnRight;
+    public bool turnLeft;
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
@@ -63,6 +73,11 @@ public class InputRecorder : BaseRecorder {
                     y = Convert.ToSingle(s[9]);
                     data.rotAxis = new Vector2(x, y);
 
+                    data.moveFoward = bool.Parse(s[10]);
+                    data.moveBackward = bool.Parse(s[11]);
+                    data.turnRight = bool.Parse(s[12]);
+                    data.turnLeft = bool.Parse(s[13]);                   
+
                     m_ClipList.Add(data);
                 }
             }
@@ -72,7 +87,7 @@ public class InputRecorder : BaseRecorder {
 	
 	public override void Record(int currentClip){
         // record controller action state as string
-        string s = string.Format("{10}#{11}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}",
+        string s = string.Format("{14}#{15}#{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}/{8}/{9}/{10}/{11}/{12}/{13}",
             startBtn,
             pauseBtn,
             resumeBtn,
@@ -85,6 +100,11 @@ public class InputRecorder : BaseRecorder {
 
             rotAxis.x,
             rotAxis.y,
+
+            moveFoward,
+            moveBackward,
+            turnRight,
+            turnLeft,
 
             currentClip,
             Time.time);
@@ -115,6 +135,11 @@ public class InputRecorder : BaseRecorder {
         spatialConfirmBtn = data.spatialConfirmBtn;
         moveAxis = data.moveAxis;
         rotAxis = data.rotAxis;
+
+        moveFoward = data.moveFoward;
+        moveBackward = data.moveBackward;
+        turnLeft = data.turnLeft;
+        turnRight = data.turnRight;
 	}
 }
 
@@ -129,6 +154,11 @@ public class InputRecordData : BaseRecordData
     public bool spatialConfirmBtn;
     public Vector2 moveAxis;
     public Vector2 rotAxis;
+
+    public bool moveFoward = false;
+    public bool moveBackward = false;
+    public bool turnRight = false;
+    public bool turnLeft = false;
 
     public InputRecordData(int idx, float time)
     {

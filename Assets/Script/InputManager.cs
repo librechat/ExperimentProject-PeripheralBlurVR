@@ -121,7 +121,6 @@ public class InputManager: MonoBehaviour{
             return instance.m_Recorder.SpatialConfirmBtn;
         }
 
-        // oculus
         bool result = false;
         if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Confirm.GetStateDown(SteamVR_Input_Sources.Any);
 
@@ -152,6 +151,62 @@ public class InputManager: MonoBehaviour{
         if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Rotation.GetAxis(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.RotAxis = result;
+        return result;
+    }
+    
+    public static bool GetMoveFoward()
+    {
+        if(Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.moveFoward;
+        }
+
+        bool result = false;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.MoveFoward.GetState(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.moveFoward = result;
+        return result;
+    }
+
+    public static bool GetMoveBackward()
+    {
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.moveBackward;
+        }
+
+        bool result = false;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.MoveBackward.GetState(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.moveBackward = result;
+        return result;
+    }
+
+    public static bool GetTurnRight()
+    {
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.turnRight;
+        }
+
+        bool result = false;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.TurnRight.GetState(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.turnRight = result;
+        return result;
+    }
+
+    public static bool GetTurnLeft()
+    {
+        if (Hardware == HmdType.Recorder)
+        {
+            return instance.m_Recorder.turnLeft;
+        }
+
+        bool result = false;
+        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.TurnLeft.GetState(SteamVR_Input_Sources.Any);
+
+        instance.m_Recorder.turnLeft = result;
         return result;
     }
 }

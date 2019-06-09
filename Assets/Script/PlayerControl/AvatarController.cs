@@ -24,8 +24,15 @@ public class AvatarController : MonoBehaviour {
         //UpdateRotation();
         if(ExperimentManager.State == ExperimentManager.ExperimentState.Performing)
         {
-            if (TranslationControllable) UpdateTransform();
-            if (RotationControllable) UpdateRotation();
+            Vector2 secondaryAxis = InputManager.GetMoveAxis();
+            Debug.Log(secondaryAxis);
+            if (TranslationControllable)
+            {
+                if(secondaryAxis.x < 0.2f && secondaryAxis.x > -0.2f) UpdateTransform();
+            }
+            if (RotationControllable) {
+                if (secondaryAxis.y < 0.2f && secondaryAxis.y > -0.2f) UpdateRotation();
+            }
         }
 	}
 
@@ -38,18 +45,37 @@ public class AvatarController : MonoBehaviour {
         }
     }
 
-    void UpdateRotation()
+    bool UpdateRotation()
     {
         Vector3 euler = transform.rotation.eulerAngles;
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 ;
-        float rotationAmount = InputManager.GetRotAxis().x;
+        /*float rotationAmount = InputManager.GetRotAxis().x;
         euler.y += rotationAmount * rotateInfluence;
+        transform.rotation = Quaternion.Euler(euler);*/
 
-        transform.rotation = Quaternion.Euler(euler);
+        bool turnRight = InputManager.GetTurnRight();
+        bool turnLeft = InputManager.GetTurnLeft();
+
+        if (turnLeft && turnRight) return false;
+        else if (turnLeft)
+        {
+            //euler.y -= rotateInfluence;
+            //transform.rotation = Quaternion.Euler(euler);
+            transform.RotateAround(hmd.position, transform.up, -rotateInfluence);
+            return true;
+        }
+        else if (turnRight)
+        {
+            //euler.y += rotateInfluence;
+            //transform.rotation = Quaternion.Euler(euler);
+            transform.RotateAround(hmd.position, transform.up, rotateInfluence);
+            return true;
+        }
+        else return false;
     }
 
-    void UpdateTransform()
+    bool UpdateTransform()
     {
         Vector2 secondaryAxis = InputManager.GetMoveAxis();
         Vector3 direction = new Vector3(hmd.forward.x, 0, hmd.forward.z);
@@ -59,10 +85,25 @@ public class AvatarController : MonoBehaviour {
         {
             if (hit.collider.tag == "Wall")
             {
-                return;
+                return false;
             }
         }
 
-        transform.position += direction * secondaryAxis.magnitude * MoveSpeed;
+        bool moveForward = InputManager.GetMoveFoward();
+        bool moveBackward = InputManager.GetMoveBackward();
+        if (moveForward && moveBackward) return false;
+        else if (moveForward)
+        {
+            transform.position += direction * MoveSpeed;
+            return true;
+        }
+        else if (moveBackward)
+        {
+            transform.position -= direction * MoveSpeed;
+            return true;
+        }
+        else return false;
+
+        //transform.position += direction * secondaryAxis.magnitude * MoveSpeed;
     }
 }
