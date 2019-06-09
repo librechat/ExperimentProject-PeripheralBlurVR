@@ -72,7 +72,7 @@ public class InputManager: MonoBehaviour{
             return instance.m_Recorder.PauseBtn;
         }
 
-        bool result = Input.GetKeyDown(KeyCode.A);
+        bool result = Input.GetKeyDown(KeyCode.S);
         instance.m_Recorder.PauseBtn = result;
         return result;
     }

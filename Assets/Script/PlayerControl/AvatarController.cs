@@ -19,22 +19,14 @@ public class AvatarController : MonoBehaviour {
     [SerializeField]
     Transform hmd;
 
-    void FixedUpdate () {
+    void FixedUpdate() {
         prevPos = transform.position;
         //UpdateRotation();
-        if(ExperimentManager.State == ExperimentManager.ExperimentState.Performing)
+        if (ExperimentManager.State == ExperimentManager.ExperimentState.Performing)
         {
-            Vector2 secondaryAxis = InputManager.GetMoveAxis();
-            Debug.Log(secondaryAxis);
-            if (TranslationControllable)
-            {
-                if(secondaryAxis.x < 0.2f && secondaryAxis.x > -0.2f) UpdateTransform();
-            }
-            if (RotationControllable) {
-                if (secondaryAxis.y < 0.2f && secondaryAxis.y > -0.2f) UpdateRotation();
-            }
+            UpdateMovement();
         }
-	}
+    }
 
     void OnTriggerEnter(Collider collider)
     {
@@ -45,7 +37,60 @@ public class AvatarController : MonoBehaviour {
         }
     }
 
-    bool UpdateRotation()
+    void UpdateMovement()
+    {
+        Vector2 secondaryAxis = InputManager.GetMoveAxis();
+        if (secondaryAxis.magnitude < 0.5f) return;
+
+        Vector3 direction = new Vector3(hmd.forward.x, 0, hmd.forward.z);
+
+        if (TranslationControllable && InputManager.GetMoveFoward())
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(hmd.position, hmd.forward, out hit, 0.3f))
+            {
+                if (hit.collider.tag == "Wall")
+                {
+                    return;
+                }
+            }
+
+            transform.position += direction * MoveSpeed;
+            return;
+        }
+        else if (RotationControllable)
+        {
+            Vector3 euler = transform.rotation.eulerAngles;
+            float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
+
+            if (InputManager.GetTurnLeft())
+            {
+                transform.RotateAround(hmd.position, transform.up, -rotateInfluence);
+                return;
+            }
+            if (InputManager.GetTurnRight())
+            {
+                transform.RotateAround(hmd.position, transform.up, rotateInfluence);
+                return;
+            }
+        }
+        else if(TranslationControllable && InputManager.GetMoveBackward())
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(hmd.position, -hmd.forward, out hit, 0.3f))
+            {
+                if (hit.collider.tag == "Wall")
+                {
+                    return;
+                }
+            }
+
+            transform.position -= direction * MoveSpeed;
+            return;
+        }
+    }
+
+    bool UpdateRotation(Vector2 secondaryAxis)
     {
         Vector3 euler = transform.rotation.eulerAngles;
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
@@ -54,30 +99,25 @@ public class AvatarController : MonoBehaviour {
         euler.y += rotationAmount * rotateInfluence;
         transform.rotation = Quaternion.Euler(euler);*/
 
-        bool turnRight = InputManager.GetTurnRight();
-        bool turnLeft = InputManager.GetTurnLeft();
+        if (secondaryAxis.magnitude > 0.5f)
+        {
+            if (InputManager.GetTurnLeft())
+            {
+                transform.RotateAround(hmd.position, transform.up, -rotateInfluence);
+                return true;
+            }
+            if (InputManager.GetTurnRight())
+            {
+                transform.RotateAround(hmd.position, transform.up, rotateInfluence);
+                return true;
+            }
+        }
 
-        if (turnLeft && turnRight) return false;
-        else if (turnLeft)
-        {
-            //euler.y -= rotateInfluence;
-            //transform.rotation = Quaternion.Euler(euler);
-            transform.RotateAround(hmd.position, transform.up, -rotateInfluence);
-            return true;
-        }
-        else if (turnRight)
-        {
-            //euler.y += rotateInfluence;
-            //transform.rotation = Quaternion.Euler(euler);
-            transform.RotateAround(hmd.position, transform.up, rotateInfluence);
-            return true;
-        }
-        else return false;
+        return false;
     }
 
-    bool UpdateTransform()
+    bool UpdateTransform(Vector2 secondaryAxis)
     {
-        Vector2 secondaryAxis = InputManager.GetMoveAxis();
         Vector3 direction = new Vector3(hmd.forward.x, 0, hmd.forward.z);
 
         RaycastHit hit;
@@ -89,21 +129,20 @@ public class AvatarController : MonoBehaviour {
             }
         }
 
-        bool moveForward = InputManager.GetMoveFoward();
-        bool moveBackward = InputManager.GetMoveBackward();
-        if (moveForward && moveBackward) return false;
-        else if (moveForward)
+        if (secondaryAxis.magnitude > 0.5f)
         {
-            transform.position += direction * MoveSpeed;
-            return true;
+            if (InputManager.GetMoveFoward())
+            {
+                transform.position += direction * MoveSpeed;
+                return true;
+            }
+            if (InputManager.GetMoveBackward())
+            {
+                transform.position -= direction * MoveSpeed;
+                return true;
+            }
         }
-        else if (moveBackward)
-        {
-            transform.position -= direction * MoveSpeed;
-            return true;
-        }
-        else return false;
 
-        //transform.position += direction * secondaryAxis.magnitude * MoveSpeed;
+        return false;
     }
 }

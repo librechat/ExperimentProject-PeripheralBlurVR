@@ -38,6 +38,10 @@
       "type": "pose"
     },
     {
+      "name": "/actions/default/in/MoveBtn",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
