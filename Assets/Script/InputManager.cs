@@ -136,7 +136,6 @@ public class InputManager: MonoBehaviour{
 
         Vector2 result = Vector2.zero;
         if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Move.GetAxis(SteamVR_Input_Sources.Any);
-
         instance.m_Recorder.MoveAxis = result;
         return result;
     }
