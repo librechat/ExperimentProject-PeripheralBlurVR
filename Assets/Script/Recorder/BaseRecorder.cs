@@ -29,9 +29,7 @@ public class BaseRecorder : MonoBehaviour {
         string dateformat = "yyyyMMdd-HHmm";
         string filename = System.DateTime.Now.ToString(dateformat);
 
-        string condition = ExperimentManager.ConditionName;
-
-        string filePath = Application.streamingAssetsPath + "/Behaviors/" + filename + "_" + condition + "_" + recordName + ".txt";
+        string filePath = Application.streamingAssetsPath + "/Behaviors/" + ExperimentManager.FileName + "_" + recordName + ".txt";
 
         using (StreamWriter outputFile = new StreamWriter(filePath))
         {
