@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scene/Calibration.unity
     guid: 349f47a74ba0cb94cb45eec73bf9ccad
   - enabled: 1
-    path: Assets/Scene/maze.unity
+    path: Assets/Scene/_deprecated/maze.unity
     guid: 1e5f8ee842a73c44f8f18a32b0efe26c
   m_configObjects: {}

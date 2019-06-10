@@ -93,8 +93,23 @@ public class AvatarController : MonoBehaviour {
         Vector3 euler = transform.rotation.eulerAngles;
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 
-        transform.RotateAround(hmd.position, transform.up, rotateInfluence * secondaryAxis.x);
-        transform.position += direction * MoveSpeed * secondaryAxis.y;
+        if(RotationControllable) transform.RotateAround(hmd.position, transform.up, rotateInfluence * secondaryAxis.x);
+        if (TranslationControllable)
+        {
+            float speed = secondaryAxis.y;
+            Vector3 forward = hmd.forward;
+            if (speed < 0) forward = -hmd.forward;
+
+            RaycastHit hit;
+            if (Physics.Raycast(hmd.position, forward, out hit, 0.3f))
+            {
+                if (hit.collider.tag == "Wall")
+                {
+                    return;
+                }
+            }
+            transform.position += direction * MoveSpeed * secondaryAxis.y;
+        }
     }
 
     // deprecated
