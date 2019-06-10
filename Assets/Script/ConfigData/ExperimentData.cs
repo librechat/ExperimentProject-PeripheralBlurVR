@@ -5,7 +5,7 @@ using UnityEditor;
 public class ExperimentData : ScriptableObject
 {
     [SerializeField]
-    string Participant;
+    public int participant;
 
     [SerializeField, Range(1,3)]
     public int session = 1;

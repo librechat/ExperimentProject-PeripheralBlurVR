@@ -35,6 +35,18 @@ public class ExperimentManager : MonoBehaviour {
             return instance.m_ExperimentSettingConfig.SessionSettings[instance.m_ExperimentSettingConfig.session-1];
         }
     }
+    public static string FileName
+    {
+        get
+        {
+            int participant = instance.m_ExperimentSettingConfig.participant;
+            string condition = instance.m_ConditionName.ToString();
+            int session = instance.m_ExperimentSettingConfig.session;
+
+            string filename = string.Format("Participant{0}_{1}_Session{2}", participant, condition, session);
+            return filename;             
+        }
+    }
 
     ConditionData.ConditionEnum m_ConditionName;
     public static string ConditionName
@@ -224,7 +236,9 @@ public class ExperimentManager : MonoBehaviour {
 
         float time = (float)(expEndTime.Ticks - expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
         string dateformat = "yyyyMMdd-HHmm";
-        string filename = DateTime.Now.ToString(dateformat) + "-" + condition;
+
+
+        string filename = ExperimentManager.FileName;
 
         string line =
             condition + "\n"+

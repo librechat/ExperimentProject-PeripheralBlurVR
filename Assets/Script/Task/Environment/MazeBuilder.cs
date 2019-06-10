@@ -24,6 +24,7 @@ public class MazeBuilder : BaseEnvBuilder {
     [SerializeField]
     Transform wallPrefab;
 
+    private float RigHeight = 1.0f;
     private float entryRotation = 0.0f;
 
     public void Start()
@@ -35,7 +36,7 @@ public class MazeBuilder : BaseEnvBuilder {
     {
         CollectTaskPosList = new List<Vector3>();
         SpatialInfoList = new List<SpatialTaskData>();
-        Vector3 initialPos = playerController.position;
+        
 
         // build maze by map
         if (AutoGenerate)
@@ -44,10 +45,13 @@ public class MazeBuilder : BaseEnvBuilder {
             Debug.Log("generate done, file name: "+saveFileName);
             return;
         }
-        
-        MazeInfo mazeInfo = ReadFromJson();
 
+        MazeInfo mazeInfo = ReadFromJson();
         float scale = 2.0f;
+
+        ExperimentManager.VRRig.position = new Vector3(entryIndex.x * scale, RigHeight, entryIndex.y * scale);
+        ExperimentManager.VRRig.Rotate(new Vector3(0, entryRotation, 0));
+        Vector3 initialPos = playerController.position;
 
         List<WallPos> wallPosList = new List<WallPos>(mazeInfo.wallPos);        
         for (int i = 0; i < wallPosList.Count; i++)
@@ -72,9 +76,6 @@ public class MazeBuilder : BaseEnvBuilder {
 
             SpatialInfoList.Add(data);
         }
-
-        ExperimentManager.VRRig.position = new Vector3(entryIndex.x * scale, 0, entryIndex.y * scale);
-        ExperimentManager.VRRig.Rotate(new Vector3(0, entryRotation, 0));
 
         return;
     }

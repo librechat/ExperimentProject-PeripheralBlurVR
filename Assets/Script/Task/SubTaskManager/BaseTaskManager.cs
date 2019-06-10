@@ -58,11 +58,6 @@ public class BaseTaskManager : MonoBehaviour {
 
     public void Print()
     {
-        string dateformat = "yyyyMMdd-HHmm";
-        string filename = DateTime.Now.ToString(dateformat);
-
-        string condition = ExperimentManager.ConditionName;
-
         string header = "";
 
         if (TaskType == TaskManager.TaskTypeEnum.Collect) header = CollectRecord.RecordHeader;
@@ -75,7 +70,7 @@ public class BaseTaskManager : MonoBehaviour {
             content += (RecordList[i].ToString() + "\n");
         }
 
-        string path = Application.streamingAssetsPath + "/Records/" + filename + "_" + condition + "_" + TaskType.ToString() + ".csv";
+        string path = Application.streamingAssetsPath + "/Records/" + ExperimentManager.FileName + "_" + TaskType.ToString() + ".csv";
         StreamWriter writer = new StreamWriter(path, true);
         writer.WriteLine(header + "\n" + content);
         writer.Close();
