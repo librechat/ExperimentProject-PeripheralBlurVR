@@ -24,13 +24,21 @@ public class SpatialTask : BaseTask {
     [SerializeField]
     GameObject lamp;
 
+    [SerializeField]
+    List<Transform> m_ModelList;
+
     private Renderer rend;
 
     private float timer = 0.0f;
     private float threshold = 30.0f;
 
     public float angleError = 0.0f;
+    public float angleErrorOnPlane = 0.0f;
+    public string taskPosition;
+    public string playerPosition;
+    public string controllerDirection;
 
+    public Vector3 startPos;
     public Vector3 endPos;
 
     public long startTick;
@@ -47,9 +55,15 @@ public class SpatialTask : BaseTask {
             stage = value;
             if(stage == SpatialTaskStage.Discovered)
             {
-                rend.material.color = activateColor;
+                //rend.material.color = activateColor;
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.SpatialDiscovered);
-                StartCoroutine(FadeOutCoroutine());
+
+                //StartCoroutine(FadeOutCoroutine());
+                startPos = transform.position;
+                transform.position = endPos;
+                Light light = lamp.GetComponent<Light>();
+                light.intensity = 0.8f;
+                light.color = Color.blue;
 
                 discoveredTick = DateTime.Now.Ticks;
 
@@ -60,7 +74,12 @@ public class SpatialTask : BaseTask {
                 TaskManager.ExistVoiceQuestion = true;
                 questionedTick = DateTime.Now.Ticks;
 
-                AudioPlayer.Play(AudioPlayer.AudioName.Spatial);
+                //AudioPlayer.Play(AudioPlayer.AudioName.Spatial);
+                int index = TaskIndex;
+                if (ExperimentManager.CurrentExpSetting.level == LevelData.LevelEnum.Level_B) index = (20 - 1) - TaskIndex;
+                AudioPlayer.PlaySpatialQuestion(index);
+
+
                 timer = 0.0f;
             }
             else if(stage == SpatialTaskStage.Closed)
@@ -68,22 +87,29 @@ public class SpatialTask : BaseTask {
                 TaskManager.ExistVoiceQuestion = false;
                 closedTick = DateTime.Now.Ticks;
 
-                rend.material.color = disableColor;
+                //rend.material.color = disableColor;
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
-                StartCoroutine(DisableCoroutine());
 
-                
+                //StartCoroutine(DisableCoroutine());
+                lamp.GetComponent<Light>().intensity = 0.0f;
+                gameObject.SetActive(false);
             }
         }
     }
 
     private void Awake()
     {
-        rend = GetComponent<Renderer>();
+        
     }
 
     private void Start()
     {
+        int index = TaskIndex;
+        if (ExperimentManager.CurrentExpSetting.level == LevelData.LevelEnum.Level_B) index = (20 - 1) - TaskIndex;
+
+        Transform model = Instantiate(m_ModelList[index], this.transform);
+        rend = model.GetComponent<Renderer>();
+
         startTick = DateTime.Now.Ticks;
     }
 
@@ -117,9 +143,14 @@ public class SpatialTask : BaseTask {
                 // calculate error
                 Transform controller = ExperimentManager.ControllerStick;
                 Vector3 pointing = controller.forward;
-                Vector3 groundTruth = transform.position - ExperimentManager.PlayerController.position;
+                Vector3 groundTruth = startPos - ExperimentManager.PlayerController.position;
 
                 angleError = Vector3.Angle(pointing, groundTruth);
+                angleErrorOnPlane = Vector3.Angle(new Vector3(pointing.x, 0, pointing.z), new Vector3(groundTruth.x, 0, groundTruth.z));
+
+                taskPosition = startPos.ToString();
+                playerPosition = ExperimentManager.PlayerController.position.ToString();
+                controllerDirection = pointing.ToString();
 
                 Stage = SpatialTaskStage.Closed;
                 bool result = SpatialTaskManager.FinishTask(TaskIndex);

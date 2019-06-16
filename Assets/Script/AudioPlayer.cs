@@ -16,6 +16,9 @@ public class AudioPlayer : MonoBehaviour {
 
     [SerializeField]
     List<AudioClip> audioClipList;
+    [SerializeField]
+    List<AudioClip> spatialQuestionList;
+
     AudioSource audioSource;
 
     List<int> pendingList;
@@ -58,5 +61,18 @@ public class AudioPlayer : MonoBehaviour {
     {
         int index = (int)audio;
         s_Instance.audioSource.PlayOneShot(s_Instance.audioClipList[index]);
+    }
+
+    public static void PlaySpatialQuestion(int index)
+    {
+        if (index >= s_Instance.spatialQuestionList.Count) return;
+        if (!s_Instance.audioSource.isPlaying)
+        {
+            s_Instance.audioSource.PlayOneShot(s_Instance.spatialQuestionList[index]);
+        }
+        else
+        {
+            s_Instance.pendingList.Add(index);
+        }
     }
 }

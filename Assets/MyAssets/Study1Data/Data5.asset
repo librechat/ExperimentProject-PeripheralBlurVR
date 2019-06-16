@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6ec054933ab89449e64137d609b986, type: 3}
   m_Name: Data5
   m_EditorClassIdentifier: 
-  participant: 1
-  session: 2
+  participant: 3
+  session: 1
   SessionSettings:
   - condition: 3
     level: 0
