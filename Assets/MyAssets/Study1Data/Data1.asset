@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Data1
   m_EditorClassIdentifier: 
   participant: 1
-  session: 1
+  session: 2
   SessionSettings:
   - condition: 0
     level: 0

@@ -24,7 +24,7 @@ public class MazeBuilder : BaseEnvBuilder {
     [SerializeField]
     Transform wallPrefab;
 
-    private float RigHeight = 1.0f;
+    private float RigHeight = 0.0f;
     private float entryRotation = 0.0f;
 
     public void Start()

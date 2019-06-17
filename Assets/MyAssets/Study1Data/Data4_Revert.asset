@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Data4_Revert
   m_EditorClassIdentifier: 
   participant: 2
-  session: 1
+  session: 2
   SessionSettings:
   - condition: 1
     level: 1

@@ -30,10 +30,10 @@ public class AvatarController : MonoBehaviour {
     void OnTriggerEnter(Collider collider)
     {
 
-        if (collider.gameObject.tag == "Wall")
+        /*if (collider.gameObject.tag == "Wall")
         {
             transform.position = prevPos;
-        }
+        }*/
     }
 
     void UpdateMovement()
