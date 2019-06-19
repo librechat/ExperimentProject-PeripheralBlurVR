@@ -1,4 +1,4 @@
-folderName = "./Study1_Pilot1/SSQ/"
+folderName = "./Study1_Pilot2/SSQ/"
 
 ComputeSSQ = function(SSQ){
   score_N =
