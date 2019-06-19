@@ -40,7 +40,7 @@ public class ExperimentManager : MonoBehaviour {
         get
         {
             int participant = instance.m_ExperimentSettingConfig.participant;
-            string condition = instance.m_ConditionName.ToString();
+            string condition = ExperimentManager.ConditionName;
             int session = instance.m_ExperimentSettingConfig.session;
 
             string filename = string.Format("Participant{0}_{1}_Session{2}", participant, condition, session);
@@ -52,7 +52,12 @@ public class ExperimentManager : MonoBehaviour {
     public static string ConditionName
     {
         get {
-            return instance.m_ConditionName.ToString();
+            if(instance.m_ConditionName == ConditionData.ConditionEnum.Baseline) return instance.m_ConditionName.ToString();
+            else
+            {
+                string s = instance.m_ConditionName.ToString();
+                return s.Replace("_","");
+            }
         }
     }
     [SerializeField]

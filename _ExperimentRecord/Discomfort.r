@@ -3,7 +3,7 @@ library(gcookbook)
 library(rlist)
 
 #file folder
-folderName = "./Pilot1"
+folderName = "./Study1_Pilot2/Discomfort"
 conditionNames = c("StaticSmall","StaticLarge","Baseline")
 sessionNames = c("Session1","Session2","Session3")
 
@@ -80,7 +80,7 @@ Draw = function(conditionIndex=0, participantIndex=0, sessionIndex = 0,
       else width = session[index]
     }
     
-    lines(discomfortRecord[[index]]$Index, discomfortRecord[[index]]$Discomfort,
+    lines(discomfortRecord[[index]]$EndTimeStamp, discomfortRecord[[index]]$Discomfort,
           col=c,lwd=width)
   })
   
@@ -90,7 +90,7 @@ Draw = function(conditionIndex=0, participantIndex=0, sessionIndex = 0,
     if(groupWithSession) group = seq_along(sessionNames)
     
     lapply(group, function(groupIndex){
-      timeStamp = c(0:20)
+      timeStamp = seq(0,20,2)
       timeStampIndex = seq.int(length(timeStamp))
       
       averageDiscomfort = lapply(timeStampIndex, function(t){
