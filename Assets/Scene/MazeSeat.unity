@@ -136,19 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9647408eacf5f549bd279e4712ab023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &71727348 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2803239832011645619, guid: c4ccc032213531244bb9fddc3da5adc5,
-    type: 3}
-  m_PrefabInstance: {fileID: 3919273437464179135}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02686539cf429734594f62aed8a08947, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!43 &159171249
+--- !u!43 &67059133
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,6 +296,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &71727348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2803239832011645619, guid: c4ccc032213531244bb9fddc3da5adc5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3919273437464179135}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02686539cf429734594f62aed8a08947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &318181470 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5975811081433235304, guid: f1eb4a3b493138e46b8d11224b925724,
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9647408eacf5f549bd279e4712ab023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &446902415
+--- !u!21 &444519012
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -424,7 +424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &655176467
 Transform:
   m_ObjectHideFlags: 0
@@ -1093,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 5975811081187749228, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
       propertyPath: BlurSpreadSize
-      value: 6.2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5972262530017521235, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
@@ -1159,12 +1159,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 446902415}
+      objectReference: {fileID: 444519012}
     - target: {fileID: 5951658626508884921, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 159171249}
+      objectReference: {fileID: 67059133}
     - target: {fileID: 5955945390595349629, guid: f1eb4a3b493138e46b8d11224b925724,
         type: 3}
       propertyPath: near clip plane
@@ -1523,12 +1523,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ExperimentSettingConfig
       value: 
-      objectReference: {fileID: 11400000, guid: c27ae32dc6f8663449862cb0e4d62a33,
+      objectReference: {fileID: 11400000, guid: 78923b8ea20bdfb43ac0923e7631d9db,
         type: 2}
     - target: {fileID: 7834005055559503484, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
       propertyPath: usingGazeInfo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7834005055559503484, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
@@ -1603,7 +1603,7 @@ PrefabInstance:
     - target: {fileID: 7834005055473369776, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
       propertyPath: BlurEnabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7834005055473369776, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
@@ -1633,7 +1633,7 @@ PrefabInstance:
     - target: {fileID: 7834005055473369776, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
       propertyPath: BlurSpreadSize
-      value: 6.1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7834005055473369776, guid: 8fb772780e4da6949ba69cfaf2224641,
         type: 3}
