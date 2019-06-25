@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6ec054933ab89449e64137d609b986, type: 3}
   m_Name: Data3
   m_EditorClassIdentifier: 
-  Participant: 
+  participant: 11
   session: 1
   SessionSettings:
   - condition: 1
