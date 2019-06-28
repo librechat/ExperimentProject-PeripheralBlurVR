@@ -1,0 +1,9 @@
+Index,TaskIndex,StartTimeStamp,QustionedTimeStamp,EndTimeStamp,Discomfort
+0,0,0,0,2,2
+1,1,0,0,4,3
+2,2,0,0,6,4
+3,3,0,0,8,5
+4,4,0,0,10,6
+5,5,0,0,12,7
+6,6,0,0,14,7
+7,7,0,0,16,7
