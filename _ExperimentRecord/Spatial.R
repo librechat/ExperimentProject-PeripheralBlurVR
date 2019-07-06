@@ -3,11 +3,9 @@ library(gcookbook)
 library(rlist)
 library(RColorBrewer)
 
-defaultpar = par()
-par(mar=c(12,6,1,1))
-fontsize=1
 
-folderName = "./Study1_Pilot2/Spatial/"
+
+folderName = "./Study1/Records/Spatial/"
 temp = list.files(path=folderName ,pattern="*.csv")
 
 conditionNames = c("StaticSmall","StaticLarge","Baseline")
@@ -23,6 +21,11 @@ condition = lapply(temp, function(t){
   else return(0)
 })
 condition = unlist(condition)
+conditionString = lapply(temp,function(t){
+  slist = unlist(strsplit(t, "_", fixed=TRUE))
+  return (slist[2])
+})
+conditionString = unlist(conditionString)
 participant = lapply(temp, function(t){
   slist = unlist(strsplit(t, "_", fixed=TRUE))
   par = as.numeric(substr(slist[1],start=12,stop=12))
@@ -64,17 +67,23 @@ CompareSpatial = function(groupWithSession = FALSE){
   if(groupWithSession) print(sessionNames)
   else print(conditionNames)
   print(group_mean)
+  
+  
 }
 DrawSpatialError = function(conditionIndex=0, participantIndex=0, sessionIndex = 0,
                             printAverage=TRUE, groupWithSession=FALSE,gradientByAnotherFactor=FALSE){
-  plot(NULL, xlim=c(0,20), ylim=c(0,140), type="l", xlab="", ylab="",
+  #defaultpar = par()
+  #par(mar=c(12,6,1,1))
+  fontsize=1
+  
+  plot(NULL, xlim=c(0,22), ylim=c(0,180), type="l", xlab="", ylab="",
        cex.lab=fontsize, cex.axis=fontsize, cex.main=fontsize, cex.sub=fontsize, xaxt="n", yaxt="n")
   
   title(xlab="Time (minute)", mgp=c(2, 2, 0), cex.lab=fontsize)
-  axis(1, at=seq(0,20,1), cex.axis=fontsize)
+  axis(1, at=seq(0,22,1), cex.axis=fontsize)
   
   title(ylab="Error (degree)", mgp=c(2, 1, 0), cex.lab=fontsize)
-  axis(2, at=seq(0,140,20), cex.axis=fontsize)
+  axis(2, at=seq(0,180,20), cex.axis=fontsize)
   
   #draw lines
   lapply(seq_along(spatialRecord), function(index){
@@ -133,4 +142,20 @@ DrawSpatialError = function(conditionIndex=0, participantIndex=0, sessionIndex =
 }
 
 CompareSpatial()
-DrawSpatialError()
+#DrawSpatialError()
+
+AvgSpatial = data.frame(Participant=participant,Condition=conditionString,Session=session,ErrorOnPlane=unlist(avgError))
+AvgSpatial$Participant = as.factor(AvgSpatial$Participant)
+AvgSpatial$Session = as.factor(AvgSpatial$Session)
+plot(ErrorOnPlane~Condition,data=AvgSpatial)
+plot(ErrorOnPlane~Session, data=AvgSpatial)
+
+# 1 way ANOVA
+print(summary(aov(ErrorOnPlane~Condition+Error(Participant),data=AvgSpatial)))
+print(summary(aov(ErrorOnPlane~Session+Error(Participant),data=AvgSpatial)))
+# 2 way ANOVA
+print(summary(aov(ErrorOnPlane~Condition*Session+Error(Participant),data=AvgSpatial)))
+
+#lme
+print(summary(lme(ErrorOnPlane~Condition,random=~1|Participant,data=AvgSpatial,method="ML")))
+print(summary(lme(ErrorOnPlane~Session,random=~1|Participant,data=AvgSpatial,method="ML")))

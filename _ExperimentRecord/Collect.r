@@ -3,11 +3,11 @@ library(gcookbook)
 library(rlist)
 library(RColorBrewer)
 
-defaultpar = par()
-par(mar=c(12,6,1,1))
+#defaultpar = par()
+#par(mar=c(12,6,1,1))
 fontsize=1
 
-folderName = "./Study1_Pilot2/Collect/"
+folderName = "./Study1/Records/Collect/"
 temp = list.files(path=folderName ,pattern="*.csv")
 
 conditionNames = c("StaticSmall","StaticLarge","Baseline")
@@ -23,6 +23,11 @@ condition = lapply(temp, function(t){
   else return(0)
 })
 condition = unlist(condition)
+conditionString = lapply(temp, function(t){
+  slist = unlist(strsplit(t, "_", fixed=TRUE))
+  return(slist[2])
+})
+conditionString = unlist(conditionString)
 participant = lapply(temp, function(t){
   slist = unlist(strsplit(t, "_", fixed=TRUE))
   par = as.numeric(substr(slist[1],start=12,stop=12))
@@ -135,4 +140,19 @@ DrawCollect = function(conditionIndex=0, participantIndex=0, sessionIndex = 0,
 }
 
 CompareCollect()
-DrawCollect()
+#DrawCollect()
+
+AvgCollect = data.frame(Participant=participant,Condition=conditionString,Session=session,ExecuteTime=unlist(avgExecuteTime))
+AvgCollect$Participant = as.factor(AvgCollect$Participant)
+AvgCollect$Session = as.factor(AvgCollect$Session)
+plot(ExecuteTime~Condition,data=AvgCollect)
+plot(ExecuteTime~Session, data=AvgCollect)
+
+# 1 way ANOVA
+print(summary(aov(ExecuteTime~Condition+Error(Participant),data=AvgCollect)))
+print(summary(aov(ExecuteTime~Session+Error(Participant),data=AvgCollect)))
+# 2 way ANOVA
+print(summary(aov(ExecuteTime~Condition*Session+Error(Participant),data=AvgCollect)))
+#lme
+print(summary(lme(ExecuteTime~Condition,random=~1|Participant,data=AvgCollect,method="ML")))
+print(summary(lme(ExecuteTime~Session,random=~1|Participant,data=AvgCollect,method="ML")))
