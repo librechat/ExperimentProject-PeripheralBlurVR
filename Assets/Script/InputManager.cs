@@ -147,7 +147,7 @@ public class InputManager: MonoBehaviour{
         }
 
         Vector2 result = Vector2.zero;
-        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Rotation.GetAxis(SteamVR_Input_Sources.Any);
+        //if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Rotation.GetAxis(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.RotAxis = result;
         return result;
@@ -161,7 +161,7 @@ public class InputManager: MonoBehaviour{
         }
 
         bool result = false;
-        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.MoveFoward.GetState(SteamVR_Input_Sources.Any);
+        //if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.MoveFoward.GetState(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.moveFoward = result;
         return result;
@@ -175,7 +175,7 @@ public class InputManager: MonoBehaviour{
         }
 
         bool result = false;
-        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.MoveBackward.GetState(SteamVR_Input_Sources.Any);
+        //if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.MoveBackward.GetState(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.moveBackward = result;
         return result;
@@ -189,7 +189,7 @@ public class InputManager: MonoBehaviour{
         }
 
         bool result = false;
-        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.TurnRight.GetState(SteamVR_Input_Sources.Any);
+        //if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.TurnRight.GetState(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.turnRight = result;
         return result;
@@ -203,7 +203,7 @@ public class InputManager: MonoBehaviour{
         }
 
         bool result = false;
-        if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.TurnLeft.GetState(SteamVR_Input_Sources.Any);
+        //if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.TurnLeft.GetState(SteamVR_Input_Sources.Any);
 
         instance.m_Recorder.turnLeft = result;
         return result;
