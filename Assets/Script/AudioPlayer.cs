@@ -21,7 +21,7 @@ public class AudioPlayer : MonoBehaviour {
 
     AudioSource audioSource;
 
-    List<int> pendingList;
+    List<int> pendingList; //should store audioclip at here directly, not index
 
     public static AudioPlayer s_Instance;
 
