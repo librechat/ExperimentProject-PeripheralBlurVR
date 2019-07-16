@@ -21,7 +21,7 @@ public class AudioPlayer : MonoBehaviour {
 
     AudioSource audioSource;
 
-    List<int> pendingList; //should store audioclip at here directly, not index
+    List<AudioClip> pendingList; //should store audioclip at here directly, not index
 
     public static AudioPlayer s_Instance;
 
@@ -31,14 +31,14 @@ public class AudioPlayer : MonoBehaviour {
         s_Instance = this;
 
         audioSource = GetComponent<AudioSource>();
-        pendingList = new List<int>();
+        pendingList = new List<AudioClip>();
     }
 
     private void Update()
     {
         if(pendingList.Count > 0 && !audioSource.isPlaying)
         {
-            audioSource.PlayOneShot(audioClipList[pendingList[0]]);
+            audioSource.PlayOneShot(pendingList[0]);
             pendingList.RemoveAt(0);
         }
     }
@@ -53,7 +53,7 @@ public class AudioPlayer : MonoBehaviour {
         }
         else
         {
-            s_Instance.pendingList.Add(index);
+            s_Instance.pendingList.Add(s_Instance.audioClipList[index]);
         }
     }
 
@@ -72,7 +72,7 @@ public class AudioPlayer : MonoBehaviour {
         }
         else
         {
-            s_Instance.pendingList.Add(index);
+            s_Instance.pendingList.Add(s_Instance.spatialQuestionList[index]);
         }
     }
 }

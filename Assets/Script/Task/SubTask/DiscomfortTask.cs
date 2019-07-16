@@ -31,7 +31,7 @@ public class DiscomfortTask : BaseTask {
             stage = value;
             if (stage == DiscomfortTaskStage.Question)
             {
-                TaskManager.ExistVoiceQuestion = true;
+                //TaskManager.ExistVoiceQuestion = true;
                 questionedTick = DateTime.Now.Ticks;
 
                 AudioPlayer.Play(AudioPlayer.AudioName.Discomfort);
@@ -39,7 +39,7 @@ public class DiscomfortTask : BaseTask {
             }
             else if (stage == DiscomfortTaskStage.Closed)
             {
-                TaskManager.ExistVoiceQuestion = false;
+                //TaskManager.ExistVoiceQuestion = false;
                 closedTick = DateTime.Now.Ticks;
                 Debug.Log("discomfort closed");
                 AudioPlayer.PlaySE(AudioPlayer.AudioName.Done);
@@ -61,7 +61,7 @@ public class DiscomfortTask : BaseTask {
     {
         if (Stage == DiscomfortTaskStage.Waiting)
         {
-            if (!TaskManager.ExistVoiceQuestion)
+            if (true)
             {
                 Stage = DiscomfortTaskStage.Question;
             }

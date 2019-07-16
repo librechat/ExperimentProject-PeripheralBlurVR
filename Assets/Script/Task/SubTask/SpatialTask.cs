@@ -71,7 +71,7 @@ public class SpatialTask : BaseTask {
             }
             else if(stage == SpatialTaskStage.Question)
             {
-                TaskManager.ExistVoiceQuestion = true;
+                //TaskManager.ExistVoiceQuestion = true;
                 questionedTick = DateTime.Now.Ticks;
 
                 //AudioPlayer.Play(AudioPlayer.AudioName.Spatial);
@@ -84,7 +84,7 @@ public class SpatialTask : BaseTask {
             }
             else if(stage == SpatialTaskStage.Closed)
             {
-                TaskManager.ExistVoiceQuestion = false;
+                //TaskManager.ExistVoiceQuestion = false;
                 closedTick = DateTime.Now.Ticks;
 
                 //rend.material.color = disableColor;
