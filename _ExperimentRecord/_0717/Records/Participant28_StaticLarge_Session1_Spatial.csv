@@ -1,0 +1,5 @@
+Index,TaskIndex,StartTimeStamp,DiscoveredTimeStamp,QuestionedTimeStamp,EndTimeStamp,Error,ErrorOnPlane,TaskPosition,PlayerPosition,Pointing
+0,0,0.0259305,24.83297,61.37073,69.97726,77.626,72.499,(16.0, 1.2, 18.0),(19.6, 1.2, 16.2),(-0.5, 0.7, -0.5)
+1,1,69.97726,123.0689,154.9481,162.6977,32.222,18.362,(18.0, 1.2, 10.0),(16.2, 1.2, 15.3),(0.5, 0.5, -0.7)
+2,2,0,0,0,0,0.000,0.000,,,
+

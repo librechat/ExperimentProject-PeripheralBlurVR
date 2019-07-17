@@ -1,0 +1,3 @@
+Static_Small
+20190716-1212
+ExpTotalTime: 917.605
