@@ -1,3 +1,0 @@
-Static_Large
-20190708-1122
-ExpTotalTime: 1162.760
