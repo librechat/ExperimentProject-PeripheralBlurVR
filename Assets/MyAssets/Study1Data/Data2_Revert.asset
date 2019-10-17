@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6ec054933ab89449e64137d609b986, type: 3}
   m_Name: Data2_Revert
   m_EditorClassIdentifier: 
-  participant: 36
+  participant: 40
   session: 3
   SessionSettings:
   - condition: 0
@@ -20,4 +20,4 @@ MonoBehaviour:
   - condition: 3
     level: 0
   - condition: 1
-    level: 1
+    level: 2

@@ -242,13 +242,18 @@ public class ExperimentManager : MonoBehaviour {
         float time = (float)(expEndTime.Ticks - expStartTime.Ticks) / (float)TimeSpan.TicksPerSecond;
         string dateformat = "yyyyMMdd-HHmm";
 
+        AvatarController ac = vrRig.GetComponent<AvatarController>();
+        float distance = ac.totalTravelDistance;
+        float angle = ac.totalRotation;
 
         string filename = ExperimentManager.FileName;
 
         string line =
             condition + "\n"+
             DateTime.Now.ToString(dateformat) +
-           "\nExpTotalTime: " + time.ToString("F3");
+           "\nExpTotalTime: " + time.ToString("F3")+
+           "\nTotalTravelDistance: " + distance.ToString("F3")+
+           "\nTotalRotationDegree(/360): " + angle.ToString("F3");
         string path = Application.streamingAssetsPath + "/" + filename + ".txt";
         StreamWriter writer = new StreamWriter(path, true);
         writer.WriteLine(line);

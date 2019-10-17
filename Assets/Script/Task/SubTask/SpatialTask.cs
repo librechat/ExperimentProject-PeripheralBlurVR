@@ -76,7 +76,8 @@ public class SpatialTask : BaseTask {
 
                 //AudioPlayer.Play(AudioPlayer.AudioName.Spatial);
                 int index = TaskIndex;
-                if (ExperimentManager.CurrentExpSetting.level == LevelData.LevelEnum.Level_B) index = (20 - 1) - TaskIndex;
+                //if (ExperimentManager.CurrentExpSetting.level == LevelData.LevelEnum.Level_B) index = (20 - 1) - TaskIndex;
+
                 AudioPlayer.PlaySpatialQuestion(index);
 
 
@@ -105,7 +106,7 @@ public class SpatialTask : BaseTask {
     private void Start()
     {
         int index = TaskIndex;
-        if (ExperimentManager.CurrentExpSetting.level == LevelData.LevelEnum.Level_B) index = (20 - 1) - TaskIndex;
+        //if (ExperimentManager.CurrentExpSetting.level == LevelData.LevelEnum.Level_B) index = (20 - 1) - TaskIndex;
 
         Transform model = Instantiate(m_ModelList[index], this.transform);
         rend = model.GetComponent<Renderer>();
@@ -146,11 +147,11 @@ public class SpatialTask : BaseTask {
                 Vector3 groundTruth = startPos - ExperimentManager.PlayerController.position;
 
                 angleError = Vector3.Angle(pointing, groundTruth);
-                angleErrorOnPlane = Vector3.Angle(new Vector3(pointing.x, 0, pointing.z), new Vector3(groundTruth.x, 0, groundTruth.z));
+                angleErrorOnPlane = Vector3.SignedAngle(new Vector3(pointing.x, 0, pointing.z), new Vector3(groundTruth.x, 0, groundTruth.z), Vector3.up);
 
-                taskPosition = startPos.ToString();
-                playerPosition = ExperimentManager.PlayerController.position.ToString();
-                controllerDirection = pointing.ToString();
+                taskPosition = startPos.ToString("F3");
+                playerPosition = ExperimentManager.PlayerController.position.ToString("F3");
+                controllerDirection = pointing.ToString("F3");
 
                 Stage = SpatialTaskStage.Closed;
                 bool result = SpatialTaskManager.FinishTask(TaskIndex);

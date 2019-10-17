@@ -19,11 +19,29 @@ public class AvatarController : MonoBehaviour {
     [SerializeField]
     Transform hmd;
 
+    public Vector3 preHmdPosition;
+    public float totalTravelDistance = 0.0f;
+
+    public Quaternion preHmdRotation;
+    public float totalRotation = 0.0f;
+
+    private void Start()
+    {
+        preHmdPosition = hmd.position;
+        preHmdRotation = hmd.rotation;
+    }
+
     void FixedUpdate() {
         prevPos = transform.position;
         if (ExperimentManager.State == ExperimentManager.ExperimentState.Performing)
         {
             UpdateMovement2();
+
+            totalTravelDistance += (hmd.position - preHmdPosition).magnitude;
+            totalRotation += Mathf.Abs(Quaternion.Angle(preHmdRotation, hmd.rotation))/360.0f;
+
+            preHmdPosition = hmd.position;
+            preHmdRotation = hmd.rotation;
         }
     }
 
@@ -91,9 +109,20 @@ public class AvatarController : MonoBehaviour {
 
         Vector3 direction = new Vector3(hmd.forward.x, 0, hmd.forward.z);
         Vector3 euler = transform.rotation.eulerAngles;
-        float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
+        float rotateInfluence = SimulationRate * Time.fixedDeltaTime * RotationAmount * RotationScaleMultiplier;
 
-        if(RotationControllable) transform.RotateAround(hmd.position, transform.up, rotateInfluence * secondaryAxis.x);
+        if (RotationControllable)
+        {
+            //transform.RotateAround(hmd.position, Vector3.up, rotateInfluence * secondaryAxis.x);
+
+            //transform.Rotate(0, rotateInfluence * secondaryAxis.x, 0);
+
+            //Quaternion delta = Quaternion.Euler(0, rotateInfluence * secondaryAxis.x, 0);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * delta, 0.95f);
+
+            euler.y += rotateInfluence * secondaryAxis.x;
+            transform.rotation = Quaternion.Euler(euler);
+        }
         if (TranslationControllable)
         {
             float speed = secondaryAxis.y;
@@ -109,6 +138,8 @@ public class AvatarController : MonoBehaviour {
                 }
             }
             transform.position += direction * MoveSpeed * secondaryAxis.y;
+            //Vector3 targetPosition = transform.position + direction * MoveSpeed * secondaryAxis.y;
+            //transform.position = Vector3.Lerp(transform.position, targetPosition, 10 * Time.deltaTime);
         }
     }
 
@@ -116,7 +147,7 @@ public class AvatarController : MonoBehaviour {
     bool UpdateRotation(Vector2 secondaryAxis)
     {
         Vector3 euler = transform.rotation.eulerAngles;
-        float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
+        float rotateInfluence = SimulationRate * Time.fixedDeltaTime * RotationAmount * RotationScaleMultiplier;
 ;
         /*float rotationAmount = InputManager.GetRotAxis().x;
         euler.y += rotationAmount * rotateInfluence;

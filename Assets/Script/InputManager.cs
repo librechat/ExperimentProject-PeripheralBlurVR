@@ -137,6 +137,18 @@ public class InputManager: MonoBehaviour{
         Vector2 result = Vector2.zero;
         if (Hardware == HmdType.Vive) result = SteamVR_Actions._default.Move.GetAxis(SteamVR_Input_Sources.Any);
         instance.m_Recorder.MoveAxis = result;
+
+        // input test
+        /*bool L = Input.GetKey(KeyCode.LeftArrow);
+        bool R = Input.GetKey(KeyCode.RightArrow);
+        bool U = Input.GetKey(KeyCode.UpArrow);
+        bool D = Input.GetKey(KeyCode.DownArrow);
+        result = Vector2.zero;
+        if (L && !R) result.x = -1;
+        if (R && !L) result.x = 1;
+        if (U && !D) result.y = 1;
+        if (D && !U) result.y = -1;*/
+
         return result;
     }
     public static Vector2 GetRotAxis()

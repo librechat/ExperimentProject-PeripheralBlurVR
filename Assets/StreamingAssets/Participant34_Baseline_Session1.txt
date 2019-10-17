@@ -1,0 +1,5 @@
+Baseline
+20190826-1425
+ExpTotalTime: 361.908
+TotalTravelDistance: 165.790
+TotalRotationDegree(/360): 6.443

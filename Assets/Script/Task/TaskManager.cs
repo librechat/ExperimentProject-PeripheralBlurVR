@@ -17,6 +17,13 @@ public class TaskManager : MonoBehaviour {
     [SerializeField]
     List<BaseTaskManager> subTaskManagers;
 
+    [SerializeField]
+    Transform playGround;
+    public static Transform PlayGround
+    {
+        get { return s_Instance.playGround; }
+    }
+
     public static bool ExistVoiceQuestion = false;
 
     public static TaskManager s_Instance;

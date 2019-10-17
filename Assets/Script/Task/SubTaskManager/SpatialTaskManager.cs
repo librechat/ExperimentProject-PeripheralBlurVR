@@ -24,7 +24,7 @@ public class SpatialTaskManager : BaseTaskManager {
 
         for (int i = 0; i < infoList.Count; i++)
         {
-            GameObject gm = Instantiate(taskPrefab, infoList[i].startPos, Quaternion.identity);
+            GameObject gm = Instantiate(taskPrefab, infoList[i].startPos, Quaternion.identity, TaskManager.PlayGround);
 
             SpatialTask task = gm.GetComponent<SpatialTask>();
             TaskList.Add(task);

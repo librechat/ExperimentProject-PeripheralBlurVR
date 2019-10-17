@@ -27,7 +27,7 @@ public class CollectTaskManager : BaseTaskManager {
 
         for (int i=0; i< positionList.Count; i++)
         {
-            GameObject gm = Instantiate(taskPrefab, positionList[i], Quaternion.identity);
+            GameObject gm = Instantiate(taskPrefab, positionList[i], Quaternion.identity, TaskManager.PlayGround);
 
             TaskList.Add(gm.GetComponent<CollectTask>());
             TaskList[i].TaskIndex = i;

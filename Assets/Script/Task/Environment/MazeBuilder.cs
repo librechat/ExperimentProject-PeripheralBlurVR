@@ -24,6 +24,7 @@ public class MazeBuilder : BaseEnvBuilder {
     [SerializeField]
     Transform wallPrefab;
 
+    [SerializeField]
     private float RigHeight = 0.0f;
     private float entryRotation = 0.0f;
 
@@ -58,7 +59,7 @@ public class MazeBuilder : BaseEnvBuilder {
         {
             Vector3 position = new Vector3(wallPosList[i].x, 0, wallPosList[i].y) * scale;
             Quaternion rotation = (wallPosList[i].direction) ? Quaternion.identity : Quaternion.Euler(0, 90, 0);
-            Instantiate(wallPrefab, position, rotation);
+            Instantiate(wallPrefab, position, rotation, TaskManager.PlayGround);
         }
 
         List<Vector2i> collectTaskPosList = new List<Vector2i>(mazeInfo.collectTaskPos);
