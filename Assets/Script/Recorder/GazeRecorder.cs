@@ -131,7 +131,7 @@ public class GazeRecorder : BaseRecorder {
         Camera camera = cameraTransform.GetComponent<Camera>();
 
         List<string> s_List = new List<string>();
-        s_List.Add("Index,Time,CenterX,CenterY,LeftX,LeftY,RightX,RightY");
+        s_List.Add("Index,Time,CenterX,CenterY,LeftX,LeftY,RightX,RightY,Angle,AngleX,AngleY");
 
         for (int i = 0; i < m_ClipList.Count; i++)
         {
@@ -143,6 +143,13 @@ public class GazeRecorder : BaseRecorder {
             Vector2 pointCenter = camera.WorldToScreenPoint(origin + direction);
             pointCenter.x /= camera.pixelWidth;
             pointCenter.y /= camera.pixelHeight;
+
+            // center angle
+            float angle = Vector3.Angle(Vector3.forward, data.localGazeDirection); // serve as amplitude
+            //Quaternion q = Quaternion.FromToRotation(Vector3.forward, data.localGazeDirection);
+            //Vector3 v3Euler = q.eulerAngles;
+            float angleX = Vector3.SignedAngle(Vector3.forward, new Vector3(data.localGazeDirection.x, 0, data.localGazeDirection.z), Vector3.up);
+            float angleY = Vector3.SignedAngle(Vector3.forward, new Vector3(0, data.localGazeDirection.y, data.localGazeDirection.z), -Vector3.right);
 
             // left
             Vector3 pos = cameraTransform.TransformPoint(data.eyeCenterLeft);
@@ -158,13 +165,17 @@ public class GazeRecorder : BaseRecorder {
             pointRight.x /= camera.pixelWidth;
             pointRight.y /= camera.pixelHeight;
 
-            string s = string.Format("{6},{7},{0},{1},{2},{3},{4},{5}",
+            string s = string.Format("{9},{10},{0},{1},{2},{3},{4},{5},{6},{7},{8}",
                 pointCenter.x,
                 pointCenter.y,
                 pointLeft.x,
                 pointLeft.y,
                 pointRight.x,
                 pointRight.y,
+                angle,
+                angleX,
+                angleY,
+
                 data.index,
                 data.timeStamp);
             s_List.Add(s);
