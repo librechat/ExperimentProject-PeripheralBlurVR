@@ -12,6 +12,20 @@ public class GazeRecorder : BaseRecorder {
     [SerializeField]
     GazeInputManager gazeInputManager;
 
+    void Start()
+    {
+        string filePath = Application.streamingAssetsPath + "/Behaviors/Gaze/";
+        DirectoryInfo dir = new DirectoryInfo(filePath);
+        FileInfo[] info = dir.GetFiles("*.txt");
+
+        foreach (FileInfo file in info)
+        {
+            string fileName = file.ToString();
+            Debug.Log(fileName);
+            ConvertToScreen(fileName);
+        }        
+    }
+
     public Vector3 localGazeDirection;
     public Vector3 gazeNormalLeft, gazeNormalRight;
     public Vector3 eyeCenterLeft, eyeCenterRight;
@@ -19,7 +33,8 @@ public class GazeRecorder : BaseRecorder {
 
     public override void Load(string fileName){
         m_ClipList = new List<BaseRecordData>();
-        string filePath = Application.streamingAssetsPath + "/Behaviors/" + fileName + "_" + recordName + ".txt";
+        //string filePath = Application.streamingAssetsPath + "/Behaviors/" + fileName + "_" + recordName + ".txt";
+        string filePath = Application.streamingAssetsPath + "/Behaviors/Gaze/" + fileName + ".txt";
 
         if (new FileInfo(filePath).Exists == false) return;
 
@@ -107,6 +122,60 @@ public class GazeRecorder : BaseRecorder {
 
         blink = data.blink;
     }
+
+    void ConvertToScreen(string fileName)
+    {
+        Load(fileName);
+        
+        Transform cameraTransform = gazeInputManager.cameraTransform;
+        Camera camera = cameraTransform.GetComponent<Camera>();
+
+        List<string> s_List = new List<string>();
+        s_List.Add("Index,Time,CenterX,CenterY,LeftX,LeftY,RightX,RightY");
+
+        for (int i = 0; i < m_ClipList.Count; i++)
+        {
+            GazeRecorderData data = m_ClipList[i] as GazeRecorderData;
+
+            // center
+            Vector3 origin = cameraTransform.position;
+            Vector3 direction = cameraTransform.TransformDirection(data.localGazeDirection);
+            Vector2 pointCenter = camera.WorldToScreenPoint(origin + direction);
+            pointCenter.x /= camera.pixelWidth;
+            pointCenter.y /= camera.pixelHeight;
+
+            // left
+            Vector3 pos = cameraTransform.TransformPoint(data.eyeCenterLeft);
+            direction = cameraTransform.TransformDirection(data.gazeNormalLeft);
+            Vector2 pointLeft = camera.WorldToScreenPoint(pos + direction, Camera.MonoOrStereoscopicEye.Left);
+            pointLeft.x /= camera.pixelWidth;
+            pointLeft.y /= camera.pixelHeight;
+
+            // right
+            pos = cameraTransform.TransformPoint(data.eyeCenterRight);
+            direction = cameraTransform.TransformDirection(data.gazeNormalRight);
+            Vector2 pointRight = camera.WorldToScreenPoint(pos + direction, Camera.MonoOrStereoscopicEye.Right);
+            pointRight.x /= camera.pixelWidth;
+            pointRight.y /= camera.pixelHeight;
+
+            string s = string.Format("{6},{7},{0},{1},{2},{3},{4},{5}",
+                pointCenter.x,
+                pointCenter.y,
+                pointLeft.x,
+                pointLeft.y,
+                pointRight.x,
+                pointRight.y,
+                data.index,
+                data.timeStamp);
+            s_List.Add(s);
+        }
+        string filePath = Application.streamingAssetsPath + "/Behaviors/GazeScreen/" + fileName + "_gaze.csv";
+        using (StreamWriter outputFile = new StreamWriter(filePath))
+        {
+            for (int i = 0; i < s_List.Count; i++) outputFile.WriteLine(s_List[i]);
+        }
+    }
+
 }
 
 public class GazeRecorderData : BaseRecordData
