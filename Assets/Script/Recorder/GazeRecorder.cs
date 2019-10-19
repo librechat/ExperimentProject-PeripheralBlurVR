@@ -20,7 +20,7 @@ public class GazeRecorder : BaseRecorder {
 
         foreach (FileInfo file in info)
         {
-            string fileName = file.ToString();
+            string fileName = Path.GetFileNameWithoutExtension(file.ToString());
             Debug.Log(fileName);
             ConvertToScreen(fileName);
         }        
@@ -169,7 +169,7 @@ public class GazeRecorder : BaseRecorder {
                 data.timeStamp);
             s_List.Add(s);
         }
-        string filePath = Application.streamingAssetsPath + "/Behaviors/GazeScreen/" + fileName + "_gaze.csv";
+        string filePath = Application.streamingAssetsPath + "/Behaviors/GazeScreen/" + fileName + ".csv";
         using (StreamWriter outputFile = new StreamWriter(filePath))
         {
             for (int i = 0; i < s_List.Count; i++) outputFile.WriteLine(s_List[i]);
