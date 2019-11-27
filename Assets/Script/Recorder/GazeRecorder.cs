@@ -14,7 +14,7 @@ public class GazeRecorder : BaseRecorder {
 
     void Start()
     {
-        string filePath = Application.streamingAssetsPath + "/Behaviors/Gaze/";
+        /*string filePath = Application.streamingAssetsPath + "/Behaviors/Gaze/";
         DirectoryInfo dir = new DirectoryInfo(filePath);
         FileInfo[] info = dir.GetFiles("*.txt");
 
@@ -23,7 +23,7 @@ public class GazeRecorder : BaseRecorder {
             string fileName = Path.GetFileNameWithoutExtension(file.ToString());
             Debug.Log(fileName);
             ConvertToScreen(fileName);
-        }        
+        }  */      
     }
 
     public Vector3 localGazeDirection;

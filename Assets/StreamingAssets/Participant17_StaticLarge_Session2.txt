@@ -1,5 +1,0 @@
-Static_Large
-20190819-1214
-ExpTotalTime: 1125.119
-TotalTravelDistance: 454.703
-TotalRotationDegree(/360): 25.043

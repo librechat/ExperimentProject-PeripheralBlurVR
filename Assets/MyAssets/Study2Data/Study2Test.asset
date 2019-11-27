@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Study2Test
   m_EditorClassIdentifier: 
   participant: 0
-  session: 3
+  session: 1
   SessionSettings:
   - condition: 6
     level: 2
   - condition: 0
     level: 1
   - condition: 3
-    level: 2
+    level: 0

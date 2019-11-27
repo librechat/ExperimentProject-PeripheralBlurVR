@@ -1,5 +1,0 @@
-Dynamic_Large
-20190828-1832
-ExpTotalTime: 1364.738
-TotalTravelDistance: 590.210
-TotalRotationDegree(/360): 66.753

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   participant: 0
-  session: 3
+  session: 2
   SessionSettings:
   - condition: 0
     level: 0
-  - condition: 1
+  - condition: 6
     level: 0
   - condition: 3
     level: 0
